@@ -1,0 +1,26 @@
+---
+import "../../styles/study_abroad.scss";
+
+import Layout from "../../layouts/Layout.astro";
+import { getAllCountries } from "@/lib/fetch/countries";
+import StudyAbroadCard from "@/components/Home/StudyAbroad/StudyAbroadCard.astro";
+
+const countriesRes = await getAllCountries();
+const countries = countriesRes.data;
+
+const pageTitle = "Top Universities Worldwide | Filter & Explore";
+const pageDescription =
+    "Discover top universities around the world. Use filters to find the best fit for your academic goals.";
+---
+
+<Layout
+    title={pageTitle}
+    description={pageDescription}
+    mainClass="study-abroad-main"
+>
+    {
+        countries?.map((country) => {
+            return <StudyAbroadCard studyAbroadCardData={country} />;
+        })
+    }
+</Layout>

@@ -1,0 +1,41 @@
+---
+import { routes } from "../lib/routes";
+
+const headerLinks = [
+  {
+    title: "Universities",
+    link: routes.UNIVERSITIES,
+  },
+  {
+    title: "Courses",
+    link: "",
+  },
+  {
+    title: "Study Destinations",
+    link: routes.STUDY_ABROAD,
+  },
+  {
+    title: "Consultancies",
+    link: "",
+  },
+  {
+    title: "Scholarships",
+    link: "",
+  },
+];
+---
+
+<header>
+  <h1 class="title">
+    <a href={routes.HOME}><span>StudyAbroad</span>NP</a>
+  </h1>
+  <ul>
+    {
+      headerLinks.map((link) => (
+        <li>
+          <a href={link.link}>{link.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</header>

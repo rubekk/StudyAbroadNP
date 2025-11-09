@@ -1,0 +1,610 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "./../../styles/universities.scss";
+import type { GetStaticPaths } from "astro";
+import {
+    getAllUniversities,
+    getUniversityBySlug,
+} from "../../lib/fetch/universities";
+import BreadCrumb from "@/components/BreadCrumb.astro";
+import { Icon } from "astro-icon/components";
+
+export const getStaticPaths = (async () => {
+    try {
+        const universitiesData = await getAllUniversities();
+        if (universitiesData.error) {
+            return [];
+        }
+        return (
+            universitiesData.data?.map((university) => ({
+                params: { slug: university.slug },
+                props: { lastUpdated: new Date().toISOString() },
+            })) || []
+        );
+    } catch (error) {
+        return [];
+    }
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const universityRes = await getUniversityBySlug(slug);
+const university = universityRes.data;
+
+const pageTitle = `${university?.name} - Programs, Fees & Admission 2025 | StudyAbroadNp`;
+const pageDescription = `Study at ${university?.name} in ${university?.city}, ${university?.country}. Compare ${university?.degrees.length}+ programs, tuition fees ($${university?.min_fee}-$${university?.max_fee}), scholarships & admission requirements.`;
+
+const breadcrumb = {
+    parent: "Universities",
+    child: university?.name,
+};
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <div class="university-page">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-container">
+            <BreadCrumb page={breadcrumb} />
+        </div>
+
+        <!-- Hero Section -->
+        <section class="university-hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="university-badge">
+                        <!-- <Icon name="mapDot" size={16} /> -->
+                        <span>{university?.city}, {university?.country}</span>
+                    </div>
+
+                    <h1 class="university-title">{university?.name}</h1>
+
+                    <p class="university-description">
+                        Discover world-class education with {
+                            university?.degrees.length
+                        }+ programs, flexible study options, and opportunities
+                        for academic excellence.
+                    </p>
+
+                    <!-- Key Stats -->
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <!-- <Icon name="graduation-cap" size={20} /> -->
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number"
+                                    >{university?.degrees.length}+</span
+                                >
+                                <span class="stat-label">Programs</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <!-- <Icon name="cash" size={20} /> -->
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number"
+                                    >${university?.min_fee}K-${
+                                        university?.max_fee
+                                    }K</span
+                                >
+                                <span class="stat-label">Annual Tuition</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <!-- <Icon name="clock" size={20} /> -->
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-number"
+                                    >{university?.min_duration}-{
+                                        university?.max_duration
+                                    } Years</span
+                                >
+                                <span class="stat-label">Duration</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions">
+                        <button
+                            class="btn btn-primary"
+                            onclick="document.getElementById('contact-form').scrollIntoView({behavior: 'smooth'})"
+                        >
+                            <!-- <Icon name="send" size={18} /> -->
+                            Request Information
+                        </button>
+                        <button
+                            class="btn btn-outline"
+                            onclick="document.getElementById('programs').scrollIntoView({behavior: 'smooth'})"
+                        >
+                            <!-- <Icon name="list" size={18} /> -->
+                            View Programs
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-image">
+                    <img
+                        src={university?.image_url ||
+                            "/images/university-default.jpg"}
+                        alt={`${university?.name} campus`}
+                        loading="eager"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Info Bar -->
+        <section class="quick-info-bar">
+            <div class="quick-info-grid">
+                <div class="info-item">
+                    <!-- <Icon name="globe" size={24} /> -->
+                    <div>
+                        <h4>Location</h4>
+                        <p>{university?.city}, {university?.country}</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <!-- <Icon name="calendar" size={24} /> -->
+                    <div>
+                        <h4>Intake Periods</h4>
+                        <p>
+                            {university?.time?.join(", ") || "Multiple intakes"}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <!-- <Icon name="certificate" size={24} /> -->
+                    <div>
+                        <h4>Accepted Tests</h4>
+                        <p>
+                            {university?.acceptedExams?.slice(0, 2).join(", ")}
+                            {
+                                university?.acceptedExams &&
+                                university.acceptedExams.length > 2
+                                    ? `+${university.acceptedExams.length - 2} more`
+                                    : ""
+                            }
+                        </p>
+                    </div>
+                </div>
+
+                {
+                    university?.scholarships &&
+                        university.scholarships.length > 0 && (
+                            <div class="info-item">
+                                {/* <Icon name="award" size={24} /> */}
+                                <div>
+                                    <h4>Scholarships</h4>
+                                    <p>
+                                        {university.scholarships.length}{" "}
+                                        Available
+                                    </p>
+                                </div>
+                            </div>
+                        )
+                }
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-container">
+                <div class="content-layout">
+                    <!-- Main Section -->
+                    <main class="main-section">
+                        <!-- Programs Section -->
+                        <section id="programs" class="content-section">
+                            <div class="section-header">
+                                <h2>Academic Programs</h2>
+                                <p>
+                                    Explore our comprehensive range of degree
+                                    programs designed for your success
+                                </p>
+                            </div>
+
+                            <div class="programs-container">
+                                {
+                                    university?.degrees.map((degree, index) => (
+                                        <div class="program-card">
+                                            <div class="program-header">
+                                                <div class="program-icon">
+                                                    {/* <Icon
+                                                        name="graduation-cap"
+                                                        size={24}
+                                                    /> */}
+                                                </div>
+                                                <div class="program-title">
+                                                    <h3>{degree}</h3>
+                                                    <div class="program-meta">
+                                                        <span class="meta-tag">
+                                                            {/* <Icon
+                                                                name="clock"
+                                                                size={14}
+                                                            /> */}
+                                                            {
+                                                                university?.min_duration
+                                                            }
+                                                            -
+                                                            {
+                                                                university?.max_duration
+                                                            }{" "}
+                                                            years
+                                                        </span>
+                                                        <span class="meta-tag">
+                                                            {/* <Icon
+                                                                name="cash"
+                                                                size={14}
+                                                            /> */}
+                                                            $
+                                                            {
+                                                                university?.min_fee
+                                                            }
+                                                            K-$
+                                                            {
+                                                                university?.max_fee
+                                                            }
+                                                            K/year
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="program-actions">
+                                                <button
+                                                    class="btn btn-small btn-outline"
+                                                    onclick="document.getElementById('contact-form').scrollIntoView({behavior: 'smooth'})"
+                                                >
+                                                    Learn More
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </section>
+
+                        <!-- Specializations Section -->
+                        {
+                            university?.specializations &&
+                                university.specializations.length > 0 && (
+                                    <section class="content-section">
+                                        <div class="section-header">
+                                            <h2>Areas of Specialization</h2>
+                                            <p>
+                                                Choose from diverse
+                                                specialization tracks to shape
+                                                your career path
+                                            </p>
+                                        </div>
+
+                                        <div class="specializations-grid">
+                                            {university.specializations.map(
+                                                (spec, index) => (
+                                                    <div class="specialization-item">
+                                                        {/* <Icon
+                                                            name="star"
+                                                            size={16}
+                                                        /> */}
+                                                        <span>{spec}</span>
+                                                    </div>
+                                                ),
+                                            )}
+                                        </div>
+                                    </section>
+                                )
+                        }
+
+                        <!-- Admission Requirements -->
+                        <section class="content-section">
+                            <div class="section-header">
+                                <h2>Admission Requirements</h2>
+                                <p>
+                                    Everything you need to know for a successful
+                                    application
+                                </p>
+                            </div>
+
+                            <div class="requirements-grid">
+                                <div class="requirement-card">
+                                    <div class="requirement-header">
+                                        <!-- <Icon name="test-tube" size={24} /> -->
+                                        <h3>Entrance Exams</h3>
+                                    </div>
+                                    <div class="exam-list">
+                                        {
+                                            university?.acceptedExams.map(
+                                                (exam) => (
+                                                    <span class="exam-badge">
+                                                        {exam}
+                                                    </span>
+                                                ),
+                                            )
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="requirement-card">
+                                    <div class="requirement-header">
+                                        <!-- <Icon name="calendar" size={24} /> -->
+                                        <h3>Application Timeline</h3>
+                                    </div>
+                                    <div class="timeline-info">
+                                        <p>
+                                            Applications typically open 6-8
+                                            months before the academic year
+                                            begins. We recommend applying early
+                                            to secure your preferred program.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="requirement-card">
+                                    <div class="requirement-header">
+                                        <!-- <Icon name="document" size={24} /> -->
+                                        <h3>Required Documents</h3>
+                                    </div>
+                                    <ul class="document-list">
+                                        <li>Academic transcripts</li>
+                                        <li>English proficiency test scores</li>
+                                        <li>Personal statement</li>
+                                        <li>Letters of recommendation</li>
+                                        <li>Valid passport copy</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+
+                    <!-- Sidebar -->
+                    <aside class="sidebar">
+                        <div class="sticky-sidebar">
+                            <!-- Contact Form -->
+                            <div
+                                id="contact-form"
+                                class="sidebar-card contact-card"
+                            >
+                                <div class="card-header">
+                                    <h3>Get Information</h3>
+                                    <p>
+                                        Connect with our advisors for
+                                        personalized guidance
+                                    </p>
+                                </div>
+
+                                <form
+                                    class="contact-form"
+                                    name="university-inquiry"
+                                    method="POST"
+                                    data-netlify="true"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="university"
+                                        value={university?.name}
+                                    />
+
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="fullName"
+                                            name="fullName"
+                                            required
+                                            placeholder="Enter your full name"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email"
+                                            >Email Address *</label
+                                        >
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            required
+                                            placeholder="your@email.com"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            placeholder="+1 (555) 123-4567"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="program"
+                                            >Program of Interest</label
+                                        >
+                                        <select id="program" name="program">
+                                            <option value=""
+                                                >Select a program</option
+                                            >
+                                            {
+                                                university?.degrees.map(
+                                                    (degree) => (
+                                                        <option value={degree}>
+                                                            {degree}
+                                                        </option>
+                                                    ),
+                                                )
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="message">Message</label>
+                                        <textarea
+                                            id="message"
+                                            name="message"
+                                            rows="4"
+                                            placeholder="Tell us about your goals and any questions you have..."
+                                        ></textarea>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary btn-full"
+                                    >
+                                        <!-- <Icon name="send" size={18} /> -->
+                                        Send Inquiry
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Scholarships -->
+                            {
+                                university?.scholarships &&
+                                    university.scholarships.length > 0 && (
+                                        <div class="sidebar-card">
+                                            <div class="card-header">
+                                                <h3>Available Scholarships</h3>
+                                            </div>
+
+                                            <div class="scholarship-list">
+                                                {university.scholarships.map(
+                                                    (scholarship) => (
+                                                        <div class="scholarship-item">
+                                                            {/* <Icon
+                                                                name="award"
+                                                                size={18}
+                                                            /> */}
+                                                            <span>
+                                                                {scholarship}
+                                                            </span>
+                                                        </div>
+                                                    ),
+                                                )}
+                                            </div>
+                                        </div>
+                                    )
+                            }
+
+                            <!-- Quick Facts -->
+                            <div class="sidebar-card">
+                                <div class="card-header">
+                                    <h3>Quick Facts</h3>
+                                </div>
+
+                                <div class="facts-list">
+                                    <div class="fact-item">
+                                        <span class="fact-label"
+                                            >Institution Type</span
+                                        >
+                                        <span class="fact-value"
+                                            >University</span
+                                        >
+                                    </div>
+                                    <div class="fact-item">
+                                        <span class="fact-label"
+                                            >Study Mode</span
+                                        >
+                                        <span class="fact-value">Full-time</span
+                                        >
+                                    </div>
+                                    <div class="fact-item">
+                                        <span class="fact-label">Language</span>
+                                        <span class="fact-value">English</span>
+                                    </div>
+                                    <div class="fact-item">
+                                        <span class="fact-label">Campus</span>
+                                        <span class="fact-value">On-campus</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+
+        <!-- University Details Section -->
+        <section class="university-details">
+            <div class="content-container">
+                <div class="details-content">
+                    <h2>About {university?.name}</h2>
+                    <div class="details-text">
+                        <p>
+                            <strong>{university?.name}</strong> is a distinguished
+                            educational institution located in {
+                                university?.city
+                            }, {university?.country}, committed to providing
+                            world-class education and fostering academic
+                            excellence. With {university?.degrees.length} comprehensive
+                            degree programs, the university caters to diverse academic
+                            interests and career aspirations.
+                        </p>
+                        <p>
+                            The institution offers programs with tuition fees
+                            ranging from ${university?.min_fee},000 to ${
+                                university?.max_fee
+                            },000 annually, with flexible study durations from {
+                                university?.min_duration
+                            } to {university?.max_duration} years. Students benefit
+                            from modern facilities, experienced faculty, and a vibrant
+                            campus environment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Form handling
+            const form = document.querySelector(".contact-form");
+            const submitBtn = form?.querySelector('button[type="submit"]');
+
+            form?.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                if (submitBtn) {
+                    submitBtn.innerHTML = "Sending...";
+                    // submitBtn.disabled = true;
+                }
+
+                // Simulate form submission
+                setTimeout(() => {
+                    if (submitBtn) {
+                        submitBtn.innerHTML = "✓ Sent Successfully!";
+                        submitBtn.classList.add("success");
+                    }
+
+                    setTimeout(() => {
+                        if (submitBtn) {
+                            submitBtn.innerHTML = "Send Inquiry";
+                            // submitBtn.disabled = false;
+                            submitBtn.classList.remove("success");
+                        }
+                        // form?.reset();
+                    }, 3000);
+                }, 2000);
+            });
+
+            // Sticky sidebar
+            const sidebar = document.querySelector(".sticky-sidebar");
+            // const sidebarOffset = sidebar?.offsetTop || 0;
+
+            // window.addEventListener("scroll", () => {
+            //     if (window.pageYOffset >= sidebarOffset - 20) {
+            //         sidebar?.classList.add("sticky");
+            //     } else {
+            //         sidebar?.classList.remove("sticky");
+            //     }
+            // });
+        });
+    </script>
+</Layout>

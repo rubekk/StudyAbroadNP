@@ -1,0 +1,28 @@
+---
+import { Icon } from "astro-icon/components";
+import StudyAbroadCard from "./StudyAbroadCard.astro";
+import { getAllCountries } from "@/lib/fetch/countries";
+import { routes } from "@/lib/routes";
+
+const countriesRes = await getAllCountries();
+const countries = countriesRes.data;
+---
+
+<section class="section-study-abroad">
+  <h2 class="section-title">Study Abroad Destinations</h2>
+
+  <div class="section-inner">
+    {
+      countries?.map((country) => {
+        return <StudyAbroadCard studyAbroadCardData={country} />;
+      })
+    }
+  </div>
+
+  <button>
+    <a href={routes.STUDY_ABROAD}>
+      View all Destinations
+      <Icon size={25} name="arrowRight" />
+    </a>
+  </button>
+</section>

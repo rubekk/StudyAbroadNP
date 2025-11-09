@@ -1,0 +1,142 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    name: string;
+    icon: string;
+    href?: string;
+}
+
+const { name, icon, href } = Astro.props;
+---
+
+<div class="specialization-card">
+    <div class="icon-container">
+        <Icon size={40} name={icon} />
+    </div>
+    <h3 class="name">{name}</h3>
+    {href && (
+        <a href={href} class="learn-more">
+            Learn More
+            <Icon size={16} name="arrowRight" />
+        </a>
+    )}
+</div>
+
+<style lang="scss">
+@use '../../../styles/variables' as *;
+
+.specialization-card {
+    background: $text-white;
+    border: 1px solid $border-light;
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, $primary-color, lighten($primary-color, 15%));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(42, 115, 244, 0.15);
+        border-color: rgba(42, 115, 244, 0.3);
+
+        &::before {
+            transform: scaleX(1);
+        }
+
+        .icon-container {
+            transform: scale(1.1);
+            
+            [data-icon] {
+                color: $primary-color;
+            }
+        }
+
+        .learn-more {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        background: rgba(42, 115, 244, 0.1);
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+
+        [data-icon] {
+            color: $text-gray;
+            transition: color 0.3s ease;
+        }
+    }
+
+    .name {
+        font-size: 1rem;
+        font-weight: $font-bold;
+        color: $text-primary-color;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .learn-more {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        color: $primary-color;
+        text-decoration: none;
+        font-weight: 400;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 0.3s ease;
+
+        [data-icon] {
+            transition: transform 0.2s ease;
+        }
+
+        &:hover {
+            [data-icon] {
+                transform: translateX(2px);
+            }
+        }
+    }
+
+    // Responsive design
+    @media (max-width: 768px) {
+        min-width: 150px;
+        padding: 1.25rem 0.75rem;
+
+        .icon-container {
+            width: 56px;
+            height: 56px;
+        }
+
+        .name {
+            font-size: 0.9rem;
+        }
+    }
+}
+</style>

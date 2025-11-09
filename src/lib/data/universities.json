@@ -1,0 +1,301 @@
+[
+    {
+        "name": "California State University, Long Beach",
+        "slug": "california-state-university-long-beach",
+        "city": "Long Beach",
+        "country": "USA",
+        "min_fee": 18.972,
+        "max_fee": 18.972,
+        "specializations": [
+            "Business Administration",
+            "Computer Science",
+            "Engineering",
+            "Psychology",
+            "Nursing",
+            "Education",
+            "Health Science",
+            "Art",
+            "Music",
+            "Biology"
+        ],
+        "min_duration": 2,
+        "max_duration": 6,
+        "scholarships": [
+            "Education Future International Scholarship",
+            "Study California Scholarship",
+            "MBA Advisory Board Scholarship",
+            "Wan-Lin Kiang Scholarship",
+            "Graduate Equity Fellowship",
+            "Preeminent Scholarships and Fellowships",
+            "Boren Undergraduate Scholarships",
+            "CLS Critical Language Scholarship Program",
+            "Frederick Douglass Global Fellowship",
+            "Freeman-Asia Scholarships"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "MBA",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "ACT",
+            "GRE",
+            "GMAT",
+            "TOEFL",
+            "IELTS"
+        ],
+        "image_url": "/images/california-state-university-long-beach.webp"
+    },
+    {
+        "name": "Clarkson University",
+        "slug": "clarkson-university",
+        "city": "Potsdam",
+        "country": "USA",
+        "min_fee": 53.500,
+        "max_fee": 55.000,
+        "specializations": [
+            "Engineering",
+            "Computer Science",
+            "Business",
+            "Data Science",
+            "Environmental Science",
+            "Mathematics",
+            "Physics",
+            "Health Sciences",
+            "Chemical Engineering",
+            "Entrepreneurship"
+        ],
+        "min_duration": 2,
+        "max_duration": 6,
+        "scholarships": [
+            "Clarkson Merit-Based Scholarships",
+            "Presidential Scholars Program",
+            "Trustee Scholarship",
+            "Clarkson Ignite Presidential Fellowship",
+            "International Student Scholarships",
+            "Graduate Teaching & Research Assistantships",
+            "External STEM Fellowships",
+            "Clarkson Army ROTC Scholarships",
+            "Clarkson School Scholarships",
+            "National Merit Scholarships"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "MBA",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "ACT",
+            "GRE",
+            "GMAT",
+            "TOEFL",
+            "IELTS",
+            "Duolingo English Test"
+        ],
+        "image_url": "/images/clarkson-university.webp"
+    },
+    {
+        "name": "Dallas Baptist University",
+        "slug": "dallas-baptist-university",
+        "city": "Dallas",
+        "country": "USA",
+        "min_fee": 27.000,
+        "max_fee": 27.000,
+        "specializations": [
+            "Business Administration",
+            "Psychology",
+            "Criminal Justice",
+            "Education",
+            "Christian Ministry",
+            "Communication",
+            "Music",
+            "Health Sciences",
+            "Cybersecurity",
+            "Environmental Science"
+        ],
+        "min_duration": 2,
+        "max_duration": 6,
+        "scholarships": [
+            "Patriot Award",
+            "Patriot Honor Award",
+            "Dean's Award",
+            "Dean's Honor Award",
+            "Presidential Scholar Award",
+            "Christian Service Scholarship",
+            "Commuter Christian Service Scholarship",
+            "Church Matching Gift Program",
+            "Graduate BGCT Ministry Scholarship",
+            "DBU Ministerial Scholarship"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time",
+            "Online"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "MBA",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "ACT",
+            "TOEFL",
+            "IELTS"
+        ],
+        "image_url": "/images/dallas-baptist-university.webp"
+    },
+    {
+        "name": "DePaul University",
+        "slug": "depaul-university",
+        "city": "Chicago",
+        "country": "USA",
+        "min_fee": 45.195,
+        "max_fee": 46.605,
+        "specializations": [
+            "Business Administration",
+            "Computer Science",
+            "Psychology",
+            "Education",
+            "Communication",
+            "Health Sciences",
+            "Music",
+            "Theatre",
+            "Law",
+            "Public Policy"
+        ],
+        "min_duration": 2,
+        "max_duration": 6,
+        "scholarships": [
+            "Presidential Scholarship",
+            "Deans' Scholarship",
+            "DePaul Scholars' Award",
+            "St. Vincent DePaul Scholarship",
+            "Catholic Heritage Scholarship",
+            "Chicago Promise Scholarship",
+            "Provost's Achievement Award",
+            "Value-Creating Education Scholarship",
+            "RaiseMe Micro-Scholarships",
+            "Graduate Assistantships"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time",
+            "Online"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "MBA",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "ACT",
+            "TOEFL",
+            "IELTS",
+            "Duolingo English Test",
+            "PTE Academic"
+        ],
+        "image_url": "/images/depaul-university.webp"
+    },
+    {
+        "name": "University of Bristol",
+        "slug": "university-of-bristol",
+        "city": "Bristol",
+        "country": "United Kingdom",
+        "min_fee": 26.400,
+        "max_fee": 42.800,
+        "specializations": [
+            "Engineering",
+            "Computer Science",
+            "Law",
+            "Medicine",
+            "Dentistry",
+            "Arts",
+            "Social Sciences",
+            "Life Sciences",
+            "Mathematics",
+            "Physics"
+        ],
+        "min_duration": 3,
+        "max_duration": 6,
+        "scholarships": [
+            "Think Big Scholarship Programme",
+            "Bristol Master's Scholarship",
+            "Bristol Postgraduate Research Scholarships",
+            "Bristol PhD Scholarships for Applicants of Black Heritage",
+            "Access Postgrad Fee Waiver",
+            "Global Transfer Programme Bursary"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time",
+            "Online"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "MBA",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "A-levels",
+            "IB",
+            "TOEFL",
+            "IELTS",
+            "PTE Academic",
+            "Cambridge English"
+        ],
+        "image_url": "/images/university-of-bristol.jpeg"
+    },
+    {
+        "name": "ETH Zurich",
+        "slug": "eth-zurich",
+        "city": "Zurich",
+        "country": "Switzerland",
+        "min_fee": 10,
+        "max_fee": 25,
+        "specializations": [
+            "Engineering",
+            "Physics",
+            "Computer Science",
+            "Mathematics"
+        ],
+        "min_duration": 2,
+        "max_duration": 5,
+        "scholarships": [
+            "ETH Excellence Scholarship",
+            "Swiss Government Excellence Scholarships",
+            "ETH Zurich Foundation Grants"
+        ],
+        "time": [
+            "Full-time"
+        ],
+        "degrees": [
+            "Bachelor",
+            "Master",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "GRE",
+            "IELTS",
+            "TOEFL",
+            "SAT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    }
+]

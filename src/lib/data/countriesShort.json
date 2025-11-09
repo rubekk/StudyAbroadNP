@@ -1,0 +1,82 @@
+[
+    {
+        "country": "Australia",
+        "slug": "study-in-australia-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/australia.jpeg",
+            "alt": "Australia study destination with beautiful landscapes and renowned universities"
+        }
+    },
+    {
+        "country": "Canada",
+        "slug": "study-in-canada-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/canada.jpeg",
+            "alt": "Canada study destination with iconic landscapes and top universities like University of Toronto and McGill"
+        }
+    },
+    {
+        "country": "USA",
+        "slug": "study-in-usa-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/usa.jpeg",
+            "alt": "USA study destination with top universities like Harvard, MIT, and Stanford"
+        }
+    },
+    {
+        "country": "United Kingdom",
+        "slug": "study-in-uk-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/united-kingdom.jpeg",
+            "alt": "UK study destination with renowned universities like Oxford and Cambridge."
+        }
+    },
+    {
+        "country": "New Zealand",
+        "slug": "study-in-new-zealand-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/new-zealand.jpeg",
+            "alt": "New Zealand study destination with beautiful landscapes and top universities"
+        }
+    },
+    {
+        "country": "Japan",
+        "slug": "study-in-japan-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/japan.jpeg",
+            "alt": "Japan study destination with cultural heritage and top universities"
+        }
+    },
+    {
+        "country": "South Korea",
+        "slug": "study-in-south-korea-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/south-korea.jpeg",
+            "alt": "South Korea study destination with modern universities and vibrant city life"
+        }
+    },
+    {
+        "country": "Singapore",
+        "slug": "study-in-singapore-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/singapore.jpeg",
+            "alt": "Singapore study destination with top universities and modern education facilities"
+        }
+    },
+    {
+        "country": "Germany",
+        "slug": "study-in-germany-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/germany.jpeg",
+            "alt": "Germany study destination with historic universities and modern research facilities"
+        }
+    },
+    {
+        "country": "Europe",
+        "slug": "study-in-europe-nepali-students",
+        "thumbnail_image": {
+            "url": "/imgs/europe.jpeg",
+            "alt": "Top European universities and study destinations for international students"
+        }
+    }
+]

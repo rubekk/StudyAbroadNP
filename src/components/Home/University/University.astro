@@ -1,0 +1,28 @@
+---
+import { Icon } from "astro-icon/components";
+import UniversityCard from "./UniversityCard.astro";
+import { getAllUniversities } from "@/lib/fetch/universities";
+import { routes } from "@/lib/routes";
+
+const universitiesRes = await getAllUniversities();
+const universities = universitiesRes.data;
+---
+
+<section class="section-university">
+  <h2 class="section-title">Popular Universities</h2>
+
+  <div class="section-inner">
+    {
+      universities?.map((university) => {
+        return <UniversityCard universityCardData={university} />;
+      })
+    }
+  </div>
+
+  <button>
+    <a href={routes.UNIVERSITIES}>
+      View all Universities
+      <Icon size={25} name="arrowRight" />
+    </a>
+  </button>
+</section>

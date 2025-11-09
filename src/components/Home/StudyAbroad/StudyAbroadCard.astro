@@ -1,0 +1,22 @@
+---
+import { Image } from "astro:assets";
+import NewZealandImage from "../../../assets/new-zealand.jpeg";
+import type { CountryCard } from "@/lib/types/country";
+import { routes } from "@/lib/routes";
+
+const { studyAbroadCardData } = Astro.props as {
+  studyAbroadCardData: CountryCard;
+};
+---
+
+<div class="card study-abroad">
+  <div class="img">
+    <Image src={NewZealandImage} alt="" />
+  </div>
+
+  <h3 class="name">
+    <a href={routes.STUDY_ABROAD + "/" + studyAbroadCardData.data.slug}
+      >{studyAbroadCardData.country}</a
+    >
+  </h3>
+</div>

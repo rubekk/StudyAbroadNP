@@ -1,0 +1,323 @@
+[
+    {
+        "name": "University of Southern California",
+        "slug": "university-of-southern-california",
+        "city": "Los Angeles",
+        "country": "USA",
+        "min_fee": 10,
+        "max_fee": 20,
+        "specializations": [
+            "Marketing",
+            "Finance",
+            "Entrepreneurship",
+            "Supply Chain Management"
+        ],
+        "min_duration": 2,
+        "max_duration": 4,
+        "scholarships": [
+            "Merit-Based Scholarships",
+            "Need-Based Grants",
+            "International Student Scholarships"
+        ],
+        "time": [
+            "Part-time",
+            "Full-time"
+        ],
+        "degrees": [
+            "Diploma",
+            "Bachelor",
+            "Master"
+        ],
+        "acceptedExams": [
+            "GRE",
+            "GMAT",
+            "SAT",
+            "ACT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "University of Melbourne",
+        "slug": "university-of-melbourne",
+        "city": "Melbourne",
+        "country": "Australia",
+        "min_fee": 15,
+        "max_fee": 30,
+        "specializations": [
+            "Accounting",
+            "Finance",
+            "Marketing",
+            "Management",
+            "Commercial Law",
+            "International Law",
+            "Human Rights Law",
+            "Civil Engineering",
+            "Mechanical Engineering",
+            "Electrical Engineering",
+            "Software Engineering"
+        ],
+        "min_duration": 1,
+        "max_duration": 4,
+        "scholarships": [
+            "Melbourne International Undergraduate Scholarship",
+            "Graduate Research Scholarships",
+            "Melbourne Law School Scholarships",
+            "International Postgraduate Coursework Award",
+            "Engineering and IT Foundation Scholarships",
+            "International Research Scholarships"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "MBA",
+            "Juris Doctor (JD)",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "GMAT",
+            "GRE",
+            "IELTS",
+            "TOEFL",
+            "LSAT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "University of Toronto",
+        "slug": "university-of-toronto",
+        "city": "Toronto",
+        "country": "Canada",
+        "min_fee": 40,
+        "max_fee": 50,
+        "specializations": [
+            "Chemical Engineering",
+            "Civil Engineering",
+            "Electrical & Computer Engineering",
+            "Mechanical Engineering",
+            "Finance",
+            "Marketing",
+            "Strategic Management",
+            "Accounting",
+            "History",
+            "Literature",
+            "Visual Arts",
+            "Philosophy"
+        ],
+        "min_duration": 1,
+        "max_duration": 6,
+        "scholarships": [
+            "International Scholar Award",
+            "Faculty-specific Scholarships",
+            "Rotman Entrance Awards",
+            "International Student Scholarships",
+            "Faculty of Arts and Science International Scholarships",
+            "In-course Scholarships"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time"
+        ],
+        "degrees": [
+            "Bachelor's",
+            "Master's",
+            "PhD",
+            "Bachelor of Commerce",
+            "MBA"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "ACT",
+            "IELTS",
+            "TOEFL",
+            "GMAT",
+            "GRE"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "Harvard University",
+        "slug": "harvard-university",
+        "city": "Cambridge",
+        "country": "United States",
+        "min_fee": 20,
+        "max_fee": 40,
+        "specializations": [
+            "Law",
+            "Medicine",
+            "Business",
+            "Political Science"
+        ],
+        "min_duration": 3,
+        "max_duration": 6,
+        "scholarships": [
+            "Harvard Financial Aid",
+            "International Student Scholarships",
+            "Merit-Based Fellowships"
+        ],
+        "time": [
+            "Full-time"
+        ],
+        "degrees": [
+            "Bachelor",
+            "Master",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "GMAT",
+            "GRE",
+            "LSAT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "Stanford University",
+        "slug": "stanford-university",
+        "city": "Stanford",
+        "country": "United States",
+        "min_fee": 25,
+        "max_fee": 50,
+        "specializations": [
+            "Computer Science",
+            "Business",
+            "Engineering",
+            "AI & Data Science"
+        ],
+        "min_duration": 2,
+        "max_duration": 5,
+        "scholarships": [
+            "Stanford Knight-Hennessy Scholars",
+            "Need-Based Grants",
+            "Departmental Fellowships"
+        ],
+        "time": [
+            "Full-time",
+            "Part-time"
+        ],
+        "degrees": [
+            "Diploma",
+            "Bachelor",
+            "Master",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "SAT",
+            "GRE",
+            "GMAT",
+            "TOEFL"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "National University of Singapore (NUS)",
+        "slug": "national-university-of-singapore",
+        "city": "Singapore",
+        "country": "Singapore",
+        "min_fee": 15,
+        "max_fee": 35,
+        "specializations": [
+            "Engineering",
+            "Computer Science",
+            "Law",
+            "Life Sciences"
+        ],
+        "min_duration": 3,
+        "max_duration": 5,
+        "scholarships": [
+            "NUS Global Scholarships",
+            "ASEAN Undergraduate Scholarship",
+            "Research Excellence Grants"
+        ],
+        "time": [
+            "Full-time"
+        ],
+        "degrees": [
+            "Bachelor",
+            "Master",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "IELTS",
+            "TOEFL",
+            "GRE",
+            "SAT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "University of Oxford",
+        "slug": "university-of-oxford",
+        "city": "Oxford",
+        "country": "United Kingdom",
+        "min_fee": 30,
+        "max_fee": 55,
+        "specializations": [
+            "Philosophy",
+            "Medicine",
+            "Business",
+            "Physics"
+        ],
+        "min_duration": 3,
+        "max_duration": 6,
+        "scholarships": [
+            "Rhodes Scholarship",
+            "Clarendon Fund Scholarships",
+            "Weidenfeld-Hoffmann Scholarships"
+        ],
+        "time": [
+            "Full-time"
+        ],
+        "degrees": [
+            "Bachelor",
+            "Master",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "IELTS",
+            "TOEFL",
+            "BMAT",
+            "UCAT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    },
+    {
+        "name": "ETH Zurich",
+        "slug": "eth-zurich",
+        "city": "Zurich",
+        "country": "Switzerland",
+        "min_fee": 10,
+        "max_fee": 25,
+        "specializations": [
+            "Engineering",
+            "Physics",
+            "Computer Science",
+            "Mathematics"
+        ],
+        "min_duration": 2,
+        "max_duration": 5,
+        "scholarships": [
+            "ETH Excellence Scholarship",
+            "Swiss Government Excellence Scholarships",
+            "ETH Zurich Foundation Grants"
+        ],
+        "time": [
+            "Full-time"
+        ],
+        "degrees": [
+            "Bachelor",
+            "Master",
+            "PhD"
+        ],
+        "acceptedExams": [
+            "GRE",
+            "IELTS",
+            "TOEFL",
+            "SAT"
+        ],
+        "image_url": "https://fox59.com/wp-content/uploads/sites/21/2023/07/64c03ff465c712.92639353.jpeg?w=2560&h=1440&crop=1"
+    }
+]

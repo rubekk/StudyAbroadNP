@@ -1,0 +1,320 @@
+@use 'variables' as *;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+// root styling
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: $text-gray;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.tag {
+    padding: 0.25rem .5rem;
+    margin-left: 0;
+    background-color: $backgroung-gray;
+    border-radius: 5px;
+}
+
+// header stylings
+header {
+    padding: 1rem 5rem 1.5rem;
+    border-bottom: 1px solid $border-light;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1,
+    .title a {
+        font-size: 1.5rem;
+
+        span {
+            margin-right: .25rem;
+            color: $primary-color;
+        }
+    }
+
+    ul {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    a {
+        font-size: .9rem;
+        font-weight: $font-bold;
+    }
+}
+
+// hero section stylings
+.hero {
+    width: 100%;
+    height: 60vh;
+    background-image: url('https://images.goabroad.com/image/upload/v1/images2/program_content/hs-1575451096.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+
+    .overlay {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .1);
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .hero-text {
+        width: max-content;
+        font-size: 2rem;
+        color: $text-white;
+        position: absolute;
+        top: 50%;
+        bottom: 50%;
+        left: 50%;
+        right: 50%;
+        transform: translate(-50%);
+        z-index: 1;
+    }
+}
+
+// section stylings
+section {
+    padding: 3rem clamp(1rem, 5vw, 5rem);
+
+    h2 {
+        margin-bottom: 2rem;
+    }
+
+    .section-inner {
+        display: grid;
+        gap: 1rem;
+    }
+
+    button {
+        padding: .75rem 2rem;
+        margin: 2rem 0 0;
+        font-size: 1.1rem;
+        font-weight: $font-bold;
+        background-color: $background-transparent;
+        border: 2px solid $border-light;
+        border-bottom-left-radius: 15px 255px;
+        border-bottom-right-radius: 225px 15px;
+        border-top-left-radius: 255px 15px;
+        border-top-right-radius: 15px 225px;
+        outline: none;
+        transition: .3s border ease-in-out;
+
+        &:hover {
+            color: $primary-color;
+            border-color: $primary-color;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+    }
+}
+
+// specialization section stylings
+.section-specialization {
+    .section-inner {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+// specialization university stylings
+.section-university {
+    .section-inner {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+// specialization study abroad stylings
+.section-study-abroad {
+    .section-inner {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+// card stylings
+.card {
+    border: 1px solid $backgroung-gray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .img {
+        width: 100%;
+        height: 200px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .text {
+        padding: 0 .5rem;
+
+        h3 {
+            margin-bottom: .5rem;
+        }
+
+        .text-btm {
+            div {
+                margin: .5rem 0;
+                display: flex;
+                align-items: center;
+            }
+
+            span {
+                margin-left: .75rem;
+                color: $text-gray;
+            }
+        }
+    }
+}
+
+// university card styling 
+.university {
+    .text {
+        padding: 0 1rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+// Legacy specialization card styling - kept for backward compatibility
+.specialization {
+    padding: 1rem;
+    min-width: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    h3 {
+        text-align: center;
+    }
+}
+
+// study abroad card styling 
+.study-abroad {
+    height: 250px;
+    border: none;
+    gap: .5rem;
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: $border-radius-normal;
+    }
+}
+
+// footer stylings
+footer {
+    padding: 1rem 5rem;
+    margin-top: 3rem;
+    border-top: 1px solid $border-light;
+
+    .top {
+        padding: 2rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        ul {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        a {
+            font-size: .9rem;
+            font-weight: $font-bold;
+        }
+    }
+
+    .bottom {
+        padding: 2rem 0;
+        text-align: center;
+        border-top: 1px solid $border-light;
+    }
+}
+
+// breadcrumb stylings
+.breadcrumb {
+    padding: 2rem clamp(1rem, 5vw, 5rem);
+
+    font-size: 0.9rem;
+
+    ol {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: flex;
+            align-items: center;
+
+            &:not(:last-child)::after {
+                content: '/';
+                margin: 0 0.5rem;
+                color: $text-gray;
+            }
+
+            a {
+                color: $text-gray;
+                text-decoration: none;
+                transition: color 0.2s;
+                font-weight: $font-bold;
+
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+
+            &[aria-current="page"] {
+                color: $text-primary-color;
+                font-weight: $font-bold;
+            }
+        }
+    }
+}

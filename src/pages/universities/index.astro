@@ -1,0 +1,178 @@
+---
+import "../../styles/universities.scss";
+
+import Layout from "../../layouts/Layout.astro";
+import UniversitiesFilter from "../../components/Svelte/Filters/UniversitiesFilter.svelte";
+import UniversitiesList from "../../components/Svelte/UniversitiesList.svelte";
+import UniversitiesFilterValue from "../../components/Svelte/UniversityFilterValue.svelte";
+import { Icon } from "astro-icon/components";
+
+const pageTitle = "Top Universities Worldwide | Filter & Explore";
+const pageDescription =
+	"Discover top universities around the world. Use filters to find the best fit for your academic goals.";
+---
+
+<Layout
+	title={pageTitle}
+	description={pageDescription}
+	mainClass="universities-main"
+>
+	<!-- Hero Section -->
+	<section class="universities-hero">
+		<div class="hero-content">
+			<div class="hero-text">
+				<h1>Find Your Perfect University</h1>
+				<p>Explore thousands of programs from top universities worldwide. Filter by location, cost, specialization, and more to find your ideal match.</p>
+			</div>
+			
+			<!-- Quick Search Bar -->
+			<div class="search-container">
+				<div class="search-bar">
+					<!-- <Icon name="search" size={20} /> -->
+					<input 
+						type="text" 
+						placeholder="Search universities, countries, or programs..."
+						class="search-input"
+						id="universitySearch"
+					/>
+				</div>
+				<div class="quick-filters">
+					<span class="quick-filter-label">Popular:</span>
+					<button class="quick-filter-btn" data-filter="usa">USA</button>
+					<button class="quick-filter-btn" data-filter="uk">UK</button>
+					<button class="quick-filter-btn" data-filter="canada">Canada</button>
+					<button class="quick-filter-btn" data-filter="australia">Australia</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Main Content Area -->
+	<section class="universities-content">
+		<div class="content-container">
+			<!-- Mobile Filter Toggle -->
+			<div class="mobile-filter-header">
+				<button class="filter-toggle-btn" id="filterToggle">
+					<!-- <Icon name="filter" size={20} /> -->
+					<span>Filters</span>
+					<span class="filter-count" id="filterCount">0</span>
+				</button>
+				<div class="results-summary">
+					<UniversitiesFilterValue client:load />
+				</div>
+			</div>
+
+			<!-- Content Grid -->
+			<div class="universities-grid">
+				<!-- Sidebar Filters -->
+				<aside class="filters-sidebar" id="filtersSidebar">
+					<div class="filters-header">
+						<h2>Filter Universities</h2>
+						<button class="clear-filters-btn" id="clearFilters">Clear All</button>
+					</div>
+					<UniversitiesFilter client:load />
+				</aside>
+
+				<!-- Universities List -->
+				<main class="universities-main-content">
+					<div class="results-header">
+						<div class="view-controls">
+							<button class="view-btn active" data-view="grid" id="gridView">
+								<!-- <Icon name="grid" size={18} /> -->
+								<span>Grid</span>
+							</button>
+							<button class="view-btn" data-view="list" id="listView">
+								<!-- <Icon name="list" size={18} /> -->
+								<span>List</span>
+							</button>
+						</div>
+						
+						<div class="sort-controls">
+							<label for="sortSelect">Sort by:</label>
+							<select id="sortSelect" class="sort-select">
+								<option value="relevance">Relevance</option>
+								<option value="name">Name A-Z</option>
+								<option value="fee-low">Fee: Low to High</option>
+								<option value="fee-high">Fee: High to Low</option>
+								<option value="country">Country</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="universities-list-container">
+						<UniversitiesList client:load />
+					</div>
+
+					<!-- Load More Button -->
+					<div class="load-more-container">
+						<button class="load-more-btn" id="loadMore">
+							Load More Universities
+						</button>
+					</div>
+				</main>
+			</div>
+		</div>
+	</section>
+
+	<!-- Overlay for mobile filters -->
+	<div class="filter-overlay" id="filterOverlay"></div>
+
+	<script>
+		// Mobile filter toggle functionality
+		document.addEventListener('DOMContentLoaded', function() {
+			const filterToggle = document.getElementById('filterToggle');
+			const filtersSidebar = document.getElementById('filtersSidebar');
+			const filterOverlay = document.getElementById('filterOverlay');
+			const clearFilters = document.getElementById('clearFilters');
+			
+			// Toggle filters on mobile
+			filterToggle?.addEventListener('click', function() {
+				filtersSidebar?.classList.toggle('active');
+				filterOverlay?.classList.toggle('active');
+				document.body.classList.toggle('filter-open');
+			});
+
+			// Close filters when clicking overlay
+			filterOverlay?.addEventListener('click', function() {
+				filtersSidebar?.classList.remove('active');
+				filterOverlay?.classList.remove('active');
+				document.body.classList.remove('filter-open');
+			});
+
+			// View toggle functionality
+			const gridViewBtn = document.getElementById('gridView');
+			const listViewBtn = document.getElementById('listView');
+			const universitiesList = document.querySelector('.universities-list-container');
+
+			gridViewBtn?.addEventListener('click', function() {
+				gridViewBtn.classList.add('active');
+				listViewBtn?.classList.remove('active');
+				universitiesList?.classList.remove('list-view');
+			});
+
+			listViewBtn?.addEventListener('click', function() {
+				listViewBtn.classList.add('active');
+				gridViewBtn?.classList.remove('active');
+				universitiesList?.classList.add('list-view');
+			});
+
+			// Search functionality
+			const searchInput = document.getElementById('universitySearch');
+			searchInput?.addEventListener('input', function(e) {
+				const target = e.target;
+				if (target && 'value' in target) {
+					console.log('Searching for:', target.value);
+				}
+			});
+
+			// Quick filter buttons
+			const quickFilterBtns = document.querySelectorAll('.quick-filter-btn');
+			quickFilterBtns.forEach(btn => {
+				btn.addEventListener('click', function() {
+					const filter = btn.getAttribute('data-filter');
+					console.log('Quick filter:', filter);
+				});
+			});
+		});
+	</script>
+</Layout>

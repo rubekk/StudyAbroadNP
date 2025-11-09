@@ -1,0 +1,375 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "./../../styles/universities.scss";
+import type { GetStaticPaths } from "astro";
+import BreadCrumb from "@/components/BreadCrumb.astro";
+import { getAllCountries, getCountryBySlug } from "@/lib/fetch/countries";
+
+export const getStaticPaths = (async () => {
+    try {
+        const countriesData = await getAllCountries();
+
+        if (countriesData.error) {
+            console.error("Error fetching universities:", countriesData.error);
+            return [];
+        }
+
+        return (
+            countriesData.data?.map((country) => ({
+                params: { slug: country.data.slug },
+                props: { lastUpdated: new Date().toISOString() },
+            })) || []
+        );
+    } catch (error) {
+        console.error("Error in getStaticPaths:", error);
+        return [];
+    }
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const countryRes = await getCountryBySlug(slug);
+const country = countryRes.data;
+
+const pageTitle = `Study in ${country?.country} for Nepali Students: Programs, Fees, and Requirements.`;
+const pageDescription =
+    country?.data.meta_description ||
+    `Explore top consultancies, study destinations, and test guides with Study Abroad NP. Your comprehensive resource for pursuing education abroad.`;
+
+const breadcrumb = {
+    parent: "Countries",
+    child: country?.country,
+};
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <article
+        class="country-page"
+        itemscope
+        itemtype="https://schema.org/Country"
+    >
+        <!-- Breadcrumb Navigation -->
+        <!-- <BreadCrumb {...breadcrumb} /> -->
+
+        <!-- Hero Section -->
+        <header class="country-hero">
+            <div class="hero-image-container">
+                <img
+                    src={country?.data.featured_image.url ||
+                        "/images/country-default.jpg"}
+                    alt={country?.data.featured_image.alt ||
+                        `${country?.country} study destination`}
+                    class="hero-image"
+                    loading="eager"
+                    width="1200"
+                    height="400"
+                    itemprop="image"
+                />
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1 itemprop="name">Study in {country?.country}</h1>
+                <p class="hero-description" itemprop="description">
+                    Comprehensive guide for Nepali students
+                </p>
+            </div>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="country-section" itemprop="description">
+            <div class="container">
+                <h2 class="section-title">Why Study in {country?.country}?</h2>
+                {
+                    country?.data.introduction.map((paragraph, index) => (
+                        <p>{paragraph}</p>
+                    ))
+                }
+            </div>
+        </section>
+
+        <!-- Required Documents Section -->
+        <section class="country-section documents-section">
+            <div class="container">
+                <h2 class="section-title" itemprop="name">
+                    {country?.data.required_documents.title}
+                </h2>
+                {
+                    country?.data.required_documents.starting_description && (
+                        <p>
+                            {
+                                country?.data.required_documents
+                                    .starting_description
+                            }
+                        </p>
+                    )
+                }
+
+                <div class="documents-grid">
+                    {
+                        country?.data.required_documents.documents.map(
+                            (doc, index) => (
+                                <div
+                                    class="document-card"
+                                    itemprop="requiredDocument"
+                                    itemscope
+                                    itemtype="https://schema.org/ListItem"
+                                >
+                                    <h3 itemprop="name">
+                                        {doc.document_title}
+                                    </h3>
+                                    <p itemprop="description">
+                                        {doc.document_info}
+                                    </p>
+                                </div>
+                            ),
+                        )
+                    }
+                </div>
+
+                {
+                    country?.data.required_documents.ending_description && (
+                        <p>
+                            {
+                                country?.data.required_documents
+                                    .ending_description
+                            }
+                        </p>
+                    )
+                }
+            </div>
+        </section>
+
+        <!-- Cost to Study Table -->
+        <section class="country-section table-section">
+            <div class="container">
+                <h2 class="section-title" itemprop="name">
+                    {country?.data.cost_to_study_table.title}
+                </h2>
+                {
+                    country?.data.cost_to_study_table.starting_description && (
+                        <p>
+                            {
+                                country?.data.cost_to_study_table
+                                    .starting_description
+                            }
+                        </p>
+                    )
+                }
+
+                <div class="responsive-table">
+                    <table itemprop="costToStudy">
+                        <thead>
+                            <tr>
+                                {
+                                    country?.data.cost_to_study_table.headings.map(
+                                        (heading, index) => <th>{heading}</th>,
+                                    )
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                country?.data.cost_to_study_table.table_data.map(
+                                    (row, index) => (
+                                        <tr
+                                            itemprop="itemListElement"
+                                            itemscope
+                                            itemtype="https://schema.org/ListItem"
+                                        >
+                                            <td itemprop="program">
+                                                {row.programs}
+                                            </td>
+                                            <td itemprop="price">
+                                                {row.tuition_fees}
+                                            </td>
+                                        </tr>
+                                    ),
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                {
+                    country?.data.cost_to_study_table.ending_description && (
+                        <p>
+                            {
+                                country?.data.cost_to_study_table
+                                    .ending_description
+                            }
+                        </p>
+                    )
+                }
+            </div>
+        </section>
+
+        <!-- Language Requirements Table -->
+        <section class="country-section table-section">
+            <div class="container">
+                <h2 class="section-title" itemprop="name">
+                    {country?.data.language_score_requirements_table.title}
+                </h2>
+                {
+                    country?.data.language_score_requirements_table
+                        .starting_description && (
+                        <p>
+                            {
+                                country?.data.language_score_requirements_table
+                                    .starting_description
+                            }
+                        </p>
+                    )
+                }
+
+                <div class="responsive-table">
+                    <table itemprop="languageRequirements">
+                        <thead>
+                            <tr>
+                                {
+                                    country?.data.language_score_requirements_table.headings.map(
+                                        (heading, index) => <th>{heading}</th>,
+                                    )
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                country?.data.language_score_requirements_table.table_data.map(
+                                    (row, index) => (
+                                        <tr
+                                            itemprop="itemListElement"
+                                            itemscope
+                                            itemtype="https://schema.org/ListItem"
+                                        >
+                                            <td itemprop="testType">
+                                                {row.test}
+                                            </td>
+                                            <td itemprop="diplomaScore">
+                                                {row.diploma}
+                                            </td>
+                                            <td itemprop="undergraduateScore">
+                                                {row.undergraduate}
+                                            </td>
+                                            <td itemprop="graduateScore">
+                                                {row.graduate}
+                                            </td>
+                                        </tr>
+                                    ),
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                {
+                    country?.data.language_score_requirements_table
+                        .ending_description && (
+                        <p>
+                            {
+                                country?.data.language_score_requirements_table
+                                    .ending_description
+                            }
+                        </p>
+                    )
+                }
+            </div>
+        </section>
+
+        <!-- Courses and Cost Table -->
+        <section class="country-section table-section">
+            <div class="container">
+                <h2 class="section-title" itemprop="name">
+                    {country?.data.courses_and_cost_table.title}
+                </h2>
+                {
+                    country?.data.courses_and_cost_table
+                        .starting_description && (
+                        <p>
+                            {
+                                country?.data.courses_and_cost_table
+                                    .starting_description
+                            }
+                        </p>
+                    )
+                }
+
+                <div class="responsive-table">
+                    <table itemprop="coursesAndCost">
+                        <thead>
+                            <tr>
+                                {
+                                    country?.data.courses_and_cost_table.headings.map(
+                                        (heading, index) => <th>{heading}</th>,
+                                    )
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                country?.data.courses_and_cost_table.table_data.map(
+                                    (row, index) => (
+                                        <tr
+                                            itemprop="itemListElement"
+                                            itemscope
+                                            itemtype="https://schema.org/ListItem"
+                                        >
+                                            <td itemprop="courseName">
+                                                {row.course}
+                                            </td>
+                                            <td itemprop="courseFee">
+                                                {row.tuition_fees}
+                                            </td>
+                                            <td itemprop="universities">
+                                                <ul class="university-list">
+                                                    {row.popular_universities.map(
+                                                        (uni, uniIndex) => (
+                                                            <li>{uni}</li>
+                                                        ),
+                                                    )}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    ),
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                {
+                    country?.data.courses_and_cost_table.ending_description && (
+                        <p>
+                            {
+                                country?.data.courses_and_cost_table
+                                    .ending_description
+                            }
+                        </p>
+                    )
+                }
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section class="country-section conclusion-section">
+            <div class="container">
+                <h2 class="section-title">Final Thoughts</h2>
+                {
+                    country?.data.conclusion.map((paragraph, index) => (
+                        <p>{paragraph}</p>
+                    ))
+                }
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="country-cta">
+            <div class="container">
+                <h2>Ready to start your journey to {country?.country}?</h2>
+                <p>
+                    Contact our expert consultants today for personalized
+                    guidance.
+                </p>
+                <a href="/contact" class="cta-button">Get Free Consultation</a>
+            </div>
+        </section>
+    </article>
+</Layout>
