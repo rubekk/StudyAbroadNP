@@ -1,33 +1,15 @@
 <script>
     import { slide } from 'svelte/transition';
-    import {
-        updateSpecialization,
-        updateCountry,
-        updateDegree,
-        updateFee,
-        updateExam,
-        updateTime,
-        updateScholarship,
-        updateDuration,
-    } from "../../../lib/svelteFilters/filterFunctions";
-    import SpecializationFilter from "./SpecializationFilter.svelte";
-    import CountryFilter from "./CountryFilter.svelte";
-    import DegreeFilter from "./DegreeFilter.svelte";
-    import FeeFilter from "./FeeFilter.svelte";
-    import AcceptedExamsFilter from "./AcceptedExamFilter.svelte";
-    import TimeFilter from "./TimeFilter.svelte";
-    import DurationFilter from "./DurationFilter.svelte";
-    import ScholarshipFilter from "./ScholarshipFilter.svelte";
+    import CourseSpecializationFilter from "./CourseSpecializationFilter.svelte";
+    import CourseDegreeFilter from "./CourseDegreeFilter.svelte";
+    import CourseFeeFilter from "./CourseFeeFilter.svelte";
+    import CourseDurationFilter from "./CourseDurationFilter.svelte";
 
     // State for collapsible filters
     let expandedSections = {
-        country: true,
         specialization: true,
-        degree: false,
+        degree: true,
         fee: false,
-        exam: false,
-        time: false,
-        scholarship: false,
         duration: false
     };
 
@@ -35,54 +17,51 @@
         expandedSections[section] = !expandedSections[section];
     }
 
+    // Placeholder filter functions - implement actual filtering logic
+    const updateSpecialization = (value, checked) => {
+        console.log('Specialization:', value, checked);
+        // Implement filter logic
+    };
+
+    const updateDegree = (value, checked) => {
+        console.log('Degree:', value, checked);
+        // Implement filter logic
+    };
+
+    const updateFee = (value, checked) => {
+        console.log('Fee:', value, checked);
+        // Implement filter logic
+    };
+
+    const updateDuration = (value, checked) => {
+        console.log('Duration:', value, checked);
+        // Implement filter logic
+    };
+
     // Filter categories with metadata
     const filterCategories = [
         {
-            id: 'country',
-            title: 'Country',
-            component: CountryFilter,
-            filterFunction: updateCountry,
-        },
-        {
             id: 'specialization',
             title: 'Specialization',
-            component: SpecializationFilter,
+            component: CourseSpecializationFilter,
             filterFunction: updateSpecialization,
         },
         {
             id: 'degree',
             title: 'Degree Level',
-            component: DegreeFilter,
+            component: CourseDegreeFilter,
             filterFunction: updateDegree,
         },
         {
             id: 'fee',
             title: 'Tuition Fee',
-            component: FeeFilter,
+            component: CourseFeeFilter,
             filterFunction: updateFee,
-        },
-        {
-            id: 'exam',
-            title: 'Accepted Exams',
-            component: AcceptedExamsFilter,
-            filterFunction: updateExam,
-        },
-        {
-            id: 'time',
-            title: 'Intake Time',
-            component: TimeFilter,
-            filterFunction: updateTime,
-        },
-        {
-            id: 'scholarship',
-            title: 'Scholarships',
-            component: ScholarshipFilter,
-            filterFunction: updateScholarship,
         },
         {
             id: 'duration',
             title: 'Duration',
-            component: DurationFilter,
+            component: CourseDurationFilter,
             filterFunction: updateDuration,
         }
     ];

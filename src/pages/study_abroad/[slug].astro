@@ -1,375 +1,845 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import "./../../styles/universities.scss";
 import type { GetStaticPaths } from "astro";
-import BreadCrumb from "@/components/BreadCrumb.astro";
-import { getAllCountries, getCountryBySlug } from "@/lib/fetch/countries";
+import countriesData from "../../lib/data/countries.json";
+import universitiesData from "../../lib/data/universities.json";
 
 export const getStaticPaths = (async () => {
-    try {
-        const countriesData = await getAllCountries();
-
-        if (countriesData.error) {
-            console.error("Error fetching universities:", countriesData.error);
-            return [];
-        }
-
-        return (
-            countriesData.data?.map((country) => ({
-                params: { slug: country.data.slug },
-                props: { lastUpdated: new Date().toISOString() },
-            })) || []
-        );
-    } catch (error) {
-        console.error("Error in getStaticPaths:", error);
-        return [];
-    }
+    return countriesData.map((country) => ({
+        params: { slug: country.data.slug },
+    }));
 }) satisfies GetStaticPaths;
 
 const { slug } = Astro.params;
-const countryRes = await getCountryBySlug(slug);
-const country = countryRes.data;
+const countryItem = countriesData.find((c) => c.data.slug === slug);
+const countryData = countryItem?.data;
+const countryName = countryItem?.country;
 
-const pageTitle = `Study in ${country?.country} for Nepali Students: Programs, Fees, and Requirements.`;
-const pageDescription =
-    country?.data.meta_description ||
-    `Explore top consultancies, study destinations, and test guides with Study Abroad NP. Your comprehensive resource for pursuing education abroad.`;
+// Get universities from this country
+const countryUniversities = universitiesData.filter(
+    (uni) => uni.country === countryName
+);
 
-const breadcrumb = {
-    parent: "Countries",
-    child: country?.country,
+// Get other countries for sidebar
+const otherCountries = countriesData
+    .filter((c) => c.data.slug !== slug)
+    .slice(0, 6);
+
+// Major cities by country
+const majorCities: Record<string, string[]> = {
+    Australia: ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
+    Canada: ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary"],
+    USA: ["New York", "Los Angeles", "Chicago", "Boston", "San Francisco"],
+    UK: ["London", "Manchester", "Edinburgh", "Birmingham", "Glasgow"],
+    Germany: ["Berlin", "Munich", "Frankfurt", "Hamburg", "Cologne"],
+    "New Zealand": ["Auckland", "Wellington", "Christchurch", "Dunedin"],
+    Japan: ["Tokyo", "Osaka", "Kyoto", "Yokohama", "Kobe"],
+    "South Korea": ["Seoul", "Busan", "Incheon", "Daegu", "Gwangju"],
 };
+
+const cities = majorCities[countryName || ""] || [];
+
+const pageTitle = countryData?.title || `Study in ${countryName} | StudyAbroadNp`;
+const pageDescription =
+    countryData?.meta_description ||
+    `Discover everything about studying in ${countryName} for Nepali students`;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-    <article
-        class="country-page"
-        itemscope
-        itemtype="https://schema.org/Country"
-    >
-        <!-- Breadcrumb Navigation -->
-        <!-- <BreadCrumb {...breadcrumb} /> -->
+    <div class="country-detail-page">
+        <div class="content-container">
+            <div class="detail-layout">
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Country Header -->
+                    <div class="country-header">
+                        <div class="country-image">
+                            <img
+                                src={countryData?.featured_image.url || "/images/country-default.jpg"}
+                                alt={countryData?.featured_image.alt || countryName}
+                            />
+                        </div>
+                        <div class="country-info">
+                            <h1>Study in {countryName}</h1>
+                            <p class="subtitle">
+                                Explore world-class education opportunities in {countryName}
+                            </p>
+                        </div>
+                    </div>
 
-        <!-- Hero Section -->
-        <header class="country-hero">
-            <div class="hero-image-container">
-                <img
-                    src={country?.data.featured_image.url ||
-                        "/images/country-default.jpg"}
-                    alt={country?.data.featured_image.alt ||
-                        `${country?.country} study destination`}
-                    class="hero-image"
-                    loading="eager"
-                    width="1200"
-                    height="400"
-                    itemprop="image"
-                />
-                <div class="hero-overlay"></div>
-            </div>
-            <div class="hero-content">
-                <h1 itemprop="name">Study in {country?.country}</h1>
-                <p class="hero-description" itemprop="description">
-                    Comprehensive guide for Nepali students
-                </p>
-            </div>
-        </header>
+                    <!-- About the Country -->
+                    <section class="detail-section">
+                        <h2>Why Study in {countryName}?</h2>
+                        {
+                            countryData?.introduction.map((para) => (
+                                <p>{para}</p>
+                            ))
+                        }
+                    </section>
 
-        <!-- Introduction Section -->
-        <section class="country-section" itemprop="description">
-            <div class="container">
-                <h2 class="section-title">Why Study in {country?.country}?</h2>
-                {
-                    country?.data.introduction.map((paragraph, index) => (
-                        <p>{paragraph}</p>
-                    ))
-                }
-            </div>
-        </section>
-
-        <!-- Required Documents Section -->
-        <section class="country-section documents-section">
-            <div class="container">
-                <h2 class="section-title" itemprop="name">
-                    {country?.data.required_documents.title}
-                </h2>
-                {
-                    country?.data.required_documents.starting_description && (
-                        <p>
-                            {
-                                country?.data.required_documents
-                                    .starting_description
-                            }
-                        </p>
-                    )
-                }
-
-                <div class="documents-grid">
+                    <!-- Major Study Cities -->
                     {
-                        country?.data.required_documents.documents.map(
-                            (doc, index) => (
-                                <div
-                                    class="document-card"
-                                    itemprop="requiredDocument"
-                                    itemscope
-                                    itemtype="https://schema.org/ListItem"
-                                >
-                                    <h3 itemprop="name">
-                                        {doc.document_title}
-                                    </h3>
-                                    <p itemprop="description">
-                                        {doc.document_info}
-                                    </p>
+                        cities.length > 0 && (
+                            <section class="detail-section">
+                                <h2>Major Study Cities</h2>
+                                <p>
+                                    {countryName} is home to vibrant cities that offer excellent
+                                    educational institutions, cultural experiences, and career
+                                    opportunities. Here are the top cities where international
+                                    students choose to study:
+                                </p>
+                                <div class="cities-grid">
+                                    {cities.map((city) => (
+                                        <div class="city-card">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                                <circle cx="12" cy="10" r="3" />
+                                            </svg>
+                                            <span>{city}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                            ),
+                            </section>
                         )
                     }
-                </div>
 
-                {
-                    country?.data.required_documents.ending_description && (
+                    <!-- Universities Section -->
+                    <section class="detail-section">
+                        <h2>Universities in {countryName}</h2>
                         <p>
-                            {
-                                country?.data.required_documents
-                                    .ending_description
-                            }
+                            Explore {countryUniversities.length} universities offering quality
+                            education in {countryName}. These institutions are recognized globally
+                            and provide excellent career prospects.
                         </p>
-                    )
-                }
-            </div>
-        </section>
 
-        <!-- Cost to Study Table -->
-        <section class="country-section table-section">
-            <div class="container">
-                <h2 class="section-title" itemprop="name">
-                    {country?.data.cost_to_study_table.title}
-                </h2>
-                {
-                    country?.data.cost_to_study_table.starting_description && (
-                        <p>
-                            {
-                                country?.data.cost_to_study_table
-                                    .starting_description
-                            }
-                        </p>
-                    )
-                }
-
-                <div class="responsive-table">
-                    <table itemprop="costToStudy">
-                        <thead>
-                            <tr>
-                                {
-                                    country?.data.cost_to_study_table.headings.map(
-                                        (heading, index) => <th>{heading}</th>,
-                                    )
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                country?.data.cost_to_study_table.table_data.map(
-                                    (row, index) => (
-                                        <tr
-                                            itemprop="itemListElement"
-                                            itemscope
-                                            itemtype="https://schema.org/ListItem"
+                        {
+                            countryUniversities.length > 0 ? (
+                                <div class="universities-grid">
+                                    {countryUniversities.map((uni) => (
+                                        <a
+                                            href={`/universities/${uni.slug}`}
+                                            class="university-compact-card"
                                         >
-                                            <td itemprop="program">
-                                                {row.programs}
-                                            </td>
-                                            <td itemprop="price">
-                                                {row.tuition_fees}
-                                            </td>
-                                        </tr>
-                                    ),
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                            <div class="uni-image">
+                                                <img
+                                                    src={
+                                                        uni.image_url ||
+                                                        "/images/university-default.jpg"
+                                                    }
+                                                    alt={uni.name}
+                                                />
+                                            </div>
+                                            <div class="uni-info">
+                                                <h3>{uni.name}</h3>
+                                                <div class="uni-meta">
+                                                    <span class="location">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="14"
+                                                            height="14"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            stroke-width="2"
+                                                        >
+                                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                                            <circle cx="12" cy="10" r="3" />
+                                                        </svg>
+                                                        {uni.city}
+                                                    </span>
+                                                    <span class="fee">
+                                                        ${uni.min_fee}K - ${uni.max_fee}K/year
+                                                    </span>
+                                                </div>
+                                                <div class="uni-tags">
+                                                    {uni.degrees.slice(0, 3).map((degree) => (
+                                                        <span class="tag">{degree}</span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p class="no-universities">
+                                    No universities data available for {countryName} at the
+                                    moment.
+                                </p>
+                            )
+                        }
+                    </section>
 
-                {
-                    country?.data.cost_to_study_table.ending_description && (
-                        <p>
-                            {
-                                country?.data.cost_to_study_table
-                                    .ending_description
-                            }
-                        </p>
-                    )
-                }
-            </div>
-        </section>
+                    <!-- Cost Information -->
+                    {
+                        countryData?.cost_to_study_table && (
+                            <section class="detail-section">
+                                <h2>{countryData.cost_to_study_table.title}</h2>
+                                <p>{countryData.cost_to_study_table.starting_description}</p>
 
-        <!-- Language Requirements Table -->
-        <section class="country-section table-section">
-            <div class="container">
-                <h2 class="section-title" itemprop="name">
-                    {country?.data.language_score_requirements_table.title}
-                </h2>
-                {
-                    country?.data.language_score_requirements_table
-                        .starting_description && (
-                        <p>
-                            {
-                                country?.data.language_score_requirements_table
-                                    .starting_description
-                            }
-                        </p>
-                    )
-                }
+                                <div class="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                {countryData.cost_to_study_table.headings.map(
+                                                    (heading) => (
+                                                        <th>{heading}</th>
+                                                    )
+                                                )}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {countryData.cost_to_study_table.table_data.map(
+                                                (row) => (
+                                                    <tr>
+                                                        <td>{row.programs}</td>
+                                                        <td>{row.tuition_fees}</td>
+                                                    </tr>
+                                                )
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                <div class="responsive-table">
-                    <table itemprop="languageRequirements">
-                        <thead>
-                            <tr>
+                                <p class="table-note">
+                                    {countryData.cost_to_study_table.ending_description}
+                                </p>
+                            </section>
+                        )
+                    }
+
+                    <!-- Language Requirements -->
+                    {
+                        countryData?.language_score_requirements_table && (
+                            <section class="detail-section">
+                                <h2>
+                                    {countryData.language_score_requirements_table.title}
+                                </h2>
+                                <p>
+                                    {
+                                        countryData.language_score_requirements_table
+                                            .starting_description
+                                    }
+                                </p>
+
+                                <div class="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                {countryData.language_score_requirements_table.headings.map(
+                                                    (heading) => (
+                                                        <th>{heading}</th>
+                                                    )
+                                                )}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {countryData.language_score_requirements_table.table_data.map(
+                                                (row) => (
+                                                    <tr>
+                                                        <td>{row.test}</td>
+                                                        <td>{row.diploma}</td>
+                                                        <td>{row.undergraduate}</td>
+                                                        <td>{row.graduate}</td>
+                                                    </tr>
+                                                )
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p class="table-note">
+                                    {
+                                        countryData.language_score_requirements_table
+                                            .ending_description
+                                    }
+                                </p>
+                            </section>
+                        )
+                    }
+
+                    <!-- Required Documents -->
+                    {
+                        countryData?.required_documents && (
+                            <section class="detail-section">
+                                <h2>{countryData.required_documents.title}</h2>
+                                <p>
+                                    {countryData.required_documents.starting_description}
+                                </p>
+
+                                <div class="documents-grid">
+                                    {countryData.required_documents.documents.map((doc) => (
+                                        <div class="document-card">
+                                            <h4>{doc.document_title}</h4>
+                                            <p>{doc.document_info}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <p class="note">
+                                    {countryData.required_documents.ending_description}
+                                </p>
+                            </section>
+                        )
+                    }
+
+                    <!-- Conclusion -->
+                    {
+                        countryData?.conclusion && (
+                            <section class="detail-section">
+                                <h2>Ready to Start Your Journey?</h2>
+                                {countryData.conclusion.map((para) => (
+                                    <p>{para}</p>
+                                ))}
+                            </section>
+                        )
+                    }
+                </main>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-sticky">
+                        <!-- Quick Contact -->
+                        <div class="sidebar-card">
+                            <h3>Get Free Counseling</h3>
+                            <p>
+                                Connect with our experts to learn more about studying in{" "}
+                                {countryName}
+                            </p>
+
+                            <form class="contact-form">
+                                <input type="text" placeholder="Full Name" required />
+                                <input type="email" placeholder="Email Address" required />
+                                <input type="tel" placeholder="Phone Number" required />
+                                <select required>
+                                    <option value="">Select Program Level</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="bachelor">Bachelor's</option>
+                                    <option value="master">Master's</option>
+                                    <option value="phd">PhD</option>
+                                </select>
+                                <textarea placeholder="Your Message" rows="3"></textarea>
+                                <button type="submit" class="btn-primary">
+                                    Request Consultation
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        {
+                            countryUniversities.length > 0 && (
+                                <div class="sidebar-card">
+                                    <h3>Quick Facts</h3>
+                                    <div class="stats-list">
+                                        <div class="stat-item">
+                                            <span class="stat-label">Universities</span>
+                                            <span class="stat-value">
+                                                {countryUniversities.length}+
+                                            </span>
+                                        </div>
+                                        {cities.length > 0 && (
+                                            <div class="stat-item">
+                                                <span class="stat-label">Major Cities</span>
+                                                <span class="stat-value">{cities.length}</span>
+                                            </div>
+                                        )}
+                                        <div class="stat-item">
+                                            <span class="stat-label">Study Levels</span>
+                                            <span class="stat-value">All Levels</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+
+                        <!-- Other Countries -->
+                        <div class="sidebar-card">
+                            <h3>Other Destinations</h3>
+                            <div class="other-countries">
                                 {
-                                    country?.data.language_score_requirements_table.headings.map(
-                                        (heading, index) => <th>{heading}</th>,
-                                    )
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                country?.data.language_score_requirements_table.table_data.map(
-                                    (row, index) => (
-                                        <tr
-                                            itemprop="itemListElement"
-                                            itemscope
-                                            itemtype="https://schema.org/ListItem"
+                                    otherCountries.map((country) => (
+                                        <a
+                                            href={`/study_abroad/${country.data.slug}`}
+                                            class="country-mini-card"
                                         >
-                                            <td itemprop="testType">
-                                                {row.test}
-                                            </td>
-                                            <td itemprop="diplomaScore">
-                                                {row.diploma}
-                                            </td>
-                                            <td itemprop="undergraduateScore">
-                                                {row.undergraduate}
-                                            </td>
-                                            <td itemprop="graduateScore">
-                                                {row.graduate}
-                                            </td>
-                                        </tr>
-                                    ),
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-                {
-                    country?.data.language_score_requirements_table
-                        .ending_description && (
-                        <p>
-                            {
-                                country?.data.language_score_requirements_table
-                                    .ending_description
-                            }
-                        </p>
-                    )
-                }
-            </div>
-        </section>
-
-        <!-- Courses and Cost Table -->
-        <section class="country-section table-section">
-            <div class="container">
-                <h2 class="section-title" itemprop="name">
-                    {country?.data.courses_and_cost_table.title}
-                </h2>
-                {
-                    country?.data.courses_and_cost_table
-                        .starting_description && (
-                        <p>
-                            {
-                                country?.data.courses_and_cost_table
-                                    .starting_description
-                            }
-                        </p>
-                    )
-                }
-
-                <div class="responsive-table">
-                    <table itemprop="coursesAndCost">
-                        <thead>
-                            <tr>
-                                {
-                                    country?.data.courses_and_cost_table.headings.map(
-                                        (heading, index) => <th>{heading}</th>,
-                                    )
+                                            <img
+                                                src={
+                                                    country.data.featured_image.url ||
+                                                    "/images/country-default.jpg"
+                                                }
+                                                alt={country.country}
+                                            />
+                                            <span>{country.country}</span>
+                                        </a>
+                                    ))
                                 }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                country?.data.courses_and_cost_table.table_data.map(
-                                    (row, index) => (
-                                        <tr
-                                            itemprop="itemListElement"
-                                            itemscope
-                                            itemtype="https://schema.org/ListItem"
-                                        >
-                                            <td itemprop="courseName">
-                                                {row.course}
-                                            </td>
-                                            <td itemprop="courseFee">
-                                                {row.tuition_fees}
-                                            </td>
-                                            <td itemprop="universities">
-                                                <ul class="university-list">
-                                                    {row.popular_universities.map(
-                                                        (uni, uniIndex) => (
-                                                            <li>{uni}</li>
-                                                        ),
-                                                    )}
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    ),
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-                {
-                    country?.data.courses_and_cost_table.ending_description && (
-                        <p>
-                            {
-                                country?.data.courses_and_cost_table
-                                    .ending_description
-                            }
-                        </p>
-                    )
-                }
+                            </div>
+                        </div>
+                    </div>
+                </aside>
             </div>
-        </section>
-
-        <!-- Conclusion Section -->
-        <section class="country-section conclusion-section">
-            <div class="container">
-                <h2 class="section-title">Final Thoughts</h2>
-                {
-                    country?.data.conclusion.map((paragraph, index) => (
-                        <p>{paragraph}</p>
-                    ))
-                }
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="country-cta">
-            <div class="container">
-                <h2>Ready to start your journey to {country?.country}?</h2>
-                <p>
-                    Contact our expert consultants today for personalized
-                    guidance.
-                </p>
-                <a href="/contact" class="cta-button">Get Free Consultation</a>
-            </div>
-        </section>
-    </article>
+        </div>
+    </div>
 </Layout>
+
+<style lang="scss">
+    @use "../../styles/variables" as *;
+
+    .country-detail-page {
+        min-height: 100vh;
+        background: white;
+        padding: 2rem 0;
+    }
+
+    .content-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 3rem);
+    }
+
+    .detail-layout {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 2.5rem;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Main Content */
+    .main-content {
+        min-width: 0;
+    }
+
+    .country-header {
+        margin-bottom: 2.5rem;
+
+        .country-image {
+            width: 100%;
+            height: 350px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .country-info {
+            h1 {
+                font-size: clamp(2rem, 4vw, 3rem);
+                color: $text-primary-color;
+                margin-bottom: 0.75rem;
+                line-height: 1.2;
+            }
+
+            .subtitle {
+                font-size: 1.15rem;
+                color: $text-gray;
+                margin: 0;
+            }
+        }
+    }
+
+    .detail-section {
+        margin-bottom: 3rem;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid #e5e7eb;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: $text-primary-color;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: $text-gray;
+            margin-bottom: 1rem;
+        }
+
+        .note,
+        .table-note {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: $text-gray;
+            font-style: italic;
+        }
+    }
+
+    .cities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+
+        .city-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 6px;
+            border-left: 3px solid $primary-color;
+
+            svg {
+                color: $primary-color;
+                flex-shrink: 0;
+            }
+
+            span {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: $text-primary-color;
+            }
+        }
+    }
+
+    .universities-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .university-compact-card {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &:hover {
+            border-color: $primary-color;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .uni-image {
+            flex-shrink: 0;
+
+            img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                border-radius: 6px;
+                background: #f9fafb;
+                padding: 0.5rem;
+            }
+        }
+
+        .uni-info {
+            flex: 1;
+            min-width: 0;
+
+            h3 {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: $text-primary-color;
+                margin: 0 0 0.5rem 0;
+                line-height: 1.3;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .uni-meta {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 0.5rem;
+                flex-wrap: wrap;
+
+                .location,
+                .fee {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                    font-size: 0.8rem;
+                    color: $text-gray;
+                }
+
+                svg {
+                    flex-shrink: 0;
+                }
+
+                .fee {
+                    font-weight: 600;
+                    color: $primary-color;
+                }
+            }
+
+            .uni-tags {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+
+                .tag {
+                    padding: 0.25rem 0.6rem;
+                    background: #e0f2fe;
+                    color: $primary-color;
+                    border-radius: 4px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    .no-universities {
+        padding: 2rem;
+        text-align: center;
+        background: #f9fafb;
+        border-radius: 8px;
+        color: $text-gray;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        margin: 1.5rem 0;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+
+            thead {
+                background: #f9fafb;
+
+                th {
+                    padding: 1rem;
+                    text-align: left;
+                    font-weight: 700;
+                    color: $text-primary-color;
+                    font-size: 0.9rem;
+                    border-bottom: 2px solid #e5e7eb;
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid #e5e7eb;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    &:hover {
+                        background: #f9fafb;
+                    }
+                }
+
+                td {
+                    padding: 1rem;
+                    font-size: 0.9rem;
+                    color: $text-gray;
+                }
+            }
+        }
+    }
+
+    .documents-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+
+        .document-card {
+            padding: 1.25rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 3px solid $primary-color;
+
+            h4 {
+                font-size: 0.95rem;
+                font-weight: 700;
+                color: $text-primary-color;
+                margin: 0 0 0.5rem 0;
+            }
+
+            p {
+                font-size: 0.9rem;
+                color: $text-gray;
+                margin: 0;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    /* Sidebar */
+    .sidebar {
+        @media (max-width: 1024px) {
+            display: none;
+        }
+    }
+
+    .sidebar-sticky {
+        position: sticky;
+        top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .sidebar-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+
+        h3 {
+            font-size: 1.15rem;
+            color: $text-primary-color;
+            margin: 0 0 0.5rem 0;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: $text-gray;
+            margin: 0 0 1.5rem 0;
+        }
+    }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        input,
+        select,
+        textarea {
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+            }
+        }
+
+        .btn-primary {
+            padding: 0.875rem;
+            background: $primary-color;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+
+            &:hover {
+                background: darken($primary-color, 10%);
+            }
+        }
+    }
+
+    .stats-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+                color: $text-gray;
+            }
+
+            .stat-value {
+                font-size: 0.95rem;
+                font-weight: 700;
+                color: $text-primary-color;
+            }
+        }
+    }
+
+    .other-countries {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .country-mini-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 6px;
+            text-decoration: none;
+            color: $text-primary-color;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: #f1f5f9;
+                transform: translateX(4px);
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 4px;
+                flex-shrink: 0;
+            }
+
+            span {
+                font-size: 0.9rem;
+                font-weight: 600;
+                line-height: 1.3;
+            }
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector(".contact-form") as HTMLFormElement;
+
+        form?.addEventListener("submit", function (e) {
+            e.preventDefault();
+            alert("Thank you for your interest! We'll contact you soon.");
+            if (form) form.reset();
+        });
+    });
+</script>

@@ -1,0 +1,302 @@
+[
+    {
+        "id": 1,
+        "name": "Master of Business Administration (MBA)",
+        "slug": "mba-business-administration",
+        "field": "Business",
+        "degree": "Master's",
+        "duration": "1-2 years",
+        "countries": ["USA", "UK", "Canada", "Australia"],
+        "description": "Comprehensive program covering all aspects of business management, leadership, and strategic decision-making.",
+        "average_tuition": "NPR 3,500,000 - NPR 6,000,000",
+        "career_prospects": [
+            "Business Manager",
+            "Management Consultant",
+            "Financial Analyst",
+            "Marketing Manager"
+        ],
+        "popular_universities": [
+            "Harvard Business School",
+            "Stanford Graduate School of Business",
+            "London Business School",
+            "INSEAD"
+        ],
+        "entry_requirements": {
+            "academic": "Bachelor's degree with minimum 3.0 GPA",
+            "work_experience": "2-5 years",
+            "test_scores": "GMAT 600+ or GRE equivalent",
+            "language": "IELTS 6.5 or TOEFL 90+"
+        },
+        "image_url": "/images/courses/mba.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Bachelor of Computer Science",
+        "slug": "bachelor-computer-science",
+        "field": "Computer Science & IT",
+        "degree": "Bachelor's",
+        "duration": "3-4 years",
+        "countries": ["USA", "Canada", "UK", "Australia", "Germany"],
+        "description": "Foundational program in programming, algorithms, software development, and computer systems.",
+        "average_tuition": "NPR 2,500,000 - NPR 5,000,000",
+        "career_prospects": [
+            "Software Developer",
+            "Data Scientist",
+            "Systems Analyst",
+            "IT Consultant"
+        ],
+        "popular_universities": [
+            "MIT",
+            "Stanford University",
+            "University of Cambridge",
+            "ETH Zurich"
+        ],
+        "entry_requirements": {
+            "academic": "High school diploma with strong math and science",
+            "work_experience": "Not required",
+            "test_scores": "SAT/ACT for US universities",
+            "language": "IELTS 6.0 or TOEFL 80+"
+        },
+        "image_url": "/images/courses/computer-science.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Bachelor of Engineering (Civil)",
+        "slug": "bachelor-civil-engineering",
+        "field": "Engineering",
+        "degree": "Bachelor's",
+        "duration": "4 years",
+        "countries": ["USA", "UK", "Canada", "Australia", "Germany"],
+        "description": "Comprehensive engineering program focusing on infrastructure, construction, and project management.",
+        "average_tuition": "NPR 2,800,000 - NPR 5,500,000",
+        "career_prospects": [
+            "Civil Engineer",
+            "Structural Engineer",
+            "Project Manager",
+            "Construction Manager"
+        ],
+        "popular_universities": [
+            "MIT",
+            "Imperial College London",
+            "University of Toronto",
+            "TU Munich"
+        ],
+        "entry_requirements": {
+            "academic": "High school with strong performance in math and physics",
+            "work_experience": "Not required",
+            "test_scores": "SAT/ACT for US, A-levels for UK",
+            "language": "IELTS 6.0 or TOEFL 79+"
+        },
+        "image_url": "/images/courses/civil-engineering.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Master of Data Science",
+        "slug": "master-data-science",
+        "field": "Computer Science & IT",
+        "degree": "Master's",
+        "duration": "1-2 years",
+        "countries": ["USA", "UK", "Canada", "Australia"],
+        "description": "Advanced program in data analysis, machine learning, statistical modeling, and big data technologies.",
+        "average_tuition": "NPR 3,000,000 - NPR 5,500,000",
+        "career_prospects": [
+            "Data Scientist",
+            "Machine Learning Engineer",
+            "Business Intelligence Analyst",
+            "AI Researcher"
+        ],
+        "popular_universities": [
+            "Carnegie Mellon University",
+            "UC Berkeley",
+            "University of Toronto",
+            "University of Melbourne"
+        ],
+        "entry_requirements": {
+            "academic": "Bachelor's in related field with 3.0+ GPA",
+            "work_experience": "1-2 years preferred",
+            "test_scores": "GRE 310+ recommended",
+            "language": "IELTS 6.5 or TOEFL 90+"
+        },
+        "image_url": "/images/courses/data-science.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Bachelor of Nursing",
+        "slug": "bachelor-nursing",
+        "field": "Healthcare",
+        "degree": "Bachelor's",
+        "duration": "3-4 years",
+        "countries": ["USA", "UK", "Canada", "Australia", "New Zealand"],
+        "description": "Professional nursing program preparing students for registered nurse positions in healthcare settings.",
+        "average_tuition": "NPR 2,500,000 - NPR 4,500,000",
+        "career_prospects": [
+            "Registered Nurse",
+            "Clinical Nurse",
+            "Nurse Practitioner",
+            "Healthcare Manager"
+        ],
+        "popular_universities": [
+            "Johns Hopkins University",
+            "University of Toronto",
+            "University of Sydney",
+            "King's College London"
+        ],
+        "entry_requirements": {
+            "academic": "High school diploma with science background",
+            "work_experience": "Not required",
+            "test_scores": "Varies by institution",
+            "language": "IELTS 6.5-7.0 or TOEFL 85+"
+        },
+        "image_url": "/images/courses/nursing.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Master of Public Health (MPH)",
+        "slug": "master-public-health",
+        "field": "Healthcare",
+        "degree": "Master's",
+        "duration": "1-2 years",
+        "countries": ["USA", "UK", "Canada", "Australia"],
+        "description": "Graduate program focusing on population health, epidemiology, health policy, and disease prevention.",
+        "average_tuition": "NPR 3,200,000 - NPR 5,800,000",
+        "career_prospects": [
+            "Public Health Specialist",
+            "Epidemiologist",
+            "Health Policy Analyst",
+            "Community Health Director"
+        ],
+        "popular_universities": [
+            "Harvard T.H. Chan School of Public Health",
+            "Johns Hopkins Bloomberg School",
+            "London School of Hygiene",
+            "University of Toronto"
+        ],
+        "entry_requirements": {
+            "academic": "Bachelor's degree in any field",
+            "work_experience": "1-2 years in health sector preferred",
+            "test_scores": "GRE recommended",
+            "language": "IELTS 7.0 or TOEFL 100+"
+        },
+        "image_url": "/images/courses/public-health.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Bachelor of Hospitality Management",
+        "slug": "bachelor-hospitality-management",
+        "field": "Hospitality & Tourism",
+        "degree": "Bachelor's",
+        "duration": "3-4 years",
+        "countries": ["Switzerland", "Australia", "USA", "UK", "Singapore"],
+        "description": "Comprehensive program in hotel management, tourism operations, and hospitality industry practices.",
+        "average_tuition": "NPR 2,000,000 - NPR 4,500,000",
+        "career_prospects": [
+            "Hotel Manager",
+            "Event Coordinator",
+            "Restaurant Manager",
+            "Tourism Director"
+        ],
+        "popular_universities": [
+            "Ecole hôtelière de Lausanne",
+            "Les Roches",
+            "Blue Mountains",
+            "Cornell University"
+        ],
+        "entry_requirements": {
+            "academic": "High school diploma",
+            "work_experience": "Not required",
+            "test_scores": "Varies by institution",
+            "language": "IELTS 6.0 or TOEFL 80+"
+        },
+        "image_url": "/images/courses/hospitality.jpg"
+    },
+    {
+        "id": 8,
+        "name": "Master of Finance",
+        "slug": "master-finance",
+        "field": "Business",
+        "degree": "Master's",
+        "duration": "1-2 years",
+        "countries": ["USA", "UK", "Canada", "Singapore"],
+        "description": "Advanced program in financial analysis, investment management, and corporate finance.",
+        "average_tuition": "NPR 3,500,000 - NPR 6,500,000",
+        "career_prospects": [
+            "Financial Analyst",
+            "Investment Banker",
+            "Portfolio Manager",
+            "Risk Manager"
+        ],
+        "popular_universities": [
+            "MIT Sloan",
+            "London Business School",
+            "University of Toronto",
+            "NUS Business School"
+        ],
+        "entry_requirements": {
+            "academic": "Bachelor's degree with strong quantitative background",
+            "work_experience": "1-3 years preferred",
+            "test_scores": "GMAT 650+ or GRE equivalent",
+            "language": "IELTS 7.0 or TOEFL 100+"
+        },
+        "image_url": "/images/courses/finance.jpg"
+    },
+    {
+        "id": 9,
+        "name": "Bachelor of Psychology",
+        "slug": "bachelor-psychology",
+        "field": "Social Sciences",
+        "degree": "Bachelor's",
+        "duration": "3-4 years",
+        "countries": ["USA", "UK", "Canada", "Australia"],
+        "description": "Study of human behavior, mental processes, and psychological research methods.",
+        "average_tuition": "NPR 2,200,000 - NPR 4,000,000",
+        "career_prospects": [
+            "Clinical Psychologist",
+            "Counselor",
+            "HR Specialist",
+            "Research Analyst"
+        ],
+        "popular_universities": [
+            "Stanford University",
+            "Yale University",
+            "University of Toronto",
+            "University of Melbourne"
+        ],
+        "entry_requirements": {
+            "academic": "High school diploma",
+            "work_experience": "Not required",
+            "test_scores": "SAT/ACT for US universities",
+            "language": "IELTS 6.5 or TOEFL 85+"
+        },
+        "image_url": "/images/courses/psychology.jpg"
+    },
+    {
+        "id": 10,
+        "name": "Master of Architecture",
+        "slug": "master-architecture",
+        "field": "Architecture & Design",
+        "degree": "Master's",
+        "duration": "2-3 years",
+        "countries": ["USA", "UK", "Australia", "Germany"],
+        "description": "Advanced professional degree in architectural design, urban planning, and sustainable building.",
+        "average_tuition": "NPR 3,000,000 - NPR 5,500,000",
+        "career_prospects": [
+            "Architect",
+            "Urban Planner",
+            "Design Consultant",
+            "Project Architect"
+        ],
+        "popular_universities": [
+            "MIT",
+            "Harvard GSD",
+            "TU Delft",
+            "University of Melbourne"
+        ],
+        "entry_requirements": {
+            "academic": "Bachelor's in architecture or related field",
+            "work_experience": "Portfolio required",
+            "test_scores": "GRE recommended",
+            "language": "IELTS 6.5 or TOEFL 90+"
+        },
+        "image_url": "/images/courses/architecture.jpg"
+    }
+]

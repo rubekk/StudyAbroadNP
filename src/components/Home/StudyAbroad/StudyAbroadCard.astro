@@ -1,22 +1,148 @@
 ---
-import { Image } from "astro:assets";
-import NewZealandImage from "../../../assets/new-zealand.jpeg";
 import type { CountryCard } from "@/lib/types/country";
 import { routes } from "@/lib/routes";
 
 const { studyAbroadCardData } = Astro.props as {
   studyAbroadCardData: CountryCard;
 };
+
+// Use placeholder image if none provided
+const countryImage = `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80`;
 ---
 
-<div class="card study-abroad">
-  <div class="img">
-    <Image src={NewZealandImage} alt="" />
-  </div>
+<article class="destination-card">
+  <a href={routes.STUDY_ABROAD + "/" + studyAbroadCardData.data.slug} class="card-link">
+    <div class="card-image">
+      <img src={countryImage} alt={studyAbroadCardData.country} loading="lazy" />
+      <div class="card-overlay"></div>
+    </div>
+    
+    <div class="card-content">
+      <h3>{studyAbroadCardData.country}</h3>
+      <div class="arrow-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </div>
+    </div>
+  </a>
+</article>
 
-  <h3 class="name">
-    <a href={routes.STUDY_ABROAD + "/" + studyAbroadCardData.data.slug}
-      >{studyAbroadCardData.country}</a
-    >
-  </h3>
-</div>
+<style lang="scss">
+@use '../../../styles/variables' as *;
+
+.destination-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 280px;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+    .card-image img {
+      transform: scale(1.1);
+    }
+
+    .card-overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .arrow-icon {
+      transform: translateX(5px);
+    }
+  }
+}
+
+.card-link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: white;
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  transition: background 0.3s ease;
+}
+
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 700;
+    color: white;
+  }
+}
+
+.arrow-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+
+  svg {
+    color: white;
+  }
+}
+
+@media (max-width: 768px) {
+  .destination-card {
+    height: 240px;
+  }
+
+  .card-content {
+    padding: 1.25rem;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .arrow-icon {
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+</style>

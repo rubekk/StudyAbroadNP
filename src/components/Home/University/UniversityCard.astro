@@ -44,6 +44,13 @@ const { universityCardData } = Astro.props as {
         <Icon name="clock" />
         <span>3 years - 4 years</span>
       </div>
+      
+      <a href={routes.UNIVERSITIES + "/" + universityCardData.slug} class="view-details">
+        View Details
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
     </div>
   </div>
 </div>

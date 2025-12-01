@@ -1,28 +1,40 @@
 ---
-import { Icon } from "astro-icon/components";
-import ConsultancyCard from "./ConsultancyCard.astro";
-import { getAllUniversities } from "@/lib/fetch/universities";
 import { routes } from "@/lib/routes";
+import consultanciesData from "@/lib/data/consultancies.json";
+import ConsultancyCard from "./ConsultancyCard.astro";
 
-const universitiesRes = await getAllUniversities();
-const universities = universitiesRes.data;
+const featuredConsultancies = consultanciesData.slice(0, 4);
 ---
 
-<section class="section-university">
-  <h2 class="section-title">Popular Consultancies</h2>
+<section class="section-consultancies">
+  <div class="section-container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Trusted Education Consultancies</h2>
+        <p class="section-subtitle">
+          Work with Nepal's leading education consultants
+        </p>
+      </div>
+      <a href={routes.CONSULTANCIES} class="view-all-btn">
+        View All Consultancies
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
 
-  <div class="section-inner">
-    {
-      universities?.map((university) => {
-        return <ConsultancyCard universityCardData={university} />;
-      })
-    }
+    <div class="section-inner">
+      {
+        featuredConsultancies.map((consultancy) => (
+          <ConsultancyCard
+            name={consultancy.name}
+            location={consultancy.location}
+            slug={consultancy.slug}
+            image_url={consultancy.image_url}
+            countries={consultancy.countries}
+          />
+        ))
+      }
+    </div>
   </div>
-
-  <button>
-    <a href={routes.UNIVERSITIES}>
-      View all Consultancies
-      <Icon size={25} name="arrowRight" />
-    </a>
-  </button>
 </section>

@@ -2,17 +2,55 @@
 import "./../styles/homepage.scss";
 
 import Layout from "../layouts/Layout.astro";
-import Hero from "../components/Home/Hero.astro";
-import Specialization from "../components/Home/Specialization/Specialization.astro";
+import SEO from "../components/SEO.astro";
+import Hero from "../components/Home/Hero/Hero.astro";
 import University from "../components/Home/University/University.astro";
 import StudyAbroad from "../components/Home/StudyAbroad/StudyAbroad.astro";
+import CourseCard from "../components/CourseCard.astro";
+
+import coursesData from "../lib/data/courses.json";
 import Consultancy from "@/components/Home/Consultancy/Consultancy.astro";
+import Courses from "@/components/Home/Courses/Courses.astro";
+
+const pageTitle = "StudyAbroadNP - Your Gateway to Global Education";
+const pageDescription =
+  "Discover top universities, courses, consultancies, and scholarships for Nepali students. Expert guidance for studying in USA, UK, Canada, Australia, and more.";
+
+const featuredCourses = coursesData.slice(0, 3);
+
+const homepageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "StudyAbroadNP",
+  url: Astro.site,
+  description: pageDescription,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${Astro.site}search?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
 ---
 
-<Layout>
+<Layout title={pageTitle} description={pageDescription}>
+  <SEO
+    slot="head"
+    title={pageTitle}
+    description={pageDescription}
+    keywords="study abroad Nepal, overseas education, international universities, student consultancy Nepal"
+    structuredData={homepageSchema}
+  />
+
   <Hero />
+
   <Consultancy />
-  <University />
-  <Specialization />
+
   <StudyAbroad />
+
+  <Courses />
+
+  <University />
 </Layout>

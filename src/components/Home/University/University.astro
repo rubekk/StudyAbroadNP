@@ -9,20 +9,23 @@ const universities = universitiesRes.data;
 ---
 
 <section class="section-university">
-  <h2 class="section-title">Popular Universities</h2>
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Popular Universities</h2>
+      <a href={routes.UNIVERSITIES} class="view-all-btn">
+        View All Universities
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
 
-  <div class="section-inner">
-    {
-      universities?.map((university) => {
-        return <UniversityCard universityCardData={university} />;
-      })
-    }
+    <div class="section-inner">
+      {
+        universities?.map((university) => {
+          return <UniversityCard universityCardData={university} />;
+        })
+      }
+    </div>
   </div>
-
-  <button>
-    <a href={routes.UNIVERSITIES}>
-      View all Universities
-      <Icon size={25} name="arrowRight" />
-    </a>
-  </button>
 </section>

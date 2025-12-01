@@ -1,5 +1,4 @@
 ---
-import { Icon } from "astro-icon/components";
 import StudyAbroadCard from "./StudyAbroadCard.astro";
 import { getAllCountries } from "@/lib/fetch/countries";
 import { routes } from "@/lib/routes";
@@ -8,21 +7,53 @@ const countriesRes = await getAllCountries();
 const countries = countriesRes.data;
 ---
 
-<section class="section-study-abroad">
-  <h2 class="section-title">Study Abroad Destinations</h2>
+<section class="section-destinations">
+  <div class="section-container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Popular Destinations</h2>
+        <p class="section-subtitle">Discover top study abroad destinations for Nepali students</p>
+      </div>
+      <a href={routes.STUDY_ABROAD} class="view-all-btn">
+        View All Destinations
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
 
-  <div class="section-inner">
-    {
-      countries?.map((country) => {
+    <div class="destinations-grid">
+      {countries?.map((country) => {
         return <StudyAbroadCard studyAbroadCardData={country} />;
-      })
-    }
+      })}
+    </div>
   </div>
-
-  <button>
-    <a href={routes.STUDY_ABROAD}>
-      View all Destinations
-      <Icon size={25} name="arrowRight" />
-    </a>
-  </button>
 </section>
+
+<style lang="scss">
+@use '../../../styles/variables' as *;
+
+.section-destinations {
+  background: #fafafa;
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .destinations-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .destinations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

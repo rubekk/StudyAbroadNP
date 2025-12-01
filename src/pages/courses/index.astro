@@ -2,13 +2,11 @@
 import "../../styles/universities.scss";
 
 import Layout from "../../layouts/Layout.astro";
-import UniversitiesFilter from "../../components/Svelte/Filters/UniversitiesFilter.svelte";
-import UniversitiesList from "../../components/Svelte/UniversitiesList.svelte";
-import UniversitiesFilterValue from "../../components/Svelte/UniversityFilterValue.svelte";
+import CoursesFilter from "../../components/Svelte/Filters/CoursesFilter.svelte";
+import CoursesList from "../../components/Svelte/CoursesList.svelte";
 
-const pageTitle = "Top Universities Worldwide | Filter & Explore";
-const pageDescription =
-	"Discover top universities around the world. Use filters to find the best fit for your academic goals.";
+const pageTitle = "Study Abroad Courses & Programs | StudyAbroadNP";
+const pageDescription = "Explore thousands of courses and programs offered by top universities worldwide. Find the perfect course for your career goals.";
 ---
 
 <Layout
@@ -26,7 +24,7 @@ const pageDescription =
 					<span class="filter-count" id="filterCount">0</span>
 				</button>
 				<div class="results-summary">
-					<UniversitiesFilterValue client:load />
+					<span>All Courses</span>
 				</div>
 			</div>
 
@@ -38,13 +36,13 @@ const pageDescription =
 						<h2>Filters</h2>
 						<button class="clear-filters-btn" id="clearFilters">Clear All</button>
 					</div>
-					<UniversitiesFilter client:load />
+					<CoursesFilter client:load />
 				</aside>
 
-				<!-- Universities List -->
+				<!-- Courses List -->
 				<main class="universities-main-content">
 					<div class="universities-list-container">
-						<UniversitiesList client:load />
+						<CoursesList client:load />
 					</div>
 				</main>
 			</div>

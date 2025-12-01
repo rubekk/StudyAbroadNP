@@ -1,0 +1,729 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import coursesData from "../../lib/data/courses.json";
+
+export const getStaticPaths = (async () => {
+    return coursesData.map((course) => ({
+        params: { slug: course.slug },
+    }));
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const course = coursesData.find((c) => c.slug === slug);
+
+// Get related courses (same field, different courses)
+const relatedCourses = coursesData
+    .filter((c) => c.field === course?.field && c.slug !== slug)
+    .slice(0, 6);
+
+const pageTitle = `${course?.name} - Study ${course?.field} Abroad | StudyAbroadNp`;
+const pageDescription = `${course?.description} Learn about ${course?.name} program details, requirements, tuition fees, and career prospects.`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <div class="course-detail-page">
+        <div class="content-container">
+            <div class="detail-layout">
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Course Header -->
+                    <div class="course-header">
+                        <div class="course-image">
+                            <img
+                                src={course?.image_url || "/images/course-default.jpg"}
+                                alt={course?.name}
+                            />
+                        </div>
+                        <div class="course-info">
+                            <div class="course-meta-badges">
+                                <span class="field-badge">{course?.field}</span>
+                                <span class="degree-badge">{course?.degree}</span>
+                            </div>
+                            <h1>{course?.name}</h1>
+                            <p class="course-description">{course?.description}</p>
+                            
+                            <div class="key-info">
+                                <div class="info-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span>{course?.duration}</span>
+                                </div>
+                                <div class="info-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                    <span>{course?.average_tuition}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Available In Countries -->
+                    <section class="detail-section">
+                        <h2>Available In</h2>
+                        <div class="countries-list">
+                            {course?.countries.map((country) => (
+                                <div class="country-chip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    <span>{country}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Entry Requirements -->
+                    <section class="detail-section">
+                        <h2>Entry Requirements</h2>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h3>Academic Qualifications</h3>
+                                <p>{course?.entry_requirements.academic}</p>
+                            </div>
+                            <div class="requirement-card">
+                                <h3>Work Experience</h3>
+                                <p>{course?.entry_requirements.work_experience}</p>
+                            </div>
+                            <div class="requirement-card">
+                                <h3>Test Scores</h3>
+                                <p>{course?.entry_requirements.test_scores}</p>
+                            </div>
+                            <div class="requirement-card">
+                                <h3>Language Proficiency</h3>
+                                <p>{course?.entry_requirements.language}</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Career Prospects -->
+                    <section class="detail-section">
+                        <h2>Career Prospects</h2>
+                        <p>
+                            Graduates of {course?.name} programs have excellent career opportunities
+                            in various sectors. Here are some of the most popular career paths:
+                        </p>
+                        <div class="careers-grid">
+                            {course?.career_prospects.map((career) => (
+                                <div class="career-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>{career}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Popular Universities -->
+                    <section class="detail-section">
+                        <h2>Top Universities Offering This Program</h2>
+                        <div class="universities-list">
+                            {course?.popular_universities.map((university) => (
+                                <div class="university-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                                    </svg>
+                                    <span>{university}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Why Choose This Program -->
+                    <section class="detail-section">
+                        <h2>Why Choose {course?.name}?</h2>
+                        <ul class="benefits-list">
+                            <li>Globally recognized degree with excellent career prospects</li>
+                            <li>Study at world-class universities in top destinations</li>
+                            <li>Gain practical skills and hands-on experience in {course?.field}</li>
+                            <li>Access to internships and job opportunities during and after study</li>
+                            <li>Network with industry professionals and fellow students worldwide</li>
+                            <li>Competitive salaries and career advancement opportunities</li>
+                        </ul>
+                    </section>
+
+                    <!-- Application Process -->
+                    <section class="detail-section">
+                        <h2>How to Apply</h2>
+                        <div class="process-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Research & Choose</h4>
+                                    <p>Research universities and select programs that match your goals</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Prepare Documents</h4>
+                                    <p>Gather transcripts, test scores, SOP, and recommendation letters</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Submit Application</h4>
+                                    <p>Complete online applications and pay application fees</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Receive Offer</h4>
+                                    <p>Wait for admission decision and accept your offer</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h4>Apply for Visa</h4>
+                                    <p>Apply for student visa and arrange accommodation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-sticky">
+                        <!-- Quick Inquiry -->
+                        <div class="sidebar-card">
+                            <h3>Interested in This Course?</h3>
+                            <p>Get personalized guidance from our education experts</p>
+                            
+                            <form class="inquiry-form">
+                                <input type="text" placeholder="Full Name" required />
+                                <input type="email" placeholder="Email Address" required />
+                                <input type="tel" placeholder="Phone Number" required />
+                                <select required>
+                                    <option value="">Preferred Country</option>
+                                    {course?.countries.map((country) => (
+                                        <option value={country}>{country}</option>
+                                    ))}
+                                </select>
+                                <textarea placeholder="Your Message" rows="3"></textarea>
+                                <button type="submit" class="btn-primary">Request Information</button>
+                            </form>
+                        </div>
+
+                        <!-- Course Summary -->
+                        <div class="sidebar-card">
+                            <h3>Course Summary</h3>
+                            <div class="summary-list">
+                                <div class="summary-item">
+                                    <span class="label">Field</span>
+                                    <span class="value">{course?.field}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Degree Level</span>
+                                    <span class="value">{course?.degree}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Duration</span>
+                                    <span class="value">{course?.duration}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Average Tuition</span>
+                                    <span class="value">{course?.average_tuition}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Related Courses -->
+                        {relatedCourses.length > 0 && (
+                            <div class="sidebar-card">
+                                <h3>Related Courses</h3>
+                                <div class="related-courses">
+                                    {relatedCourses.map((related) => (
+                                        <a href={`/courses/${related.slug}`} class="related-course-card">
+                                            <img src={related.image_url || "/images/course-default.jpg"} alt={related.name} />
+                                            <div class="related-info">
+                                                <h4>{related.name}</h4>
+                                                <span class="degree">{related.degree}</span>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.course-detail-page {
+    min-height: 100vh;
+    background: white;
+    padding: 2rem 0;
+}
+
+.content-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2.5rem;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Main Content */
+.main-content {
+    min-width: 0;
+}
+
+.course-header {
+    margin-bottom: 2.5rem;
+
+    .course-image {
+        width: 100%;
+        height: 350px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .course-info {
+        .course-meta-badges {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+
+            .field-badge,
+            .degree-badge {
+                padding: 0.4rem 0.9rem;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+
+            .field-badge {
+                background: #e0f2fe;
+                color: $primary-color;
+            }
+
+            .degree-badge {
+                background: #f0fdf4;
+                color: #16a34a;
+            }
+        }
+
+        h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: $text-primary-color;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .course-description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: $text-gray;
+            margin-bottom: 1.5rem;
+        }
+
+        .key-info {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+
+            .info-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                svg {
+                    color: $primary-color;
+                    flex-shrink: 0;
+                }
+
+                span {
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    color: $text-primary-color;
+                }
+            }
+        }
+    }
+}
+
+.detail-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        color: $text-primary-color;
+        margin-bottom: 1.25rem;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: $text-gray;
+        margin-bottom: 1rem;
+    }
+}
+
+.countries-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    .country-chip {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1rem;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+
+        svg {
+            color: $primary-color;
+            flex-shrink: 0;
+        }
+
+        span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $text-primary-color;
+        }
+    }
+}
+
+.requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+
+    .requirement-card {
+        padding: 1.25rem;
+        background: #f9fafb;
+        border-radius: 8px;
+        border-left: 3px solid $primary-color;
+
+        h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: $text-primary-color;
+            margin: 0 0 0.5rem 0;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: $text-gray;
+            margin: 0;
+            line-height: 1.5;
+        }
+    }
+}
+
+.careers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .career-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #f9fafb;
+        border-radius: 6px;
+
+        svg {
+            color: $primary-color;
+            flex-shrink: 0;
+        }
+
+        span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: $text-primary-color;
+        }
+    }
+}
+
+.universities-list {
+    display: grid;
+    gap: 0.75rem;
+
+    .university-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #f9fafb;
+        border-radius: 6px;
+        border-left: 3px solid $primary-color;
+
+        svg {
+            color: $primary-color;
+            flex-shrink: 0;
+        }
+
+        span {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: $text-primary-color;
+        }
+    }
+}
+
+.benefits-list {
+    padding-left: 1.5rem;
+    
+    li {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: $text-gray;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .step {
+        display: flex;
+        gap: 1.25rem;
+        align-items: flex-start;
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: $primary-color;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 0.25rem;
+
+            h4 {
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: $text-primary-color;
+                margin: 0 0 0.5rem 0;
+            }
+
+            p {
+                font-size: 0.95rem;
+                color: $text-gray;
+                margin: 0;
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+
+    h3 {
+        font-size: 1.15rem;
+        color: $text-primary-color;
+        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 0.9rem;
+        color: $text-gray;
+        margin: 0 0 1.5rem 0;
+    }
+}
+
+.inquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    input, select, textarea {
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-family: inherit;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+        }
+    }
+
+    .btn-primary {
+        padding: 0.875rem;
+        background: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: darken($primary-color, 10%);
+        }
+    }
+}
+
+.summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+        gap: 1rem;
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .label {
+            font-size: 0.85rem;
+            color: $text-gray;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $text-primary-color;
+            text-align: right;
+        }
+    }
+}
+
+.related-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .related-course-card {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: #f9fafb;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+
+        img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .related-info {
+            flex: 1;
+            min-width: 0;
+
+            h4 {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: $text-primary-color;
+                margin: 0 0 0.25rem 0;
+                line-height: 1.3;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .degree {
+                font-size: 0.75rem;
+                color: $text-gray;
+                font-weight: 500;
+            }
+        }
+    }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".inquiry-form") as HTMLFormElement;
+    
+    form?.addEventListener("submit", function (e) {
+        e.preventDefault();
+        alert("Thank you for your inquiry! We'll contact you soon.");
+        if (form) form.reset();
+    });
+});
+</script>

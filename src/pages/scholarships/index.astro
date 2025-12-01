@@ -1,0 +1,124 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Pagination from "../../components/Pagination.astro";
+import scholarshipsData from "../../lib/data/scholarships.json";
+
+const pageTitle = "Study Abroad Scholarships for Nepali Students | StudyAbroadNP";
+const pageDescription = "Discover scholarships and financial aid opportunities for Nepali students. Find fully-funded and partial scholarships for studying abroad.";
+
+// Pagination
+const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
+const itemsPerPage = 12;
+const totalPages = Math.ceil(scholarshipsData.length / itemsPerPage);
+const startIndex = (currentPage - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+const paginatedScholarships = scholarshipsData.slice(startIndex, endIndex);
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <!-- Scholarships Page -->
+  <section class="scholarships-page">
+    <div class="content-container">
+      <div class="page-header">
+        <h1>Scholarships & Financial Aid</h1>
+        <p class="results-count">Showing {paginatedScholarships.length} of {scholarshipsData.length} scholarships</p>
+      </div>
+
+      <!-- Scholarships Grid -->
+      <div class="scholarships-grid">
+        {paginatedScholarships.map((scholarship) => (
+          <article class="card scholarship">
+            <div class="scholarship-header">
+              <span class="country-badge">{scholarship.country}</span>
+              <div class="level-tags">
+                {scholarship.level.map((lvl: string) => (
+                  <span class="level-tag">{lvl}</span>
+                ))}
+              </div>
+            </div>
+            
+            <h3 class="title">
+              <a href={`/scholarships/${scholarship.slug}`}>{scholarship.name}</a>
+            </h3>
+            
+            <p class="provider">{scholarship.provider}</p>
+            
+            <p class="description">{scholarship.description}</p>
+            
+            <div class="scholarship-info">
+              <div class="info-item">
+                <span class="label">Amount:</span>
+                <span class="value amount">{scholarship.amount}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Deadline:</span>
+                <span class="value">{scholarship.deadline}</span>
+              </div>
+            </div>
+            
+            <a href={`/scholarships/${scholarship.slug}`} class="view-details">
+              View Details
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <!-- Pagination -->
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseUrl="/scholarships"
+      />
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.scholarships-page {
+  min-height: 100vh;
+  background: white;
+  padding: 2.5rem 0;
+}
+
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.page-header {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    color: $text-primary-color;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .results-count {
+    color: $text-gray;
+    font-size: 0.95rem;
+  }
+}
+
+.scholarships-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

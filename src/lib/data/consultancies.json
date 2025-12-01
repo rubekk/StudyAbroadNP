@@ -1,0 +1,146 @@
+[
+    {
+        "id": 1,
+        "name": "Global Education Consultancy",
+        "slug": "global-education-consultancy",
+        "location": "Kathmandu, Nepal",
+        "services": [
+            "University Selection",
+            "Visa Assistance",
+            "Application Processing",
+            "Test Preparation",
+            "Financial Aid Guidance"
+        ],
+        "rating": 4.8,
+        "countries": ["USA", "UK", "Canada", "Australia"],
+        "description": "Leading education consultancy with over 15 years of experience helping Nepali students achieve their study abroad dreams.",
+        "contact": {
+            "phone": "+977-1-4445566",
+            "email": "info@globaledu.com.np",
+            "address": "Putalisadak, Kathmandu"
+        },
+        "image_url": "/images/consultancies/global-edu.jpg",
+        "established": 2008,
+        "successful_cases": 5000
+    },
+    {
+        "id": 2,
+        "name": "Nepal Education Link",
+        "slug": "nepal-education-link",
+        "location": "Lalitpur, Nepal",
+        "services": [
+            "University Application",
+            "Visa Counseling",
+            "IELTS/TOEFL Preparation",
+            "Scholarship Guidance",
+            "Career Counseling"
+        ],
+        "rating": 4.6,
+        "countries": ["Australia", "Canada", "UK", "New Zealand"],
+        "description": "Trusted consultancy specializing in Australian and Canadian universities with proven track record.",
+        "contact": {
+            "phone": "+977-1-5544332",
+            "email": "contact@neledu.com.np",
+            "address": "Jawalakhel, Lalitpur"
+        },
+        "image_url": "/images/consultancies/nel.jpg",
+        "established": 2012,
+        "successful_cases": 3500
+    },
+    {
+        "id": 3,
+        "name": "IDP Education Nepal",
+        "slug": "idp-education-nepal",
+        "location": "Kathmandu, Nepal",
+        "services": [
+            "University Placement",
+            "Visa Processing",
+            "IELTS Testing",
+            "Pre-departure Briefing",
+            "Accommodation Support"
+        ],
+        "rating": 4.9,
+        "countries": ["Australia", "USA", "UK", "Canada", "New Zealand"],
+        "description": "International education organization with global presence, offering comprehensive study abroad services.",
+        "contact": {
+            "phone": "+977-1-4444777",
+            "email": "nepal@idp.com",
+            "address": "Durbarmarg, Kathmandu"
+        },
+        "image_url": "/images/consultancies/idp.jpg",
+        "established": 2005,
+        "successful_cases": 10000
+    },
+    {
+        "id": 4,
+        "name": "Vertex Education and Migration",
+        "slug": "vertex-education-migration",
+        "location": "Pokhara, Nepal",
+        "services": [
+            "Study Visa",
+            "PR Consultation",
+            "University Selection",
+            "Document Preparation",
+            "Language Training"
+        ],
+        "rating": 4.5,
+        "countries": ["Australia", "Canada"],
+        "description": "Specialized in Australian and Canadian education and migration services with office in Pokhara.",
+        "contact": {
+            "phone": "+977-61-567890",
+            "email": "info@vertexedu.com.np",
+            "address": "Lakeside, Pokhara"
+        },
+        "image_url": "/images/consultancies/vertex.jpg",
+        "established": 2015,
+        "successful_cases": 2000
+    },
+    {
+        "id": 5,
+        "name": "Aecc Global Nepal",
+        "slug": "aecc-global-nepal",
+        "location": "Kathmandu, Nepal",
+        "services": [
+            "University Counseling",
+            "Visa Support",
+            "Test Preparation",
+            "Career Guidance",
+            "Scholarship Assistance"
+        ],
+        "rating": 4.7,
+        "countries": ["UK", "USA", "Australia", "Canada", "Ireland"],
+        "description": "Part of global network with presence in multiple countries, providing end-to-end education services.",
+        "contact": {
+            "phone": "+977-1-4422888",
+            "email": "kathmandu@aeccglobal.com",
+            "address": "Putalisadak, Kathmandu"
+        },
+        "image_url": "/images/consultancies/aecc.jpg",
+        "established": 2010,
+        "successful_cases": 4500
+    },
+    {
+        "id": 6,
+        "name": "EduNepal Consultancy",
+        "slug": "edunepal-consultancy",
+        "location": "Kathmandu, Nepal",
+        "services": [
+            "Free Counseling",
+            "Application Filing",
+            "Visa Guidance",
+            "Accommodation Arrangement",
+            "Post-arrival Support"
+        ],
+        "rating": 4.4,
+        "countries": ["Japan", "South Korea", "USA", "UK"],
+        "description": "Specialized consultancy for Asian destinations including Japan and South Korea along with Western countries.",
+        "contact": {
+            "phone": "+977-1-4567890",
+            "email": "info@edunepal.com.np",
+            "address": "New Baneshwor, Kathmandu"
+        },
+        "image_url": "/images/consultancies/edunepal.jpg",
+        "established": 2014,
+        "successful_cases": 2800
+    }
+]

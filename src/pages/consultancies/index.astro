@@ -1,0 +1,96 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ConsultancyCard from "../../components/Home/Consultancy/ConsultancyCard.astro";
+import Pagination from "../../components/Pagination.astro";
+import consultanciesData from "../../lib/data/consultancies.json";
+
+const pageTitle = "Education Consultancies in Nepal | StudyAbroadNP";
+const pageDescription = "Find the best education consultancies in Nepal. Expert guidance for studying abroad in USA, UK, Canada, Australia, and more.";
+
+// Pagination logic
+const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
+const itemsPerPage = 12;
+const totalPages = Math.ceil(consultanciesData.length / itemsPerPage);
+const startIndex = (currentPage - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+const paginatedConsultancies = consultanciesData.slice(startIndex, endIndex);
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <!-- Page Header -->
+  <section class="consultancies-page">
+    <div class="content-container">
+      <div class="page-header">
+        <h1>Education Consultancies</h1>
+        <p class="results-count">Showing {paginatedConsultancies.length} of {consultanciesData.length} consultancies</p>
+      </div>
+
+      <!-- Consultancies Grid -->
+      <div class="consultancies-grid">
+        {paginatedConsultancies.map((consultancy) => (
+          <ConsultancyCard 
+            name={consultancy.name}
+            location={consultancy.location}
+            slug={consultancy.slug}
+            image_url={consultancy.image_url}
+            countries={consultancy.countries}
+          />
+        ))}
+      </div>
+
+      <!-- Pagination -->
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseUrl="/consultancies"
+      />
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.consultancies-page {
+  min-height: 100vh;
+  background: white;
+  padding: 2.5rem 0;
+}
+
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.page-header {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    color: $text-primary-color;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .results-count {
+    color: $text-gray;
+    font-size: 0.95rem;
+  }
+}
+
+.consultancies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

@@ -1,0 +1,446 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const pageTitle = "Frequently Asked Questions | StudyAbroadNp";
+const pageDescription = "Get answers to common questions about studying abroad, university applications, visa processes, scholarships, and more.";
+
+const faqCategories = [
+    {
+        category: "General Questions",
+        faqs: [
+            {
+                question: "What services does StudyAbroadNp provide?",
+                answer: "StudyAbroadNp provides comprehensive education consulting services including university selection, application assistance, visa guidance, scholarship information, test preparation advice, and post-arrival support for Nepali students planning to study abroad."
+            },
+            {
+                question: "Which countries can I study in?",
+                answer: "We provide guidance for studying in popular destinations including USA, UK, Canada, Australia, Germany, New Zealand, Japan, South Korea, and other countries. Each destination offers unique opportunities and benefits for international students."
+            },
+            {
+                question: "How much does it cost to study abroad?",
+                answer: "The cost varies significantly depending on the country, university, and program. Generally, tuition fees range from NPR 2,000,000 to NPR 6,000,000 per year, plus living expenses. However, many scholarships and financial aid options are available to help reduce costs."
+            },
+            {
+                question: "Is your consultation service free?",
+                answer: "Yes, we offer free initial consultation where we assess your profile, discuss your goals, and provide guidance on suitable universities and programs. Our expert counselors are here to help you make informed decisions."
+            }
+        ]
+    },
+    {
+        category: "Application Process",
+        faqs: [
+            {
+                question: "When should I start my application process?",
+                answer: "It's recommended to start at least 8-12 months before your intended intake. This gives you enough time to research universities, prepare for tests (IELTS/TOEFL/SAT/GRE), gather documents, write essays, and complete the application process without rushing."
+            },
+            {
+                question: "What documents do I need for university applications?",
+                answer: "Common documents include academic transcripts, certificates, standardized test scores (IELTS/TOEFL/SAT/GRE/GMAT), Statement of Purpose (SOP), Letters of Recommendation, CV/Resume, passport copy, and financial documents. Requirements may vary by country and institution."
+            },
+            {
+                question: "How long does the application process take?",
+                answer: "The application process typically takes 2-4 months from submission to receiving an admission decision. However, some universities have rolling admissions and respond faster, while others may take longer depending on the program and intake."
+            },
+            {
+                question: "Can I apply to multiple universities?",
+                answer: "Yes, it's highly recommended to apply to multiple universities (typically 5-8) to increase your chances of acceptance. This should include a mix of reach schools, target schools, and safety schools based on your academic profile."
+            }
+        ]
+    },
+    {
+        category: "Tests & Requirements",
+        faqs: [
+            {
+                question: "Which English proficiency test should I take?",
+                answer: "The most commonly accepted tests are IELTS and TOEFL. Some institutions also accept PTE and Duolingo. The choice depends on your target country and universities. IELTS is popular for UK, Australia, and Canada, while TOEFL is widely accepted in the USA."
+            },
+            {
+                question: "What are the minimum English test scores required?",
+                answer: "Minimum scores vary by program level. Generally, Bachelor's programs require IELTS 6.0-6.5, Master's programs require IELTS 6.5-7.0, and PhD programs may require IELTS 7.0+. TOEFL and PTE have equivalent score requirements."
+            },
+            {
+                question: "Do I need to take SAT or GRE?",
+                answer: "SAT is required for undergraduate programs in the USA and some other countries. GRE is typically required for graduate programs, especially in competitive fields. GMAT is required for MBA programs. Requirements vary by institution."
+            },
+            {
+                question: "How long are test scores valid?",
+                answer: "IELTS and TOEFL scores are valid for 2 years from the test date. GRE and GMAT scores are valid for 5 years. Make sure your test scores will be valid throughout your application process and at the time of enrollment."
+            }
+        ]
+    },
+    {
+        category: "Visa Process",
+        faqs: [
+            {
+                question: "How long does it take to get a student visa?",
+                answer: "Visa processing times vary by country. UK student visas typically take 3-4 weeks, USA F-1 visas take 2-4 weeks after interview, Australian visas take 4-6 weeks, and Canadian visas take 4-8 weeks. Apply early to account for processing time."
+            },
+            {
+                question: "What documents are needed for a student visa?",
+                answer: "Common requirements include valid passport, university admission letter, proof of financial support, visa application form, photographs, academic documents, English test scores, and visa fee payment. Some countries may require medical examinations and police clearance."
+            },
+            {
+                question: "What if my visa application is rejected?",
+                answer: "If your visa is rejected, you'll receive reasons for the rejection. You can address these issues and reapply. Common rejection reasons include insufficient financial proof, incomplete documents, or questions about intent to return. Our counselors can help you with reapplication."
+            },
+            {
+                question: "Can I work while studying abroad?",
+                answer: "Yes, most countries allow international students to work part-time during studies (typically 20 hours per week during term and full-time during holidays). This helps cover living expenses and gain work experience. Rules vary by country and visa type."
+            }
+        ]
+    },
+    {
+        category: "Scholarships & Financial Aid",
+        faqs: [
+            {
+                question: "Are scholarships available for Nepali students?",
+                answer: "Yes, many scholarships are available including Fulbright, Australia Awards, Chevening, DAAD, Commonwealth Scholarships, and university-specific scholarships. These cover full or partial tuition, living expenses, and sometimes airfare."
+            },
+            {
+                question: "How competitive are scholarship applications?",
+                answer: "Scholarship applications are highly competitive, especially for fully-funded programs. Strong academic records, leadership experience, clear career goals, and well-written essays significantly improve your chances. Start early and apply to multiple scholarships."
+            },
+            {
+                question: "Can I get financial aid from universities?",
+                answer: "Yes, many universities offer merit-based scholarships, need-based financial aid, graduate assistantships, and tuition waivers. Research each university's financial aid options and mention your need for financial support in your application."
+            },
+            {
+                question: "Do I need to show proof of funds for admission?",
+                answer: "Yes, most universities and visa applications require proof of sufficient funds to cover tuition fees and living expenses for at least the first year. This can be shown through bank statements, sponsorship letters, or scholarship awards."
+            }
+        ]
+    },
+    {
+        category: "After Admission",
+        faqs: [
+            {
+                question: "What should I do after receiving an admission offer?",
+                answer: "After receiving admission, accept your offer, pay required deposits, apply for your student visa, arrange accommodation, book flights, attend pre-departure orientations, and prepare for your journey. We provide comprehensive post-admission support."
+            },
+            {
+                question: "How do I find accommodation abroad?",
+                answer: "Most universities offer on-campus housing for international students. You can also find off-campus accommodation through university housing services, online platforms, or connect with other students. Apply for accommodation early as it fills up quickly."
+            },
+            {
+                question: "Will I receive support after arrival?",
+                answer: "Yes, universities provide orientation programs, international student services, academic advisors, and career counseling. Many also have support groups and cultural organizations. We can also connect you with alumni in your destination city."
+            },
+            {
+                question: "Can I stay and work after graduation?",
+                answer: "Many countries offer post-study work visas. UK offers 2-year Graduate Route, Canada offers up to 3-year PGWP, Australia offers 2-4 year post-study work rights, and USA offers OPT for 12-36 months. This allows you to gain international work experience."
+            }
+        ]
+    }
+];
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <div class="faq-page">
+        <div class="faq-hero">
+            <div class="hero-content">
+                <h1>Frequently Asked Questions</h1>
+                <p>Find answers to common questions about studying abroad</p>
+            </div>
+        </div>
+
+        <div class="faq-content">
+            <div class="container">
+                {faqCategories.map((category) => (
+                    <section class="faq-category">
+                        <h2 class="category-title">{category.category}</h2>
+                        <div class="faq-list">
+                            {category.faqs.map((faq) => (
+                                <details class="faq-item">
+                                    <summary class="faq-question">
+                                        <span class="question-text">{faq.question}</span>
+                                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </summary>
+                                    <div class="faq-answer">
+                                        <p>{faq.answer}</p>
+                                    </div>
+                                </details>
+                            ))}
+                        </div>
+                    </section>
+                ))}
+
+                <!-- Still Have Questions CTA -->
+                <div class="cta-section">
+                    <div class="cta-box">
+                        <h3>Still Have Questions?</h3>
+                        <p>Our expert counselors are here to help you with personalized guidance for your study abroad journey.</p>
+                        <a href="/contact" class="cta-button">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style lang="scss">
+@use '../styles/variables' as *;
+
+.faq-page {
+    min-height: 100vh;
+    background: white;
+}
+
+.faq-hero {
+    background: $primary-color;
+    padding: 4rem 0;
+    text-align: center;
+
+    .hero-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 3rem);
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+        }
+    }
+}
+
+.faq-content {
+    padding: 4rem 0;
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 3rem);
+    }
+}
+
+.faq-category {
+    margin-bottom: 4rem;
+
+    &:last-of-type {
+        margin-bottom: 3rem;
+    }
+}
+
+.category-title {
+    font-size: 1.75rem;
+    color: $text-primary-color;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid $primary-color;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: $primary-color;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    &[open] {
+        border-color: $primary-color;
+
+        .chevron {
+            transform: rotate(180deg);
+        }
+
+        .faq-question {
+            background: #f9fafb;
+        }
+    }
+}
+
+.faq-question {
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+    color: $text-primary-color;
+    user-select: none;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: #f9fafb;
+    }
+
+    &::-webkit-details-marker {
+        display: none;
+    }
+
+    .question-text {
+        flex: 1;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .chevron {
+        flex-shrink: 0;
+        color: $primary-color;
+        transition: transform 0.3s ease;
+    }
+}
+
+.faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    color: $text-gray;
+    line-height: 1.7;
+    animation: slideDown 0.3s ease;
+
+    p {
+        margin: 0;
+        font-size: 0.95rem;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cta-section {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid #e5e7eb;
+
+    .cta-box {
+        padding: 3rem 2rem;
+        background: #f9fafb;
+        border-radius: 8px;
+        text-align: center;
+        border: 2px solid #e5e7eb;
+
+        h3 {
+            font-size: 1.75rem;
+            color: $text-primary-color;
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: $text-gray;
+            margin: 0 0 2rem 0;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: $primary-color;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+
+            &:hover {
+                background: darken($primary-color, 10%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .faq-hero {
+        padding: 3rem 0;
+    }
+
+    .faq-content {
+        padding: 3rem 0;
+    }
+
+    .category-title {
+        font-size: 1.5rem;
+    }
+
+    .faq-question {
+        padding: 1rem;
+        
+        .question-text {
+            font-size: 0.95rem;
+        }
+    }
+
+    .faq-answer {
+        padding: 0 1rem 1rem;
+        
+        p {
+            font-size: 0.9rem;
+        }
+    }
+
+    .cta-box {
+        padding: 2rem 1.5rem !important;
+
+        h3 {
+            font-size: 1.5rem !important;
+        }
+
+        p {
+            font-size: 1rem !important;
+        }
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        item.addEventListener('toggle', (e) => {
+            const target = e.target as HTMLDetailsElement;
+            if (target.open) {
+                // Close other open FAQs in the same category (optional)
+                // Uncomment below to enable accordion behavior
+                /*
+                const category = target.closest('.faq-category');
+                if (category) {
+                    category.querySelectorAll('.faq-item[open]').forEach(openItem => {
+                        if (openItem !== target) {
+                            (openItem as HTMLDetailsElement).open = false;
+                        }
+                    });
+                }
+                */
+            }
+        });
+    });
+});
+</script>

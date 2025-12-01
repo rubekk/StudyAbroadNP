@@ -1,0 +1,587 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import consultanciesData from "../../lib/data/consultancies.json";
+
+export const getStaticPaths = (async () => {
+    return consultanciesData.map((consultancy) => ({
+        params: { slug: consultancy.slug },
+    }));
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const consultancy = consultanciesData.find((c) => c.slug === slug);
+
+// Get other consultancies for sidebar
+const otherConsultancies = consultanciesData
+    .filter((c) => c.slug !== slug)
+    .slice(0, 6);
+
+const pageTitle = `${consultancy?.name} - Education Consultancy in Nepal | StudyAbroadNp`;
+const pageDescription = `${consultancy?.description} Contact us for ${consultancy?.countries.join(", ")} university applications and visa assistance.`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <div class="consultancy-detail-page">
+        <div class="content-container">
+            <div class="detail-layout">
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Consultancy Header -->
+                    <div class="consultancy-header">
+                        <div class="consultancy-image">
+                            <img
+                                src={consultancy?.image_url || "/images/consultancy-default.jpg"}
+                                alt={consultancy?.name}
+                            />
+                        </div>
+                        <div class="consultancy-info">
+                            <span class="location-badge">{consultancy?.location}</span>
+                            <h1>{consultancy?.name}</h1>
+                            
+                            <div class="key-stats">
+                                <div class="stat">
+                                    <span class="stat-label">Established</span>
+                                    <span class="stat-value">{consultancy?.established}</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Success Rate</span>
+                                    <span class="stat-value">{consultancy?.rating}/5.0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Students Placed</span>
+                                    <span class="stat-value">{consultancy?.successful_cases}+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countries Served -->
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <h3>Countries We Serve</h3>
+                            <div class="country-badges">
+                                {consultancy?.countries.map((country) => (
+                                    <span class="country-badge">{country}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Section -->
+                    <section class="detail-section">
+                        <h2>About {consultancy?.name}</h2>
+                        <p>{consultancy?.description}</p>
+                        <p>
+                            Since {consultancy?.established}, {consultancy?.name} has been dedicated to helping students achieve their 
+                            dream of studying abroad. With over {consultancy?.successful_cases} successful placements, we have established 
+                            ourselves as a trusted partner in international education consulting.
+                        </p>
+                    </section>
+
+                    <!-- Services -->
+                    <section class="detail-section">
+                        <h2>Our Services</h2>
+                        <div class="services-grid">
+                            {consultancy?.services.map((service) => (
+                                <div class="service-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span>{service}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Contact Information -->
+                    <section class="detail-section">
+                        <h2>Contact Information</h2>
+                        <div class="contact-grid">
+                            <div class="contact-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <div>
+                                    <h4>Address</h4>
+                                    <p>{consultancy?.contact.address}</p>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                                <div>
+                                    <h4>Phone</h4>
+                                    <p>{consultancy?.contact.phone}</p>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <div>
+                                    <h4>Email</h4>
+                                    <p>{consultancy?.contact.email}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Why Choose Us -->
+                    <section class="detail-section">
+                        <h2>Why Choose Us</h2>
+                        <ul class="features-list">
+                            <li>Expert counselors with years of international education experience</li>
+                            <li>Personalized guidance throughout the entire application process</li>
+                            <li>Strong partnerships with universities in {consultancy?.countries.join(", ")}</li>
+                            <li>High visa success rate and comprehensive visa assistance</li>
+                            <li>Pre-departure orientation and post-arrival support</li>
+                            <li>Free initial consultation and course selection guidance</li>
+                        </ul>
+                    </section>
+                </main>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-sticky">
+                        <!-- Contact Card -->
+                        <div class="sidebar-card">
+                            <h3>Book a Consultation</h3>
+                            <p>Get expert guidance for your study abroad journey</p>
+                            
+                            <form class="contact-form">
+                                <input type="text" placeholder="Full Name" required />
+                                <input type="email" placeholder="Email Address" required />
+                                <input type="tel" placeholder="Phone Number" required />
+                                <select required>
+                                    <option value="">Interested Country</option>
+                                    {consultancy?.countries.map((country) => (
+                                        <option value={country}>{country}</option>
+                                    ))}
+                                </select>
+                                <textarea placeholder="Your Message" rows="3"></textarea>
+                                <button type="submit" class="btn-primary">Book Consultation</button>
+                            </form>
+                        </div>
+
+                        <!-- Quick Info -->
+                        <div class="sidebar-card">
+                            <h3>Quick Info</h3>
+                            <div class="quick-info-list">
+                                <div class="info-row">
+                                    <span class="info-label">Location</span>
+                                    <span class="info-value">{consultancy?.location}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Established</span>
+                                    <span class="info-value">{consultancy?.established}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Rating</span>
+                                    <span class="info-value">{consultancy?.rating}/5.0</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Students Helped</span>
+                                    <span class="info-value">{consultancy?.successful_cases}+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Consultancies -->
+                        <div class="sidebar-card">
+                            <h3>Other Consultancies</h3>
+                            <div class="other-consultancies">
+                                {otherConsultancies.map((cons) => (
+                                    <a href={`/consultancies/${cons.slug}`} class="consultancy-mini-card">
+                                        <img src={cons.image_url || "/images/consultancy-default.jpg"} alt={cons.name} />
+                                        <span>{cons.name}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.consultancy-detail-page {
+    min-height: 100vh;
+    background: white;
+    padding: 2rem 0;
+}
+
+.content-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2.5rem;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Main Content */
+.main-content {
+    min-width: 0;
+}
+
+.consultancy-header {
+    margin-bottom: 2rem;
+
+    .consultancy-image {
+        width: 100%;
+        height: 300px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f9fafb;
+
+        img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+    }
+
+    .consultancy-info {
+        .location-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: #e0f2fe;
+            color: $primary-color;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: $text-primary-color;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+    }
+
+    .key-stats {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+
+            .stat-label {
+                font-size: 0.85rem;
+                color: $text-gray;
+            }
+
+            .stat-value {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: $text-primary-color;
+            }
+        }
+    }
+}
+
+.info-cards {
+    margin-bottom: 2.5rem;
+
+    .info-card {
+        padding: 1.25rem;
+        background: #f9fafb;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+
+        h3 {
+            font-size: 0.95rem;
+            color: $text-gray;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+        }
+
+        .country-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+
+            .country-badge {
+                padding: 0.5rem 1rem;
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 6px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: $text-primary-color;
+            }
+        }
+    }
+}
+
+.detail-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        color: $text-primary-color;
+        margin-bottom: 1.25rem;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: $text-gray;
+        margin-bottom: 1rem;
+    }
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+
+    .service-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #f9fafb;
+        border-radius: 6px;
+        border-left: 3px solid $primary-color;
+
+        svg {
+            color: $primary-color;
+            flex-shrink: 0;
+        }
+
+        span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: $text-primary-color;
+        }
+    }
+}
+
+.contact-grid {
+    display: grid;
+    gap: 1.5rem;
+
+    .contact-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1.25rem;
+        background: #f9fafb;
+        border-radius: 8px;
+
+        svg {
+            color: $primary-color;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+
+        h4 {
+            font-size: 0.9rem;
+            color: $text-gray;
+            margin: 0 0 0.5rem 0;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1rem;
+            color: $text-primary-color;
+            margin: 0;
+            font-weight: 500;
+        }
+    }
+}
+
+.features-list {
+    padding-left: 1.5rem;
+    
+    li {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: $text-gray;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+
+    h3 {
+        font-size: 1.15rem;
+        color: $text-primary-color;
+        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 0.9rem;
+        color: $text-gray;
+        margin: 0 0 1.5rem 0;
+    }
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    input, select, textarea {
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-family: inherit;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+        }
+    }
+
+    .btn-primary {
+        padding: 0.875rem;
+        background: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: darken($primary-color, 10%);
+        }
+    }
+}
+
+.quick-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: $text-gray;
+        }
+
+        .info-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $text-primary-color;
+        }
+    }
+}
+
+.other-consultancies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .consultancy-mini-card {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: #f9fafb;
+        border-radius: 6px;
+        text-decoration: none;
+        color: $text-primary-color;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+
+        img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: white;
+            padding: 0.25rem;
+        }
+
+        span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+    }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".contact-form") as HTMLFormElement;
+    
+    form?.addEventListener("submit", function (e) {
+        e.preventDefault();
+        alert("Thank you for your interest! We'll contact you soon.");
+        if (form) form.reset();
+    });
+});
+</script>

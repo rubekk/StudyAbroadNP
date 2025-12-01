@@ -1,0 +1,238 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+  showFirstLast?: boolean;
+}
+
+const {
+  currentPage,
+  totalPages,
+  baseUrl,
+  showFirstLast = true,
+} = Astro.props;
+
+// Generate page numbers to display
+const getPageNumbers = () => {
+  const delta = 2; // Number of pages to show on each side of current page
+  const range: (number | string)[] = [];
+  
+  for (let i = 1; i <= totalPages; i++) {
+    if (
+      i === 1 ||
+      i === totalPages ||
+      (i >= currentPage - delta && i <= currentPage + delta)
+    ) {
+      range.push(i);
+    } else if (range[range.length - 1] !== '...') {
+      range.push('...');
+    }
+  }
+  
+  return range;
+};
+
+const pageNumbers = getPageNumbers();
+
+const getPageUrl = (page: number) => {
+  if (page === 1) return baseUrl;
+  return `${baseUrl}?page=${page}`;
+};
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination Navigation">
+    <div class="pagination-container">
+      <!-- Previous Button -->
+      {currentPage > 1 ? (
+        <a
+          href={getPageUrl(currentPage - 1)}
+          class="pagination-btn pagination-prev"
+          aria-label="Go to previous page"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Previous</span>
+        </a>
+      ) : (
+        <span class="pagination-btn pagination-prev disabled">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Previous</span>
+        </span>
+      )}
+
+      <!-- Page Numbers -->
+      <div class="pagination-numbers">
+        {pageNumbers.map((page) =>
+          page === '...' ? (
+            <span class="pagination-ellipsis">...</span>
+          ) : (
+            <a
+              href={getPageUrl(page as number)}
+              class:list={[
+                'pagination-number',
+                { active: page === currentPage }
+              ]}
+              aria-label={`Go to page ${page}`}
+              aria-current={page === currentPage ? 'page' : undefined}
+            >
+              {page}
+            </a>
+          )
+        )}
+      </div>
+
+      <!-- Next Button -->
+      {currentPage < totalPages ? (
+        <a
+          href={getPageUrl(currentPage + 1)}
+          class="pagination-btn pagination-next"
+          aria-label="Go to next page"
+        >
+          <span>Next</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      ) : (
+        <span class="pagination-btn pagination-next disabled">
+          <span>Next</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </span>
+      )}
+    </div>
+
+    <!-- Page Info -->
+    <div class="pagination-info">
+      Page {currentPage} of {totalPages}
+    </div>
+  </nav>
+)}
+
+<style lang="scss">
+@use '../styles/variables' as *;
+
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 0;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid $border-light;
+  border-radius: 8px;
+  background: white;
+  color: $text-primary-color;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover:not(.disabled) {
+    background: $primary-color;
+    border-color: $primary-color;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba($primary-color, 0.3);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 0.5rem;
+  border: 1px solid $border-light;
+  border-radius: 8px;
+  background: white;
+  color: $text-primary-color;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($primary-color, 0.1);
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+
+  &.active {
+    background: $primary-color;
+    border-color: $primary-color;
+    color: white;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  color: $text-gray;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: $text-gray;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .pagination-btn span {
+    display: none;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem;
+    min-width: 40px;
+    justify-content: center;
+  }
+
+  .pagination-number {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+}
+</style>

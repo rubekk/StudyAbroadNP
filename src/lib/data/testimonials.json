@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "name": "Suman Sharma",
+        "country": "Australia",
+        "university": "University of Melbourne",
+        "course": "Master of Computer Science",
+        "image": "/images/testimonials/student1.jpg",
+        "rating": 5,
+        "testimonial": "StudyAbroadNP made my dream of studying in Australia a reality. Their team provided excellent guidance throughout the application process, from university selection to visa assistance. I'm now thriving at the University of Melbourne!",
+        "year": 2023
+    },
+    {
+        "id": 2,
+        "name": "Anjali Thapa",
+        "country": "Canada",
+        "university": "University of Toronto",
+        "course": "Bachelor of Business Administration",
+        "image": "/images/testimonials/student2.jpg",
+        "rating": 5,
+        "testimonial": "I cannot thank StudyAbroadNP enough for their support. They helped me secure admission to my dream university and guided me through the entire scholarship application process. Their expertise is unmatched!",
+        "year": 2023
+    },
+    {
+        "id": 3,
+        "name": "Rohan KC",
+        "country": "USA",
+        "university": "Stanford University",
+        "course": "Master of Data Science",
+        "image": "/images/testimonials/student3.jpg",
+        "rating": 5,
+        "testimonial": "Professional, knowledgeable, and always available to answer my questions. StudyAbroadNP helped me navigate the complex US visa process with ease. Now I'm studying at Stanford - something I never thought possible!",
+        "year": 2022
+    },
+    {
+        "id": 4,
+        "name": "Priya Gurung",
+        "country": "UK",
+        "university": "University of Oxford",
+        "course": "Master of Public Policy",
+        "image": "/images/testimonials/student4.jpg",
+        "rating": 5,
+        "testimonial": "The team at StudyAbroadNP is simply amazing. They not only helped me get into Oxford but also assisted with accommodation and pre-departure preparation. I felt fully supported throughout my journey.",
+        "year": 2024
+    },
+    {
+        "id": 5,
+        "name": "Bibek Rai",
+        "country": "Japan",
+        "university": "University of Tokyo",
+        "course": "Bachelor of Engineering",
+        "image": "/images/testimonials/student5.jpg",
+        "rating": 4,
+        "testimonial": "Great service from start to finish. The consultants helped me understand the Japanese education system and prepared me well for the cultural adjustment. Highly recommend their services!",
+        "year": 2023
+    },
+    {
+        "id": 6,
+        "name": "Kritika Basnet",
+        "country": "Germany",
+        "university": "Technical University of Munich",
+        "course": "Master of Mechanical Engineering",
+        "image": "/images/testimonials/student6.jpg",
+        "rating": 5,
+        "testimonial": "StudyAbroadNP helped me secure a scholarship to study in Germany. Their knowledge about German universities and the application process was invaluable. I'm now pursuing my passion for engineering at TUM!",
+        "year": 2024
+    }
+]

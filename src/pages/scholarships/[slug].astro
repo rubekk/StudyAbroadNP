@@ -1,0 +1,875 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import type { GetStaticPaths } from "astro";
+import scholarshipsData from "../../lib/data/scholarships.json";
+
+export const getStaticPaths = (async () => {
+    return scholarshipsData.map((scholarship) => ({
+        params: { slug: scholarship.slug },
+    }));
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const scholarship = scholarshipsData.find((s) => s.slug === slug);
+
+// Get more scholarships (same country or level, different scholarships)
+const moreScholarships = scholarshipsData
+    .filter((s) => 
+        s.slug !== slug && 
+        (s.country === scholarship?.country || 
+         s.level.some((level) => scholarship?.level.includes(level)))
+    )
+    .slice(0, 6);
+
+const pageTitle = `${scholarship?.name} - ${scholarship?.country} | StudyAbroadNp`;
+const pageDescription = `${scholarship?.description} Learn about eligibility, coverage, application process, and deadlines.`;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+    <div class="scholarship-detail-page">
+        <div class="content-container">
+            <div class="detail-layout">
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Scholarship Header -->
+                    <div class="scholarship-header">
+                        <div class="scholarship-image">
+                            <img
+                                src={scholarship?.image_url || "/images/scholarship-default.jpg"}
+                                alt={scholarship?.name}
+                            />
+                        </div>
+                        <div class="scholarship-info">
+                            <div class="header-badges">
+                                <span class="country-badge">{scholarship?.country}</span>
+                                {scholarship?.level.map((level) => (
+                                    <span class="level-badge">{level}</span>
+                                ))}
+                            </div>
+                            <h1>{scholarship?.name}</h1>
+                            <p class="provider">By {scholarship?.provider}</p>
+                            <p class="description">{scholarship?.description}</p>
+                            
+                            <div class="key-highlights">
+                                <div class="highlight-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                    <div>
+                                        <span class="label">Scholarship Amount</span>
+                                        <span class="value">{scholarship?.amount}</span>
+                                    </div>
+                                </div>
+                                <div class="highlight-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    <div>
+                                        <span class="label">Application Deadline</span>
+                                        <span class="value deadline">{scholarship?.deadline}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {scholarship?.application_url && (
+                                <a href={scholarship.application_url} target="_blank" rel="noopener noreferrer" class="apply-button">
+                                    Apply Now
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </a>
+                            )}
+                        </div>
+                    </div>
+
+                    <!-- What's Covered -->
+                    <section class="detail-section">
+                        <h2>What's Covered</h2>
+                        <p>This scholarship provides comprehensive financial support including:</p>
+                        <div class="coverage-grid">
+                            {scholarship?.coverage.map((item) => (
+                                <div class="coverage-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                    <span>{item}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Eligibility Criteria -->
+                    <section class="detail-section">
+                        <h2>Eligibility Criteria</h2>
+                        <p>To be eligible for {scholarship?.name}, applicants must meet the following requirements:</p>
+                        <div class="eligibility-list">
+                            {scholarship?.eligibility.map((criterion) => (
+                                <div class="eligibility-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="9 11 12 14 22 4"></polyline>
+                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                    </svg>
+                                    <span>{criterion}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Application Process -->
+                    <section class="detail-section">
+                        <h2>Application Process</h2>
+                        <p>Follow these steps to apply for {scholarship?.name}:</p>
+                        <div class="process-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Check Eligibility</h4>
+                                    <p>Review all eligibility criteria carefully to ensure you qualify</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Prepare Documents</h4>
+                                    <p>Gather academic transcripts, CV, personal statement, and recommendation letters</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Complete Application</h4>
+                                    <p>Fill out the online application form with accurate information</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Submit Before Deadline</h4>
+                                    <p>Submit your application before {scholarship?.deadline}</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h4>Await Results</h4>
+                                    <p>Wait for the selection committee's decision and prepare for potential interviews</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Important Information -->
+                    <section class="detail-section">
+                        <h2>Important Information</h2>
+                        <div class="info-cards">
+                            <div class="info-card">
+                                <h4>Application Tips</h4>
+                                <ul>
+                                    <li>Start your application early</li>
+                                    <li>Write a compelling personal statement</li>
+                                    <li>Get strong recommendation letters</li>
+                                    <li>Proofread all documents carefully</li>
+                                    <li>Follow all instructions precisely</li>
+                                </ul>
+                            </div>
+                            <div class="info-card">
+                                <h4>Required Documents</h4>
+                                <ul>
+                                    <li>Academic transcripts and certificates</li>
+                                    <li>Curriculum Vitae (CV)</li>
+                                    <li>Personal statement or essay</li>
+                                    <li>Letters of recommendation (2-3)</li>
+                                    <li>English proficiency test scores</li>
+                                    <li>Valid passport copy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Why Apply -->
+                    <section class="detail-section">
+                        <h2>Why Apply for This Scholarship?</h2>
+                        <ul class="benefits-list">
+                            <li>Study at top-ranked universities in {scholarship?.country}</li>
+                            <li>Receive comprehensive financial support throughout your studies</li>
+                            <li>Join a prestigious network of scholars and alumni</li>
+                            <li>Gain international experience and cultural exposure</li>
+                            <li>Enhance your career prospects with a world-class degree</li>
+                            <li>No financial burden on you or your family</li>
+                            <li>Access to exclusive workshops, seminars, and networking events</li>
+                        </ul>
+                    </section>
+
+                    <!-- Need Help -->
+                    <section class="detail-section cta-section">
+                        <div class="cta-box">
+                            <h3>Need Help with Your Application?</h3>
+                            <p>Our expert counselors can guide you through the entire scholarship application process, from document preparation to interview coaching.</p>
+                            <a href="/contact" class="cta-link">Contact Our Experts</a>
+                        </div>
+                    </section>
+                </main>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-sticky">
+                        <!-- Quick Info Card -->
+                        <div class="sidebar-card highlight-card">
+                            <h3>Scholarship Details</h3>
+                            <div class="detail-list">
+                                <div class="detail-item">
+                                    <span class="label">Provider</span>
+                                    <span class="value">{scholarship?.provider}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Country</span>
+                                    <span class="value">{scholarship?.country}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Study Levels</span>
+                                    <span class="value">{scholarship?.level.join(", ")}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Deadline</span>
+                                    <span class="value deadline-text">{scholarship?.deadline}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Amount</span>
+                                    <span class="value amount-text">{scholarship?.amount}</span>
+                                </div>
+                            </div>
+                            {scholarship?.application_url && (
+                                <a href={scholarship.application_url} target="_blank" rel="noopener noreferrer" class="sidebar-apply-btn">
+                                    Visit Official Website
+                                </a>
+                            )}
+                        </div>
+
+                        <!-- Get Assistance -->
+                        <div class="sidebar-card">
+                            <h3>Get Expert Assistance</h3>
+                            <p>Let us help you with your scholarship application</p>
+                            
+                            <form class="assistance-form">
+                                <input type="text" placeholder="Full Name" required />
+                                <input type="email" placeholder="Email Address" required />
+                                <input type="tel" placeholder="Phone Number" required />
+                                <textarea placeholder="Tell us about your goals" rows="3"></textarea>
+                                <button type="submit" class="btn-primary">Request Help</button>
+                            </form>
+                        </div>
+
+                        <!-- More Scholarships -->
+                        {moreScholarships.length > 0 && (
+                            <div class="sidebar-card">
+                                <h3>More Scholarships</h3>
+                                <div class="more-scholarships">
+                                    {moreScholarships.map((sch) => (
+                                        <a href={`/scholarships/${sch.slug}`} class="scholarship-mini-card">
+                                            <img src={sch.image_url || "/images/scholarship-default.jpg"} alt={sch.name} />
+                                            <div class="mini-info">
+                                                <h4>{sch.name}</h4>
+                                                <span class="mini-country">{sch.country}</span>
+                                                <span class="mini-amount">{sch.amount}</span>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.scholarship-detail-page {
+    min-height: 100vh;
+    background: white;
+    padding: 2rem 0;
+}
+
+.content-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2.5rem;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Main Content */
+.main-content {
+    min-width: 0;
+}
+
+.scholarship-header {
+    margin-bottom: 2.5rem;
+
+    .scholarship-image {
+        width: 100%;
+        height: 300px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f9fafb;
+
+        img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+    }
+
+    .scholarship-info {
+        .header-badges {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+
+            .country-badge {
+                padding: 0.4rem 0.9rem;
+                background: #e0f2fe;
+                color: $primary-color;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+
+            .level-badge {
+                padding: 0.4rem 0.9rem;
+                background: #f0fdf4;
+                color: #16a34a;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+        }
+
+        h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: $text-primary-color;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .provider {
+            font-size: 1rem;
+            color: $primary-color;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: $text-gray;
+            margin-bottom: 1.5rem;
+        }
+
+        .key-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+
+            .highlight-item {
+                display: flex;
+                gap: 1rem;
+                padding: 1.25rem;
+                background: #f9fafb;
+                border-radius: 8px;
+                border: 1px solid #e5e7eb;
+
+                svg {
+                    color: $primary-color;
+                    flex-shrink: 0;
+                    margin-top: 0.25rem;
+                }
+
+                > div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.25rem;
+
+                    .label {
+                        font-size: 0.85rem;
+                        color: $text-gray;
+                    }
+
+                    .value {
+                        font-size: 1rem;
+                        font-weight: 700;
+                        color: $text-primary-color;
+
+                        &.deadline {
+                            color: #dc2626;
+                        }
+                    }
+                }
+            }
+        }
+
+        .apply-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            background: $primary-color;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+
+            svg {
+                transition: transform 0.2s ease;
+            }
+
+            &:hover {
+                background: darken($primary-color, 10%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+                svg {
+                    transform: translateX(4px);
+                }
+            }
+        }
+    }
+}
+
+.detail-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        color: $text-primary-color;
+        margin-bottom: 1.25rem;
+        font-weight: 700;
+    }
+
+    > p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: $text-gray;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.coverage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+
+    .coverage-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-radius: 6px;
+        border-left: 3px solid #16a34a;
+
+        svg {
+            color: #16a34a;
+            flex-shrink: 0;
+        }
+
+        span {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: $text-primary-color;
+        }
+    }
+}
+
+.eligibility-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .eligibility-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: #f9fafb;
+        border-radius: 6px;
+
+        svg {
+            color: $primary-color;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        span {
+            font-size: 0.95rem;
+            color: $text-primary-color;
+            line-height: 1.5;
+        }
+    }
+}
+
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .step {
+        display: flex;
+        gap: 1.25rem;
+        align-items: flex-start;
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: $primary-color;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 0.25rem;
+
+            h4 {
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: $text-primary-color;
+                margin: 0 0 0.5rem 0;
+            }
+
+            p {
+                font-size: 0.95rem;
+                color: $text-gray;
+                margin: 0;
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+
+    .info-card {
+        padding: 1.5rem;
+        background: #f9fafb;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+
+        h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: $text-primary-color;
+            margin: 0 0 1rem 0;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+
+            li {
+                font-size: 0.9rem;
+                line-height: 1.7;
+                color: $text-gray;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}
+
+.benefits-list {
+    padding-left: 1.5rem;
+    
+    li {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: $text-gray;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.cta-section {
+    border: none;
+    padding-bottom: 0;
+
+    .cta-box {
+        padding: 2rem;
+        background: $primary-color;
+        border-radius: 8px;
+        text-align: center;
+        color: white;
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .cta-link {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: white;
+            color: $primary-color;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+
+    &.highlight-card {
+        background: $primary-color;
+        color: white;
+        border: none;
+
+        h3 {
+            color: white;
+        }
+    }
+
+    h3 {
+        font-size: 1.15rem;
+        color: $text-primary-color;
+        margin: 0 0 1rem 0;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 0.9rem;
+        color: $text-gray;
+        margin: 0 0 1.5rem 0;
+    }
+}
+
+.detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .value {
+            font-size: 0.95rem;
+            font-weight: 600;
+
+            &.deadline-text {
+                color: #fef3c7;
+            }
+
+            &.amount-text {
+                color: #d9f99d;
+            }
+        }
+    }
+}
+
+.sidebar-apply-btn {
+    display: block;
+    text-align: center;
+    padding: 0.875rem;
+    background: white;
+    color: $primary-color;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.assistance-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    input, textarea {
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-family: inherit;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+        }
+    }
+
+    .btn-primary {
+        padding: 0.875rem;
+        background: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: darken($primary-color, 10%);
+        }
+    }
+}
+
+.more-scholarships {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .scholarship-mini-card {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: #f9fafb;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+
+        img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: white;
+            padding: 0.25rem;
+        }
+
+        .mini-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+
+            h4 {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: $text-primary-color;
+                margin: 0;
+                line-height: 1.3;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .mini-country {
+                font-size: 0.75rem;
+                color: $primary-color;
+                font-weight: 600;
+            }
+
+            .mini-amount {
+                font-size: 0.7rem;
+                color: #16a34a;
+                font-weight: 600;
+            }
+        }
+    }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".assistance-form") as HTMLFormElement;
+    
+    form?.addEventListener("submit", function (e) {
+        e.preventDefault();
+        alert("Thank you! Our team will contact you soon to assist with your scholarship application.");
+        if (form) form.reset();
+    });
+});
+</script>

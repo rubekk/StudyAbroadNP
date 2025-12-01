@@ -1,0 +1,180 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  faqs: FAQItem[];
+  title?: string;
+}
+
+const { faqs, title = "Frequently Asked Questions" } = Astro.props;
+
+// Generate FAQ structured data
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<section class="faq-section">
+  <h2 class="faq-title">{title}</h2>
+  
+  <div class="faq-container">
+    {faqs.map((faq, index) => (
+      <details class="faq-item" data-faq={index}>
+        <summary class="faq-question">
+          <span class="question-text">{faq.question}</span>
+          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </summary>
+        <div class="faq-answer">
+          <p>{faq.answer}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<!-- FAQ Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+<style lang="scss">
+@use '../styles/variables' as *;
+
+.faq-section {
+  padding: 3rem clamp(1rem, 5vw, 5rem);
+  background: #f8fafc;
+}
+
+.faq-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: $text-primary-color;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  &[open] {
+    .chevron {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.faq-question {
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 600;
+  color: $text-primary-color;
+  user-select: none;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba($primary-color, 0.05);
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  .question-text {
+    flex: 1;
+    font-size: 1.05rem;
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    color: $primary-color;
+    transition: transform 0.3s ease;
+  }
+}
+
+.faq-answer {
+  padding: 0 1.5rem 1.5rem;
+  color: $text-gray;
+  line-height: 1.7;
+  animation: slideDown 0.3s ease;
+
+  p {
+    margin: 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-question {
+    padding: 1rem;
+    
+    .question-text {
+      font-size: 0.95rem;
+    }
+  }
+
+  .faq-answer {
+    padding: 0 1rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+<script>
+// Add analytics or tracking when FAQ items are opened
+document.addEventListener('DOMContentLoaded', () => {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    item.addEventListener('toggle', (e) => {
+      const target = e.target as HTMLDetailsElement;
+      if (target.open) {
+        const faqIndex = target.getAttribute('data-faq');
+        console.log(`FAQ ${faqIndex} opened`);
+        // You can add analytics tracking here
+      }
+    });
+  });
+});
+</script>

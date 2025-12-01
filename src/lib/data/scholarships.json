@@ -1,0 +1,258 @@
+[
+    {
+        "id": 1,
+        "name": "Fulbright Foreign Student Program",
+        "slug": "fulbright-foreign-student-program",
+        "provider": "US Department of State",
+        "country": "USA",
+        "level": ["Master's", "PhD"],
+        "deadline": "May 15, 2025",
+        "amount": "Full tuition + living expenses + airfare",
+        "description": "Prestigious scholarship for international students to pursue graduate studies in the United States.",
+        "eligibility": [
+            "Nepali citizenship",
+            "Bachelor's degree completed",
+            "Strong academic record",
+            "Leadership potential",
+            "English proficiency"
+        ],
+        "coverage": [
+            "Full tuition fees",
+            "Monthly stipend",
+            "Airfare",
+            "Health insurance",
+            "Book allowance"
+        ],
+        "application_url": "https://www.fulbright.org.np",
+        "image_url": "/images/scholarships/fulbright.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Australia Awards Scholarship",
+        "slug": "australia-awards-scholarship",
+        "provider": "Australian Government",
+        "country": "Australia",
+        "level": ["Bachelor's", "Master's", "PhD"],
+        "deadline": "April 30, 2025",
+        "amount": "Full scholarship",
+        "description": "Long-term development awards targeting future leaders and contributing to development outcomes.",
+        "eligibility": [
+            "Nepali citizenship",
+            "Minimum 2 years work experience",
+            "Meet English language requirements",
+            "Not be a current awardee",
+            "Return to Nepal after completion"
+        ],
+        "coverage": [
+            "Full tuition fees",
+            "Return air travel",
+            "Establishment allowance",
+            "Living expenses",
+            "Overseas Student Health Cover"
+        ],
+        "application_url": "https://www.australiaawardsinnepal.org",
+        "image_url": "/images/scholarships/australia-awards.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Chevening Scholarships",
+        "slug": "chevening-scholarships",
+        "provider": "UK Government",
+        "country": "United Kingdom",
+        "level": ["Master's"],
+        "deadline": "November 7, 2024",
+        "amount": "Full scholarship",
+        "description": "UK government's global scholarship program for future leaders to pursue one-year master's degrees.",
+        "eligibility": [
+            "Nepali citizenship",
+            "Undergraduate degree",
+            "Minimum 2 years work experience",
+            "Leadership potential",
+            "Return to Nepal for 2 years"
+        ],
+        "coverage": [
+            "University tuition fees",
+            "Monthly stipend",
+            "Travel costs",
+            "Arrival allowance",
+            "Visa costs"
+        ],
+        "application_url": "https://www.chevening.org",
+        "image_url": "/images/scholarships/chevening.jpg"
+    },
+    {
+        "id": 4,
+        "name": "DAAD Scholarships",
+        "slug": "daad-scholarships",
+        "provider": "German Academic Exchange Service",
+        "country": "Germany",
+        "level": ["Master's", "PhD"],
+        "deadline": "Varies by program",
+        "amount": "€934 per month (Master's), €1,200 (PhD)",
+        "description": "Comprehensive scholarship program for international students to study in Germany.",
+        "eligibility": [
+            "Bachelor's degree with good grades",
+            "At least 2 years of work experience",
+            "German or English language proficiency",
+            "Clear study objectives"
+        ],
+        "coverage": [
+            "Monthly stipend",
+            "Travel allowance",
+            "Health insurance",
+            "Study/research allowance"
+        ],
+        "application_url": "https://www.daad.de",
+        "image_url": "/images/scholarships/daad.jpg"
+    },
+    {
+        "id": 5,
+        "name": "MEXT Scholarship (Japanese Government)",
+        "slug": "mext-scholarship",
+        "provider": "Japanese Government",
+        "country": "Japan",
+        "level": ["Bachelor's", "Master's", "PhD"],
+        "deadline": "Varies (typically April-May)",
+        "amount": "¥117,000 - ¥147,000 per month",
+        "description": "Scholarship by Japanese Ministry of Education for undergraduate and graduate studies in Japan.",
+        "eligibility": [
+            "Nepali nationality",
+            "Age requirements vary by level",
+            "Academic excellence",
+            "Good health"
+        ],
+        "coverage": [
+            "Full tuition fees",
+            "Monthly allowance",
+            "Airfare",
+            "No tuition fees"
+        ],
+        "application_url": "https://www.studyinjapan.go.jp",
+        "image_url": "/images/scholarships/mext.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Vanier Canada Graduate Scholarships",
+        "slug": "vanier-canada-graduate-scholarships",
+        "provider": "Government of Canada",
+        "country": "Canada",
+        "level": ["PhD"],
+        "deadline": "November (nominated by university)",
+        "amount": "CAD $50,000 per year for 3 years",
+        "description": "Prestigious doctoral scholarship to attract world-class students to Canadian universities.",
+        "eligibility": [
+            "Nominated by Canadian university",
+            "Enrolled in or applying to PhD program",
+            "Academic excellence",
+            "Research potential",
+            "Leadership skills"
+        ],
+        "coverage": [
+            "CAD $50,000 annual stipend",
+            "3 years of funding",
+            "No restrictions on citizenship"
+        ],
+        "application_url": "https://vanier.gc.ca",
+        "image_url": "/images/scholarships/vanier.jpg"
+    },
+    {
+        "id": 7,
+        "name": "New Zealand Excellence Awards",
+        "slug": "new-zealand-excellence-awards",
+        "provider": "Education New Zealand",
+        "country": "New Zealand",
+        "level": ["Bachelor's", "Master's", "PhD"],
+        "deadline": "March 1, 2025",
+        "amount": "NZD $10,000 per year",
+        "description": "Scholarship for high-achieving international students studying in New Zealand.",
+        "eligibility": [
+            "International student (not NZ citizen/resident)",
+            "Enrolled at participating NZ institution",
+            "High academic achievement",
+            "Full-time study"
+        ],
+        "coverage": [
+            "NZD $10,000 tuition support",
+            "Annual renewable",
+            "For duration of study"
+        ],
+        "application_url": "https://www.studyinnewzealand.govt.nz",
+        "image_url": "/images/scholarships/nz-excellence.jpg"
+    },
+    {
+        "id": 8,
+        "name": "Korean Government Scholarship Program (KGSP)",
+        "slug": "korean-government-scholarship",
+        "provider": "Korean Government",
+        "country": "South Korea",
+        "level": ["Bachelor's", "Master's", "PhD"],
+        "deadline": "Varies (typically September-October)",
+        "amount": "Full scholarship",
+        "description": "Comprehensive scholarship program by Korean government for international students.",
+        "eligibility": [
+            "Non-Korean citizen",
+            "Age limits apply",
+            "Academic requirements met",
+            "Good health"
+        ],
+        "coverage": [
+            "Full tuition",
+            "Monthly allowance (₩900,000-1,000,000)",
+            "Airfare",
+            "Korean language training",
+            "Medical insurance"
+        ],
+        "application_url": "https://www.studyinkorea.go.kr",
+        "image_url": "/images/scholarships/kgsp.jpg"
+    },
+    {
+        "id": 9,
+        "name": "Erasmus Mundus Joint Master Degrees",
+        "slug": "erasmus-mundus-scholarships",
+        "provider": "European Commission",
+        "country": "Europe",
+        "level": ["Master's"],
+        "deadline": "Varies by program",
+        "amount": "€25,000 per year + travel costs",
+        "description": "Prestigious international master's programs with studies in at least two European countries.",
+        "eligibility": [
+            "Bachelor's degree completed",
+            "Meet program-specific requirements",
+            "English proficiency",
+            "Academic excellence"
+        ],
+        "coverage": [
+            "Full tuition fees",
+            "Monthly allowance (€1,400)",
+            "Travel and installation costs",
+            "Insurance"
+        ],
+        "application_url": "https://www.eacea.ec.europa.eu",
+        "image_url": "/images/scholarships/erasmus.jpg"
+    },
+    {
+        "id": 10,
+        "name": "Singapore International Graduate Award",
+        "slug": "singapore-international-graduate-award",
+        "provider": "Agency for Science, Technology and Research (A*STAR)",
+        "country": "Singapore",
+        "level": ["PhD"],
+        "deadline": "Rolling basis",
+        "amount": "SGD $2,500-3,200 per month",
+        "description": "Fully-funded PhD scholarship for international students in science and engineering fields.",
+        "eligibility": [
+            "Excellent academic record",
+            "Passion for research",
+            "Enrolled at participating universities",
+            "Science/Engineering field"
+        ],
+        "coverage": [
+            "Full tuition fees",
+            "Monthly stipend",
+            "One-time airfare grant",
+            "Thesis allowance"
+        ],
+        "application_url": "https://www.a-star.edu.sg/Scholarships",
+        "image_url": "/images/scholarships/singa.jpg"
+    }
+]

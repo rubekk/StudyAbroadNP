@@ -1,0 +1,93 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogType?: string;
+  ogImage?: string;
+  structuredData?: object | object[];
+  keywords?: string;
+  author?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType = "website",
+  ogImage = "/images/og-default.jpg",
+  structuredData,
+  keywords,
+  author = "StudyAbroadNP",
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = Astro.site || "https://studyabroadnp.com";
+const currentUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+const fullOgImage = ogImage.startsWith("http") ? ogImage : new URL(ogImage, siteUrl).href;
+
+// Default organization structured data
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "StudyAbroadNP",
+  "description": "Leading platform connecting Nepali students with global education opportunities",
+  "url": siteUrl,
+  "logo": `${siteUrl}/images/logo.png`,
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+977-1-XXXXXXX",
+    "contactType": "Customer Service",
+    "areaServed": "NP",
+    "availableLanguage": ["en", "ne"]
+  },
+  "sameAs": [
+    "https://facebook.com/studyabroadnp",
+    "https://twitter.com/studyabroadnp",
+    "https://instagram.com/studyabroadnp"
+  ]
+};
+
+// Combine organization schema with page-specific structured data
+const allStructuredData = structuredData
+  ? Array.isArray(structuredData)
+    ? [organizationSchema, ...structuredData]
+    : [organizationSchema, structuredData]
+  : [organizationSchema];
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+{author && <meta name="author" content={author} />}
+<link rel="canonical" href={currentUrl} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={currentUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={fullOgImage} />
+<meta property="og:site_name" content="StudyAbroadNP" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={currentUrl} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={fullOgImage} />
+<meta name="twitter:creator" content="@studyabroadnp" />
+
+<!-- Additional SEO Meta Tags -->
+<meta name="theme-color" content="#2a73f4" />
+<meta name="format-detection" content="telephone=no" />
+
+<!-- Structured Data (JSON-LD) -->
+{allStructuredData.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}
