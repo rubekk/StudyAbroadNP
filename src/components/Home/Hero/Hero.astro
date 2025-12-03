@@ -1,124 +1,41 @@
 ---
 import "@/styles/hero.scss";
-import { Icon } from "astro-icon/components";
 
-const heroSlides = [
-  {
-    image:
-      "https://www.avanse.com/blogs/images/view-harvard-university-historic-building-cambridge-massachusetts-usa.webp",
-    title: "Study in World's Best Universities",
-    subtitle: "Explore opportunities in USA, UK, Canada, Australia and more",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=80",
-    title: "Your Gateway to Global Education",
-    subtitle: "Expert guidance for studying abroad from Nepal",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1920&q=80",
-    title: "Start Your Journey Today",
-    subtitle: "Connect with top universities and consultancies",
-  },
-];
+import { getHero } from "@/lib/fetch/hero";
+
+const heroRes = await getHero();
+const hero = heroRes.data;
 ---
 
 <section class="hero">
   <div class="hero-slider">
     {
-      heroSlides.map((slide, index) => (
-        <div class="hero-slide" data-slide={index}>
-          <img
-            src={slide.image}
-            alt={slide.title}
-            loading={index === 0 ? "eager" : "lazy"}
-          />
+      hero?.images.map((img, index) => (
+        <div class={`hero-slide ${index === 0 ? "active" : ""}`}>
+          <img class="hero-slide-img" src={img} alt={hero?.title} />
           <div class="hero-overlay" />
           <div class="hero-content">
-            <h1>{slide.title}</h1>
-            <p>{slide.subtitle}</p>
+            <h1>{hero?.title}</h1>
+            <p>{hero?.subTitle}</p>
             <a href="/universities" class="hero-btn">
-              Explore Universities
+              {hero?.buttonText}
             </a>
           </div>
         </div>
       ))
     }
   </div>
-
-  <div class="hero-controls">
-    <button class="hero-prev" aria-label="Previous slide">
-      <Icon name="chevronLeft" />
-    </button>
-    <div class="hero-dots">
-      {
-        heroSlides.map((_, index) => (
-          <button
-            class="hero-dot"
-            data-slide={index}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))
-      }
-    </div>
-    <button class="hero-next" aria-label="Next slide">
-      <Icon name="chevronRight" />
-    </button>
-  </div>
 </section>
 
 <script>
+  const slides = document.querySelectorAll(".hero-slide");
   let currentSlide = 0;
-  const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
-  const dots = document.querySelectorAll<HTMLElement>(".hero-dot");
-  const prevBtn = document.querySelector<HTMLElement>(".hero-prev");
-  const nextBtn = document.querySelector<HTMLElement>(".hero-next");
-
-  function showSlide(index: number) {
-    slides.forEach((slide) => {
-      slide.classList.remove("active");
-      slide.style.visibility = "hidden";
-    });
-    dots.forEach((dot) => dot.classList.remove("active"));
-
-    slides[index].classList.add("active");
-    slides[index].style.visibility = "visible";
-    dots[index].classList.add("active");
-    currentSlide = index;
-  }
 
   function nextSlide() {
-    const next = (currentSlide + 1) % slides.length;
-    showSlide(next);
+    slides[currentSlide].classList.remove("active");
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add("active");
   }
 
-  function prevSlide() {
-    const prev = (currentSlide - 1 + slides.length) % slides.length;
-    showSlide(prev);
-  }
-
-  showSlide(0);
-
-  let autoSlide = setInterval(nextSlide, 5000);
-
-  nextBtn?.addEventListener("click", () => {
-    nextSlide();
-    clearInterval(autoSlide);
-    autoSlide = setInterval(nextSlide, 5000);
-  });
-
-  prevBtn?.addEventListener("click", () => {
-    prevSlide();
-    clearInterval(autoSlide);
-    autoSlide = setInterval(nextSlide, 5000);
-  });
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      showSlide(index);
-      clearInterval(autoSlide);
-      autoSlide = setInterval(nextSlide, 5000);
-    });
-  });
+  setInterval(nextSlide, 5000);
 </script>
