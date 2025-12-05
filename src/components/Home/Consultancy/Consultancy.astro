@@ -1,31 +1,29 @@
 ---
 import { routes } from "@/lib/routes";
-import consultanciesData from "@/lib/data/consultancies.json";
+import { getAllConsultancies } from "@/lib/fetch/consultancies";
 import ConsultancyCard from "./ConsultancyCard.astro";
+import SectionHeading from "./../../common/SectionHeading.astro";
+import ViewAllButton from "./../../common/button/ViewAllButton.astro";
 
-const featuredConsultancies = consultanciesData.slice(0, 4);
+const consultanciesRes = await getAllConsultancies();
+const consultancies = consultanciesRes.data;
+const featuredConsultancies = consultancies?.slice(0, 4);
 ---
 
 <section class="section-consultancies">
   <div class="section-container">
     <div class="section-header">
-      <div>
-        <h2 class="section-title">Trusted Education Consultancies</h2>
-        <p class="section-subtitle">
-          Work with Nepal's leading education consultants
-        </p>
-      </div>
-      <a href={routes.CONSULTANCIES} class="view-all-btn">
-        View All Consultancies
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
+      <SectionHeading
+        title="Education Consultancies"
+        subTitle="Work with Nepal's leading education consultants"
+      />
+
+      <ViewAllButton title="Consultancies" url={routes.CONSULTANCIES} />
     </div>
 
     <div class="section-inner">
       {
-        featuredConsultancies.map((consultancy) => (
+        featuredConsultancies?.map((consultancy) => (
           <ConsultancyCard
             name={consultancy.name}
             location={consultancy.location}

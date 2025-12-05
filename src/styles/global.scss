@@ -34,94 +34,6 @@ button {
   border-radius: 5px;
 }
 
-// header stylings
-header {
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-
-  h1,
-  .title a {
-    font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-
-    span {
-      margin-right: 0.2rem;
-      color: $primary-color;
-    }
-  }
-
-  ul {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  a {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $text-primary-color;
-    transition: color 0.2s ease;
-
-    &:not(.title a):hover {
-      color: $primary-color;
-    }
-  }
-
-  @media (max-width: 768px) {
-    padding: 1rem 1.5rem;
-
-    h1,
-    .title a {
-      font-size: 1.2rem;
-    }
-
-    ul {
-      gap: 1.25rem;
-    }
-
-    a {
-      font-size: 0.85rem;
-    }
-  }
-}
-
-// hero section stylings
-.hero {
-  width: 100%;
-  height: 60vh;
-  background-image: url("https://images.goabroad.com/image/upload/v1/images2/program_content/hs-1575451096.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-
-  .overlay {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .hero-text {
-    width: max-content;
-    font-size: 2rem;
-    color: $text-white;
-    position: absolute;
-    top: 50%;
-    bottom: 50%;
-    left: 50%;
-    right: 50%;
-    transform: translate(-50%);
-    z-index: 1;
-  }
-}
-
 // section stylings
 section {
   .section-header {
@@ -146,36 +58,7 @@ section {
     }
   }
 
-  .view-all-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: $primary-color;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    flex-shrink: 0;
-
-    &:hover {
-      background: color.adjust($primary-color, $lightness: -10%);
-      gap: 0.75rem;
-    }
-
-    svg {
-      width: 20px;
-      height: 20px;
-      transition: transform 0.3s ease;
-    }
-
-    &:hover svg {
-      transform: translateX(4px);
-    }
-  }
+  
 
   h2 {
     margin-bottom: 2rem;
@@ -678,5 +561,30 @@ footer {
         font-weight: $font-bold;
       }
     }
+  }
+}
+
+// view detail button
+.view-details {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: auto;
+  transition: gap 0.3s ease;
+
+  &:hover {
+    gap: 0.75rem;
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover svg {
+    transform: translateX(4px);
   }
 }

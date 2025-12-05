@@ -1,5 +1,6 @@
 ---
 import { routes } from "@/lib/routes";
+import ViewDetailButton from "./../../common/button/ViewDetailButton.astro";
 
 interface Props {
   name: string;
@@ -27,20 +28,7 @@ const { name, location, slug, image_url, countries } = Astro.props;
         {countries.map((country) => <span class="badge">{country}</span>)}
       </div>
 
-      <a href={`${routes.CONSULTANCIES}/${slug}`} class="view-details">
-        View Details
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
+      <ViewDetailButton url={`${routes.CONSULTANCIES}/${slug}`} />
     </div>
   </div>
 </div>
