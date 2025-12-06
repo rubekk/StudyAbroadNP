@@ -4,10 +4,11 @@ import { getAllConsultancies } from "@/lib/fetch/consultancies";
 import ConsultancyCard from "./ConsultancyCard.astro";
 import SectionHeading from "./../../common/SectionHeading.astro";
 import ViewAllButton from "./../../common/button/ViewAllButton.astro";
+import type { Consultancy } from "@/lib/types/consultancy";
 
 const consultanciesRes = await getAllConsultancies();
-const consultancies = consultanciesRes.data;
-const featuredConsultancies = consultancies?.slice(0, 4);
+const consultancies = consultanciesRes.data || [];
+const featuredConsultancies =consultancies?.slice(0, 4);
 ---
 
 <section class="section-consultancies">

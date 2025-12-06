@@ -17,7 +17,7 @@ export interface Consultancy {
     successful_cases: number
 }
 
-export interface ConsultanciessResponse {
+export interface ConsultanciesResponse {
     data?: Consultancy[]
     error?: string
 }

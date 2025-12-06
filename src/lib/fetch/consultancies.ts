@@ -1,7 +1,7 @@
-import type { ConsultanciessResponse, Consultancy, ConsultancyResponse } from "../types/consultancy";
+import type { ConsultanciesResponse, Consultancy, ConsultancyResponse } from "../types/consultancy";
 import consultanciesJson from "../data/consultancies.json"
 
-const getAllConsultancies = async (): Promise<ConsultanciessResponse> => {
+const getAllConsultancies = async (): Promise<ConsultanciesResponse> => {
     try {
         const consultanciesData: Consultancy[] = consultanciesJson;
 

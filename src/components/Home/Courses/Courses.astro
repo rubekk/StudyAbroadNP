@@ -1,31 +1,23 @@
 ---
-import coursesData from "@/lib/data/courses.json";
-import CourseCard from "@/components/CourseCard.astro";
+import CourseCard from "./CourseCard.astro";
+import { routes } from "@/lib/routes";
+import { getAllCourses } from "@/lib/fetch/courses";
+import SectionHeading from "@/components/common/SectionHeading.astro";
+import ViewAllButton from "@/components/common/button/ViewAllButton.astro";
 
-const featuredCourses = coursesData.slice(0, 3);
+const coursesRes = await getAllCourses();
+const courses = coursesRes.data || [];
+const featuredCourses = courses?.slice(0, 3);
 ---
 
 <section class="section-courses">
   <div class="section-container">
     <div class="section-header">
-      <div>
-        <h2 class="section-title">Popular Courses</h2>
-        <p class="section-subtitle">Explore the most sought-after programs</p>
-      </div>
-      <a href="/courses" class="view-all-btn">
-        View All Courses
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
+      <SectionHeading
+        title="Popular Courses"
+        subTitle="Explore the most sought-after programs"
+      />
+      <ViewAllButton title="Courses" url={routes.COURSES} />
     </div>
 
     <div class="courses-grid">

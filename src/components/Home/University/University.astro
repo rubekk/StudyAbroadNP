@@ -2,34 +2,27 @@
 import { routes } from "@/lib/routes";
 import { getAllUniversities } from "@/lib/fetch/universities";
 import UniversityCard from "./UniversityCard.astro";
+import SectionHeading from "@/components/common/SectionHeading.astro";
+import ViewAllButton from "@/components/common/button/ViewAllButton.astro";
 
 const universitiesRes = await getAllUniversities();
 const universities = universitiesRes.data;
+const featuredUniversities = universities?.slice(0, 6);
 ---
 
 <section class="section-university">
   <div class="section-container">
     <div class="section-header">
-      <h2 class="section-title">Popular Universities</h2>
-      <a href={routes.UNIVERSITIES} class="view-all-btn">
-        View All Universities
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
+      <SectionHeading
+        title="Popular Universities"
+        subTitle="Discover top study abroad destinations for Nepali students"
+      />
+      <ViewAllButton title="Universities" url={routes.UNIVERSITIES} />
     </div>
 
-    <div class="section-inner">
+    <div class="universities-grid">
       {
-        universities?.map((university) => {
+        featuredUniversities?.map((university) => {
           return <UniversityCard universityCardData={university} />;
         })
       }

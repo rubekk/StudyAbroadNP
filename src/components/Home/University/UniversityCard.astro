@@ -9,48 +9,38 @@ const { universityCardData } = Astro.props as {
 };
 ---
 
-<div class="card university">
-  <div class="img">
-    <Image
-      src={universityCardData.image_url}
-      alt=""
-      inferSize={true}
-      width={100}
-      height={100}
-    />
-  </div>
-
-  <div class="text">
-    <h3 class="name">
-      <a href={routes.UNIVERSITIES + "/" + universityCardData.slug}
-        >{universityCardData.name}</a
-      >
-    </h3>
-
-    <div class="text-btm">
-      <div class="location">
-        <Icon name="mapDot" />
-        <span>{universityCardData.city}, {universityCardData.country}</span>
+<article class="university-card">
+  <a
+    href={routes.UNIVERSITIES + "/" + universityCardData.slug}
+    class="card-link"
+  >
+    <div class="card-image">
+      <Image
+        src={universityCardData.image_url}
+        alt={universityCardData.name}
+        inferSize={true}
+        width={300}
+        height={200}
+      />
+      <div class="card-badge">
+        <Icon name="mapDot" width={14} height={14} />
+        {universityCardData.country}
       </div>
-
-      <div class="fee">
-        <Icon name="cash" />
-        <span
-          >{universityCardData.min_fee} lakhs - {universityCardData.max_fee} lakhs</span
-        >
-      </div>
-
-      <div class="time">
-        <Icon name="clock" />
-        <span>3 years - 4 years</span>
-      </div>
-      
-      <a href={routes.UNIVERSITIES + "/" + universityCardData.slug} class="view-details">
-        View Details
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
     </div>
-  </div>
-</div>
+    <div class="card-content">
+      <h3 class="university-name">{universityCardData.name}</h3>
+
+      <div class="university-location">
+        <Icon name="mapDot" width={16} height={16} />
+        <span>{universityCardData.city}</span>
+      </div>
+
+      <div class="card-footer">
+        <span class="view-link">
+          View Details
+          <Icon name="arrowRight" width={16} height={16} />
+        </span>
+      </div>
+    </div>
+  </a>
+</article>

@@ -20,10 +20,6 @@ export interface UniversityCard {
     slug: string;
     city: string;
     country: string;
-    min_fee: number;
-    max_fee: number;
-    time: string[];
-    specializations: string[];
     image_url: string;
 }
 

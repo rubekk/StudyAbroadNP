@@ -1,0 +1,148 @@
+@use "./variables" as *;
+
+.course-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid #f3f4f6;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: rgba($primary-color, 0.2);
+
+    .view-link {
+      gap: 0.625rem;
+      color: darken($primary-color, 10%);
+    }
+  }
+}
+
+.card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.field-badge {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba($primary-color, 0.08);
+  color: $primary-color;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.degree-badge {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  background: #f3f4f6;
+  color: $text-gray;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.course-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0;
+  color: $text-primary-color;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.course-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: $text-gray;
+  font-weight: 500;
+
+  svg {
+    flex-shrink: 0;
+    color: $primary-color;
+  }
+}
+
+.tuition {
+  .tuition-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $primary-color;
+  }
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+
+  .view-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $primary-color;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .card-content {
+    padding: 1rem;
+  }
+
+  .course-name {
+    font-size: 1rem;
+  }
+
+  .course-meta {
+    padding: 0.75rem 0.875rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .tuition .tuition-value {
+    font-size: 1rem;
+  }
+}
