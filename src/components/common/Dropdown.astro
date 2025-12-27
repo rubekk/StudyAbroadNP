@@ -1,0 +1,334 @@
+---
+interface Props {
+  options: string[];
+  maxOptionsToShow?: number;
+  label?: string;
+  name: string;
+  selectedValue?: string;
+  placeholder?: string;
+}
+
+const {
+  options = [],
+  maxOptionsToShow = 5,
+  label = "Select Option",
+  name,
+  selectedValue = "",
+  placeholder = "All",
+} = Astro.props;
+
+const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="dropdown-wrapper">
+  {label && <label class="dropdown-label" for={id}>{label}</label>}
+  <div class="dropdown-checkbox" data-name={name} data-id={id}>
+    <button type="button" class="dropdown-toggle" id={id}>
+      <span class="dropdown-text">{selectedValue || placeholder}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <input type="hidden" name={name} value={selectedValue} class="dropdown-input" />
+    <div class="dropdown-menu">
+      <ul class="dropdown-list">
+        <li>
+          <button type="button" class="dropdown-option" data-value="">
+            <span>{placeholder}</span>
+          </button>
+        </li>
+        {options.slice(0, maxOptionsToShow).map((option) => (
+          <li>
+            <button 
+              type="button" 
+              class="dropdown-option" 
+              data-value={option}
+              data-selected={selectedValue === option}
+            >
+              <span>{option}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {options.length > maxOptionsToShow && (
+        <button type="button" class="show-more-btn">
+          Show {options.length - maxOptionsToShow} More
+        </button>
+      )}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdowns = document.querySelectorAll(".dropdown-checkbox");
+
+    dropdowns.forEach((dropdown) => {
+      const toggle = dropdown.querySelector(".dropdown-toggle") as HTMLButtonElement;
+      const menu = dropdown.querySelector(".dropdown-menu") as HTMLElement;
+      const input = dropdown.querySelector(".dropdown-input") as HTMLInputElement;
+      const dropdownText = dropdown.querySelector(".dropdown-text") as HTMLElement;
+      const list = dropdown.querySelector(".dropdown-list") as HTMLElement;
+      const showMoreBtn = dropdown.querySelector(".show-more-btn") as HTMLButtonElement;
+      const name = dropdown.getAttribute("data-name");
+
+      // Get all options from data attribute or inline
+      const allOptions: string[] = [];
+      const hiddenOptions = dropdown.querySelectorAll("template");
+      hiddenOptions.forEach((template) => {
+        const value = template.getAttribute("data-value");
+        if (value) allOptions.push(value);
+      });
+
+      // Toggle dropdown
+      toggle?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = menu.classList.contains("open");
+        
+        // Close all other dropdowns
+        document.querySelectorAll(".dropdown-menu.open").forEach((m) => {
+          if (m !== menu) m.classList.remove("open");
+        });
+
+        menu.classList.toggle("open");
+      });
+
+      // Handle option selection
+      dropdown.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        const option = target.closest(".dropdown-option") as HTMLButtonElement;
+        
+        if (option) {
+          const value = option.getAttribute("data-value") || "";
+          const text = option.querySelector("span")?.textContent || "";
+          
+          // Update hidden input
+          if (input) input.value = value;
+          
+          // Update display text
+          if (dropdownText) {
+            dropdownText.textContent = text;
+          }
+
+          // Update selected state
+          dropdown.querySelectorAll(".dropdown-option").forEach((opt) => {
+            opt.removeAttribute("data-selected");
+          });
+          option.setAttribute("data-selected", "true");
+
+          // Close menu
+          menu.classList.remove("open");
+
+          // Trigger change event for form auto-submit
+          input?.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+      });
+
+      // Show more functionality
+      showMoreBtn?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        
+        // Get all options from the component props (need to store them)
+        const allOptionsElements = Array.from(dropdown.querySelectorAll("[data-all-options]"));
+        const allOpts = allOptionsElements.map(el => el.getAttribute("data-value") || "");
+        
+        // Render all options
+        list.innerHTML = `
+          <li>
+            <button type="button" class="dropdown-option" data-value="">
+              <span>${dropdown.getAttribute("data-placeholder") || "All"}</span>
+            </button>
+          </li>
+        `;
+        
+        const additionalOptions = dropdown.querySelectorAll("template");
+        additionalOptions.forEach((template) => {
+          const value = template.getAttribute("data-value");
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <button type="button" class="dropdown-option" data-value="${value}">
+              <span>${value}</span>
+            </button>
+          `;
+          list.appendChild(li);
+        });
+
+        showMoreBtn.style.display = "none";
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!dropdown.contains(e.target as Node)) {
+          menu.classList.remove("open");
+        }
+      });
+    });
+  });
+</script>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+
+  .dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .dropdown-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text-primary-color;
+  }
+
+  .dropdown-checkbox {
+    position: relative;
+    width: 100%;
+
+    .dropdown-toggle {
+      width: 100%;
+      padding: 0.75rem;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: $text-primary-color;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: $primary-color;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      .dropdown-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      svg {
+        flex-shrink: 0;
+        color: $text-gray;
+        transition: transform 0.2s;
+      }
+    }
+
+    .dropdown-menu.open .dropdown-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      width: 100%;
+      background: white;
+      border: 1px solid #e5e7eb;
+      margin-top: 0.25rem;
+      border-radius: 8px;
+      display: none;
+      max-height: 280px;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+      &.open {
+        display: block;
+      }
+
+      .dropdown-list {
+        list-style: none;
+        padding: 0.5rem;
+        margin: 0;
+
+        li {
+          margin: 0;
+        }
+      }
+
+      .dropdown-option {
+        width: 100%;
+        padding: 0.625rem 0.75rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        color: $text-primary-color;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background: rgba($primary-color, 0.08);
+          color: $primary-color;
+        }
+
+        &[data-selected="true"] {
+          background: rgba($primary-color, 0.12);
+          color: $primary-color;
+          font-weight: 600;
+        }
+
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .show-more-btn {
+        width: 100%;
+        padding: 0.625rem;
+        border: none;
+        background: #f9fafb;
+        cursor: pointer;
+        border-top: 1px solid #e5e7eb;
+        border-radius: 0 0 8px 8px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $primary-color;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #f3f4f6;
+        }
+      }
+
+      /* Custom scrollbar */
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 8px;
+
+        &:hover {
+          background: #9ca3af;
+        }
+      }
+    }
+  }
+</style>
+
+<!-- Store remaining options in templates for show more functionality -->
+{options.slice(maxOptionsToShow).map((option) => (
+  <template data-value={option}></template>
+))}
+<template data-placeholder={placeholder}></template>

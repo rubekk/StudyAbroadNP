@@ -6,16 +6,12 @@ import SEO from "../components/SEO.astro";
 import Hero from "../components/Home/Hero/Hero.astro";
 import University from "../components/Home/University/University.astro";
 import StudyAbroad from "../components/Home/StudyAbroad/StudyAbroad.astro";
-
-import coursesData from "../lib/data/courses.json";
 import Consultancy from "@/components/Home/Consultancy/Consultancy.astro";
 import Courses from "@/components/Home/Courses/Courses.astro";
 
 const pageTitle = "StudyAbroadNP - Your Gateway to Global Education";
 const pageDescription =
   "Discover top universities, courses, consultancies, and scholarships for Nepali students. Expert guidance for studying in USA, UK, Canada, Australia, and more.";
-
-const featuredCourses = coursesData.slice(0, 3);
 
 const homepageSchema = {
   "@context": "https://schema.org",
@@ -47,9 +43,9 @@ const homepageSchema = {
 
   <Consultancy />
 
-  <StudyAbroad />
+  <University />
 
   <Courses />
 
-  <University />
+  <StudyAbroad />
 </Layout>

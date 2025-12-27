@@ -72,13 +72,15 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  // Reserve vertical space for up to 2 lines to keep cards aligned
+  min-height: calc(2 * 1.4em);
 }
 
 .course-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column; // Stack duration and tuition on separate lines
+  align-items: flex-start;
+  gap: 0.5rem;
   padding: 0.875rem 1rem;
   background: #f9fafb;
   border-radius: 8px;
@@ -133,13 +135,12 @@
 
   .course-name {
     font-size: 1rem;
+    // Keep consistent title block height on mobile as well
+    min-height: calc(2 * 1.4em);
   }
 
   .course-meta {
     padding: 0.75rem 0.875rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
   }
 
   .tuition .tuition-value {

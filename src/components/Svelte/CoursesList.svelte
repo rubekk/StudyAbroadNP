@@ -7,42 +7,59 @@
 </script>
 
 {#each filteredCourses as course}
-    <article class="card course">
-        <div class="card-image">
-            <img src={course.image_url} alt={course.name} loading="lazy" />
-        </div>
-        
-        <div class="card-content">
-            <div class="card-meta">
-                <span class="degree-badge">{course.degree}</span>
-                <span class="duration">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    {course.duration}
-                </span>
+    <article class="course-card">
+        <a href={`/courses/${course.slug}`} class="card-link">
+            <div class="card-content">
+                <div class="card-badges">
+                    <span class="field-badge">{course.field}</span>
+                    <span class="degree-badge">{course.degree}</span>
+                </div>
+
+                <h3 class="course-name">{course.name}</h3>
+
+                <div class="course-meta">
+                    <div class="duration">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        {course.duration}
+                    </div>
+
+                    <div class="tuition">
+                        <span class="tuition-value">{course.average_tuition}</span>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <span class="view-link">
+                        View Details
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </span>
+                </div>
             </div>
-            
-            <h3>{course.name}</h3>
-            
-            <p class="description">{course.description}</p>
-            
-            <div class="tuition">
-                <span class="tuition-label">Average Tuition</span>
-                <span class="tuition-value">{course.average_tuition}</span>
-            </div>
-            
-            <a href={`/courses/${course.slug}`} class="view-details">
-                View Details
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            </a>
-        </div>
+        </a>
     </article>
 {/each}
 
 <style>
-/* Course card styles are in global.scss */
+/* Course card styles are in src/styles/course.scss, included via global.scss */
 </style>
