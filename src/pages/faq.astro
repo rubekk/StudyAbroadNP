@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ListHero from "@/components/common/ListHero.astro";
 
 const pageTitle = "Frequently Asked Questions | StudyAbroadNp";
 const pageDescription = "Get answers to common questions about studying abroad, university applications, visa processes, scholarships, and more.";
@@ -136,12 +137,10 @@ const faqCategories = [
 
 <Layout title={pageTitle} description={pageDescription}>
     <div class="faq-page">
-        <div class="faq-hero">
-            <div class="hero-content">
-                <h1>Frequently Asked Questions</h1>
-                <p>Find answers to common questions about studying abroad</p>
-            </div>
-        </div>
+        <ListHero
+            title="Frequently Asked Questions"
+            description="Find answers to common questions about studying abroad"
+        />
 
         <div class="faq-content">
             <div class="container">
@@ -185,31 +184,6 @@ const faqCategories = [
 .faq-page {
     min-height: 100vh;
     background: white;
-}
-
-.faq-hero {
-    background: $primary-color;
-    padding: 4rem 0;
-    text-align: center;
-
-    .hero-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 clamp(1rem, 4vw, 3rem);
-
-        h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: white;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        p {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0;
-        }
-    }
 }
 
 .faq-content {

@@ -1,0 +1,54 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ListHero from "@/components/common/ListHero.astro";
+
+const pageTitle = "Terms of Service | StudyAbroadNP";
+const pageDescription = "Read the terms that govern your use of our website and services.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <ListHero
+    title="Terms of Service"
+    description="Please review the terms and conditions for using StudyAbroadNP."
+  />
+  <section class="page-content">
+    <div class="content-container">
+      <h2>Introduction</h2>
+      <p>
+        These terms and conditions govern your use of StudyAbroadNP.
+        By accessing the website, you agree to these terms.
+      </p>
+      <p>
+        Detailed terms can be added here.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.page-content {
+  padding: 2rem 0 3rem;
+}
+
+.content-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.page-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-primary-color;
+  margin: 0 0 0.75rem;
+}
+
+.page-content p {
+  color: $text-gray;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+</style>

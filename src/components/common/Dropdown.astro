@@ -6,6 +6,8 @@ interface Props {
   name: string;
   selectedValue?: string;
   placeholder?: string;
+  disabled?: boolean;
+  isMulti?: boolean;
 }
 
 const {
@@ -15,151 +17,321 @@ const {
   name,
   selectedValue = "",
   placeholder = "All",
+  disabled = false,
+  isMulti = false,
 } = Astro.props;
 
 const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
+const menuId = `${id}-menu`;
+const isCollapsed = options.length > maxOptionsToShow;
 ---
 
 <div class="dropdown-wrapper">
-  {label && <label class="dropdown-label" for={id}>{label}</label>}
-  <div class="dropdown-checkbox" data-name={name} data-id={id}>
-    <button type="button" class="dropdown-toggle" id={id}>
+  {
+    label && (
+      <label class="dropdown-label" for={id}>
+        {label}
+      </label>
+    )
+  }
+  <div
+    class="dropdown-checkbox"
+    data-name={name}
+    data-id={id}
+    data-placeholder={placeholder}
+    data-multi={isMulti ? "true" : "false"}
+  >
+    <button
+      type="button"
+      class="dropdown-toggle"
+      id={id}
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls={menuId}
+      disabled={disabled}
+    >
       <span class="dropdown-text">{selectedValue || placeholder}</span>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
     </button>
-    <input type="hidden" name={name} value={selectedValue} class="dropdown-input" />
-    <div class="dropdown-menu">
+    <input
+      type="hidden"
+      name={name}
+      value={selectedValue}
+      class="dropdown-input"
+    />
+    <div
+      class={isCollapsed ? "dropdown-menu collapsed" : "dropdown-menu"}
+      id={menuId}
+      role="listbox"
+      aria-labelledby={id}
+      aria-multiselectable={isMulti ? "true" : "false"}
+    >
       <ul class="dropdown-list">
         <li>
-          <button type="button" class="dropdown-option" data-value="">
+          <button
+            type="button"
+            class="dropdown-option"
+            data-value=""
+            role="option"
+            aria-selected={selectedValue === "" ? "true" : "false"}
+            tabindex="-1"
+          >
+            <span class="checkbox" aria-hidden="true"></span>
             <span>{placeholder}</span>
           </button>
         </li>
-        {options.slice(0, maxOptionsToShow).map((option) => (
-          <li>
-            <button 
-              type="button" 
-              class="dropdown-option" 
-              data-value={option}
-              data-selected={selectedValue === option}
-            >
-              <span>{option}</span>
-            </button>
-          </li>
-        ))}
+        {
+          options.map((option, idx) => (
+            <li class={idx >= maxOptionsToShow ? "collapsed-item" : undefined}>
+              <button
+                type="button"
+                class="dropdown-option"
+                data-value={option}
+                role="option"
+                aria-selected={selectedValue === option ? "true" : "false"}
+                tabindex="-1"
+              >
+                <span class="checkbox" aria-hidden="true"></span>
+                <span>{option}</span>
+              </button>
+            </li>
+          ))
+        }
       </ul>
-      {options.length > maxOptionsToShow && (
-        <button type="button" class="show-more-btn">
-          Show {options.length - maxOptionsToShow} More
-        </button>
-      )}
+      {
+        options.length > maxOptionsToShow && (
+          <button
+            type="button"
+            class="show-more-btn"
+            aria-label={`Show ${options.length - maxOptionsToShow} more options`}
+          >
+            Show {options.length - maxOptionsToShow} More
+          </button>
+        )
+      }
     </div>
   </div>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const dropdowns = document.querySelectorAll(".dropdown-checkbox");
+    const dropdowns =
+      document.querySelectorAll<HTMLElement>(".dropdown-checkbox");
 
     dropdowns.forEach((dropdown) => {
-      const toggle = dropdown.querySelector(".dropdown-toggle") as HTMLButtonElement;
-      const menu = dropdown.querySelector(".dropdown-menu") as HTMLElement;
-      const input = dropdown.querySelector(".dropdown-input") as HTMLInputElement;
-      const dropdownText = dropdown.querySelector(".dropdown-text") as HTMLElement;
-      const list = dropdown.querySelector(".dropdown-list") as HTMLElement;
-      const showMoreBtn = dropdown.querySelector(".show-more-btn") as HTMLButtonElement;
-      const name = dropdown.getAttribute("data-name");
+      const toggle =
+        dropdown.querySelector<HTMLButtonElement>(".dropdown-toggle");
+      const menu = dropdown.querySelector<HTMLElement>(".dropdown-menu");
+      const input = dropdown.querySelector<HTMLInputElement>(".dropdown-input");
+      const dropdownText =
+        dropdown.querySelector<HTMLElement>(".dropdown-text");
+      const list = dropdown.querySelector<HTMLElement>(".dropdown-list");
+      const showMoreBtn =
+        dropdown.querySelector<HTMLButtonElement>(".show-more-btn");
 
-      // Get all options from data attribute or inline
-      const allOptions: string[] = [];
-      const hiddenOptions = dropdown.querySelectorAll("template");
-      hiddenOptions.forEach((template) => {
-        const value = template.getAttribute("data-value");
-        if (value) allOptions.push(value);
-      });
+      if (!toggle || !menu || !input || !dropdownText || !list) return;
 
-      // Toggle dropdown
-      toggle?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = menu.classList.contains("open");
-        
-        // Close all other dropdowns
-        document.querySelectorAll(".dropdown-menu.open").forEach((m) => {
-          if (m !== menu) m.classList.remove("open");
+      const items = Array.from(
+        dropdown.querySelectorAll<HTMLButtonElement>(".dropdown-option"),
+      );
+
+      // Sync display with current input value on load (handles SSR, reloads)
+      const isMulti = dropdown.getAttribute("data-multi") === "true";
+      const currentValue = (input.value || "").trim();
+      if (isMulti) {
+        const selectedValues = currentValue
+          ? currentValue.split(",").map((v) => v.trim()).filter(Boolean)
+          : [];
+        items.forEach((i) => {
+          const v = (i.getAttribute("data-value") || "").trim();
+          const sel = selectedValues.includes(v);
+          i.setAttribute("aria-selected", sel ? "true" : "false");
         });
+        dropdownText.textContent = selectedValues.length
+          ? `${selectedValues.length} selected`
+          : dropdown.getAttribute("data-placeholder") || dropdownText.textContent || "";
+      } else {
+        if (currentValue) {
+          const match =
+            items.find(
+              (i) => (i.getAttribute("data-value") || "").trim() === currentValue,
+            ) ||
+            items.find(
+              (i) => (i.getAttribute("data-value") || "").toLowerCase().trim() === currentValue.toLowerCase(),
+            );
+          const text = match?.querySelector("span:last-child")?.textContent || currentValue;
+          dropdownText.textContent = text;
+          items.forEach((i) =>
+            i.setAttribute("aria-selected", i === match ? "true" : "false"),
+          );
+        } else {
+          const placeholder =
+            dropdown.getAttribute("data-placeholder") ||
+            dropdownText.textContent ||
+            "";
+          dropdownText.textContent = placeholder;
+          items.forEach((i) => i.setAttribute("aria-selected", "false"));
+        }
+      }
 
-        menu.classList.toggle("open");
-      });
+      const openMenu = () => {
+        // Close others
+        document
+          .querySelectorAll<HTMLElement>(".dropdown-checkbox.open")
+          .forEach((el) => {
+            if (el !== dropdown) {
+              el.classList.remove("open");
+              const btn =
+                el.querySelector<HTMLButtonElement>(".dropdown-toggle");
+              const m = el.querySelector<HTMLElement>(".dropdown-menu");
+              if (btn) btn.setAttribute("aria-expanded", "false");
+              if (m) m.classList.remove("open");
+            }
+          });
 
-      // Handle option selection
-      dropdown.addEventListener("click", (e) => {
-        const target = e.target as HTMLElement;
-        const option = target.closest(".dropdown-option") as HTMLButtonElement;
-        
-        if (option) {
-          const value = option.getAttribute("data-value") || "";
-          const text = option.querySelector("span")?.textContent || "";
-          
-          // Update hidden input
-          if (input) input.value = value;
-          
-          // Update display text
-          if (dropdownText) {
-            dropdownText.textContent = text;
+        dropdown.classList.add("open");
+        menu.classList.add("open");
+        toggle.setAttribute("aria-expanded", "true");
+        // Focus selected or first item
+        const selected = items.find(
+          (i) => i.getAttribute("aria-selected") === "true",
+        );
+        (selected || items[0])?.focus();
+      };
+
+      const closeMenu = () => {
+        dropdown.classList.remove("open");
+        menu.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
+
+      const selectOption = (option: HTMLButtonElement) => {
+        const value = (option.getAttribute("data-value") || "").trim();
+        if (isMulti) {
+          const selectedValues = (input.value || "")
+            .split(",")
+            .map((v) => v.trim())
+            .filter(Boolean);
+
+          if (value === "") {
+            // Clear all selections
+            input.value = "";
+            items.forEach((i) => i.setAttribute("aria-selected", "false"));
+          } else {
+            const idx = selectedValues.indexOf(value);
+            if (idx >= 0) {
+              selectedValues.splice(idx, 1);
+              option.setAttribute("aria-selected", "false");
+            } else {
+              selectedValues.push(value);
+              option.setAttribute("aria-selected", "true");
+            }
+            input.value = selectedValues.join(",");
           }
 
-          // Update selected state
-          dropdown.querySelectorAll(".dropdown-option").forEach((opt) => {
-            opt.removeAttribute("data-selected");
-          });
-          option.setAttribute("data-selected", "true");
+          const count = input.value ? input.value.split(",").filter(Boolean).length : 0;
+          dropdownText.textContent = count
+            ? `${count} selected`
+            : dropdown.getAttribute("data-placeholder") || dropdownText.textContent || "";
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          // Keep menu open in multi-select mode
+        } else {
+          const text = option.querySelector("span:last-child")?.textContent || "";
+          input.value = value;
+          dropdownText.textContent = text;
+          items.forEach((i) =>
+            i.setAttribute("aria-selected", i === option ? "true" : "false"),
+          );
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          closeMenu();
+          toggle.focus();
+        }
+      };
 
-          // Close menu
-          menu.classList.remove("open");
-
-          // Trigger change event for form auto-submit
-          input?.dispatchEvent(new Event("change", { bubbles: true }));
+      // Toggle click
+      toggle.addEventListener("click", (e: MouseEvent) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains("open");
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
         }
       });
 
-      // Show more functionality
-      showMoreBtn?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        
-        // Get all options from the component props (need to store them)
-        const allOptionsElements = Array.from(dropdown.querySelectorAll("[data-all-options]"));
-        const allOpts = allOptionsElements.map(el => el.getAttribute("data-value") || "");
-        
-        // Render all options
-        list.innerHTML = `
-          <li>
-            <button type="button" class="dropdown-option" data-value="">
-              <span>${dropdown.getAttribute("data-placeholder") || "All"}</span>
-            </button>
-          </li>
-        `;
-        
-        const additionalOptions = dropdown.querySelectorAll("template");
-        additionalOptions.forEach((template) => {
-          const value = template.getAttribute("data-value");
-          const li = document.createElement("li");
-          li.innerHTML = `
-            <button type="button" class="dropdown-option" data-value="${value}">
-              <span>${value}</span>
-            </button>
-          `;
-          list.appendChild(li);
-        });
+      // Option click
+      list.addEventListener("click", (e: MouseEvent) => {
+        const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
+          ".dropdown-option",
+        );
+        if (btn) {
+          e.preventDefault();
+          selectOption(btn);
+        }
+      });
 
+      // Keyboard on toggle
+      toggle.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openMenu();
+        }
+      });
+
+      // Keyboard navigation in menu
+      menu.addEventListener("keydown", (e: KeyboardEvent) => {
+        const currentIndex = items.findIndex(
+          (i) => i === document.activeElement,
+        );
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          const next =
+            items[Math.min(items.length - 1, currentIndex + 1)] || items[0];
+          next.focus();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          const prev =
+            items[Math.max(0, currentIndex - 1)] || items[items.length - 1];
+          prev.focus();
+        } else if (e.key === "Home") {
+          e.preventDefault();
+          items[0]?.focus();
+        } else if (e.key === "End") {
+          e.preventDefault();
+          items[items.length - 1]?.focus();
+        } else if (e.key === "Enter" || (isMulti && e.key === " ")) {
+          e.preventDefault();
+          const btn = document.activeElement as HTMLButtonElement | null;
+          if (btn && btn.classList.contains("dropdown-option"))
+            selectOption(btn);
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // Show more: reveal collapsed items
+      showMoreBtn?.addEventListener("click", (e: MouseEvent) => {
+        e.stopPropagation();
+        menu.classList.remove("collapsed");
         showMoreBtn.style.display = "none";
       });
 
-      // Close dropdown when clicking outside
-      document.addEventListener("click", (e) => {
+      // Click outside closes
+      document.addEventListener("click", (e: MouseEvent) => {
         if (!dropdown.contains(e.target as Node)) {
-          menu.classList.remove("open");
+          closeMenu();
         }
       });
     });
@@ -168,6 +340,7 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
 
 <style lang="scss">
   @use "../../styles/variables" as *;
+  @use "sass:color";
 
   .dropdown-wrapper {
     display: flex;
@@ -187,10 +360,10 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
 
     .dropdown-toggle {
       width: 100%;
-      padding: 0.75rem;
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
+      padding: 0.75rem 0.875rem;
+      background: #fff;
+      border: 1px solid $border-light;
+      border-radius: $border-radius-normal;
       cursor: pointer;
       text-align: left;
       display: flex;
@@ -207,7 +380,12 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
       &:focus {
         outline: none;
         border-color: $primary-color;
-        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        box-shadow: 0 0 0 3px color.change($primary-color, $alpha: 0.15);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
       }
 
       .dropdown-text {
@@ -224,25 +402,31 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
       }
     }
 
-    .dropdown-menu.open .dropdown-toggle svg {
+    .dropdown-toggle[aria-expanded="true"] svg {
       transform: rotate(180deg);
     }
 
     .dropdown-menu {
       position: absolute;
       width: 100%;
-      background: white;
-      border: 1px solid #e5e7eb;
+      background: #fff;
+      border: 1px solid $border-light;
       margin-top: 0.25rem;
-      border-radius: 8px;
+      border-radius: $border-radius-normal;
       display: none;
       max-height: 280px;
       overflow-y: auto;
       z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
       &.open {
         display: block;
+      }
+
+      &.collapsed {
+        .collapsed-item {
+          display: none;
+        }
       }
 
       .dropdown-list {
@@ -262,7 +446,7 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
         border: none;
         cursor: pointer;
         text-align: left;
-        border-radius: 6px;
+        border-radius: $border-radius-normal;
         font-size: 0.95rem;
         color: $text-primary-color;
         transition: all 0.2s;
@@ -270,14 +454,44 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
         align-items: center;
 
         &:hover {
-          background: rgba($primary-color, 0.08);
+          background: color.change($primary-color, $alpha: 0.08);
           color: $primary-color;
         }
 
-        &[data-selected="true"] {
-          background: rgba($primary-color, 0.12);
+        &[aria-selected="true"] {
+          background: color.change($primary-color, $alpha: 0.12);
           color: $primary-color;
           font-weight: 600;
+        }
+
+        .checkbox {
+          width: 16px;
+          height: 16px;
+          border: 1px solid $border-light;
+          border-radius: $border-radius-normal;
+          margin-right: 0.5rem;
+          background: #fff;
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &[aria-selected="true"] .checkbox {
+          border-color: $primary-color;
+          background: $primary-color;
+        }
+
+        &[aria-selected="true"] .checkbox::after {
+          content: "";
+          position: absolute;
+          width: 6px;
+          height: 10px;
+          border-right: 2px solid #fff;
+          border-bottom: 2px solid #fff;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -58%) rotate(45deg);
         }
 
         span {
@@ -293,8 +507,8 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
         border: none;
         background: #f9fafb;
         cursor: pointer;
-        border-top: 1px solid #e5e7eb;
-        border-radius: 0 0 8px 8px;
+        border-top: 1px solid $border-light;
+        border-radius: 0 0 $border-radius-normal $border-radius-normal;
         font-size: 0.875rem;
         font-weight: 600;
         color: $primary-color;
@@ -312,12 +526,12 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
 
       &::-webkit-scrollbar-track {
         background: #f1f1f1;
-        border-radius: 8px;
+        border-radius: $border-radius-normal;
       }
 
       &::-webkit-scrollbar-thumb {
         background: #d1d5db;
-        border-radius: 8px;
+        border-radius: $border-radius-normal;
 
         &:hover {
           background: #9ca3af;
@@ -326,9 +540,3 @@ const id = `dropdown-${name}-${Math.random().toString(36).substr(2, 9)}`;
     }
   }
 </style>
-
-<!-- Store remaining options in templates for show more functionality -->
-{options.slice(maxOptionsToShow).map((option) => (
-  <template data-value={option}></template>
-))}
-<template data-placeholder={placeholder}></template>

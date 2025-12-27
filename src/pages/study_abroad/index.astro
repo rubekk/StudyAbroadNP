@@ -4,6 +4,7 @@ import "../../styles/study_abroad.scss";
 import Layout from "../../layouts/Layout.astro";
 import { getAllCountries } from "@/lib/fetch/countries";
 import StudyAbroadCard from "@/components/Home/StudyAbroad/StudyAbroadCard.astro";
+import ListHero from "@/components/common/ListHero.astro";
 
 const countriesRes = await getAllCountries();
 const countries = countriesRes.data;
@@ -18,9 +19,23 @@ const pageDescription =
     description={pageDescription}
     mainClass="study-abroad-main"
 >
-    {
-        countries?.map((country) => {
-            return <StudyAbroadCard studyAbroadCardData={country} />;
-        })
-    }
+    <ListHero
+        title="Study Destinations"
+        description="Explore popular study destinations and discover opportunities worldwide."
+    />
+    <section class="section-destinations">
+        <div class="content-container">
+            <div class="destinations-grid">
+                {
+                    countries?.map((country) => {
+                        return (
+                            <StudyAbroadCard
+                                studyAbroadCardData={country}
+                            />
+                        );
+                    })
+                }
+            </div>
+        </div>
+    </section>
 </Layout>

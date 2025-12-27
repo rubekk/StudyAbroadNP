@@ -1,5 +1,6 @@
 ---
 import { site } from "@/lib/constants";
+import { routes } from "@/lib/routes";
 ---
 
 <footer class="footer">
@@ -90,8 +91,8 @@ import { site } from "@/lib/constants";
           <li><a href="/faq">FAQs</a></li>
           <li><a href="/contact">Contact Us</a></li>
           <li><a href="/privacy_policy">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Blog</a></li>
+          <li><a href={routes.TERMS}>Terms of Service</a></li>
+          <li><a href={routes.BLOGS}>Blog</a></li>
         </ul>
       </div>
 

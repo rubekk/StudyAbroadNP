@@ -1,9 +1,32 @@
 <script>
     import coursesData from "../../lib/data/courses.json";
+    import { onMount } from "svelte";
 
-    // This would be filtered based on active filters
-    // For now, showing all courses
     let filteredCourses = coursesData;
+
+    function applyFiltersFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const countryParam = params.get("country");
+        const degreeParam = params.get("degree");
+        const fieldParam = params.get("field");
+
+        const countriesSelected = countryParam
+            ? countryParam.split(",").map(v => v.trim()).filter(Boolean)
+            : [];
+
+        filteredCourses = coursesData.filter(c => {
+            const countryOk = countriesSelected.length
+                ? c.countries.some(cty => countriesSelected.includes(cty))
+                : true;
+            const degreeOk = degreeParam ? c.degree === degreeParam : true;
+            const fieldOk = fieldParam ? c.field === fieldParam : true;
+            return countryOk && degreeOk && fieldOk;
+        });
+    }
+
+    onMount(() => {
+        applyFiltersFromUrl();
+    });
 </script>
 
 {#each filteredCourses as course}
@@ -61,5 +84,5 @@
 {/each}
 
 <style>
-/* Course card styles are in src/styles/course.scss, included via global.scss */
+/* Card styles are defined in src/styles/course.scss and page layout in src/styles/courses.scss */
 </style>

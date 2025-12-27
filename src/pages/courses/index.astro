@@ -1,12 +1,50 @@
 ---
-import "../../styles/universities.scss";
+import "../../styles/courses.scss";
 
 import Layout from "../../layouts/Layout.astro";
-import CoursesFilter from "../../components/Svelte/Filters/CoursesFilter.svelte";
-import CoursesList from "../../components/Svelte/CoursesList.svelte";
+import CourseCard from "../../components/Home/Courses/CourseCard.astro";
+import Dropdown from "@/components/common/Dropdown.astro";
+import ListHero from "@/components/common/ListHero.astro";
+import coursesData from "../../lib/data/courses.json";
+
+export const prerender = false;
 
 const pageTitle = "Study Abroad Courses & Programs | StudyAbroadNP";
-const pageDescription = "Explore thousands of courses and programs offered by top universities worldwide. Find the perfect course for your career goals.";
+const pageDescription =
+	"Explore thousands of courses and programs offered by top universities worldwide. Find the perfect course for your career goals.";
+
+// URL params
+const url = Astro.url;
+const country = url.searchParams.get("country");
+const degree = url.searchParams.get("degree");
+const field = url.searchParams.get("field");
+const countriesSelected = country
+	? country
+			.split(",")
+			.map((v) => v.trim())
+			.filter(Boolean)
+	: [];
+
+// Options
+const countries = [...new Set(coursesData.flatMap((c) => c.countries))].sort();
+const degrees = [...new Set(coursesData.map((c) => c.degree))].sort();
+const fields = [...new Set(coursesData.map((c) => c.field))].sort();
+
+// Server-side filter
+const filteredCourses = coursesData.filter((c) => {
+	const countryOk = countriesSelected.length
+		? c.countries.some((cty) => countriesSelected.includes(cty))
+		: true;
+	const degreeOk = degree ? c.degree === degree : true;
+	const fieldOk = field ? c.field === field : true;
+	return countryOk && degreeOk && fieldOk;
+});
+
+const activeFiltersCount = [
+	countriesSelected.length ? String(countriesSelected.length) : "",
+	degree,
+	field,
+].filter(Boolean).length;
 ---
 
 <Layout
@@ -14,6 +52,10 @@ const pageDescription = "Explore thousands of courses and programs offered by to
 	description={pageDescription}
 	mainClass="universities-main"
 >
+	<ListHero
+		title="Courses"
+		description="Explore courses and programs from top institutions."
+	/>
 	<!-- Main Content Area -->
 	<section class="universities-content">
 		<div class="content-container">
@@ -21,7 +63,7 @@ const pageDescription = "Explore thousands of courses and programs offered by to
 			<div class="mobile-filter-header">
 				<button class="filter-toggle-btn" id="filterToggle">
 					<span>Filters</span>
-					<span class="filter-count" id="filterCount">0</span>
+					<span class="filter-count" id="filterCount">{activeFiltersCount}</span>
 				</button>
 				<div class="results-summary">
 					<span>All Courses</span>
@@ -34,15 +76,207 @@ const pageDescription = "Explore thousands of courses and programs offered by to
 				<aside class="filters-sidebar" id="filtersSidebar">
 					<div class="filters-header">
 						<h2>Filters</h2>
-						<button class="clear-filters-btn" id="clearFilters">Clear All</button>
+						{
+							activeFiltersCount > 0 && (
+								<a href="/courses" class="clear-filters-btn">
+									Clear All
+								</a>
+							)
+						}
 					</div>
-					<CoursesFilter client:load />
+					<form class="filters-form" id="filtersForm">
+						<div class="filter-group">
+							<Dropdown
+								options={countries}
+								name="country"
+								label="Country"
+								selectedValue={country || ""}
+								placeholder="All Countries"
+								maxOptionsToShow={8}
+								isMulti={true}
+							/>
+						</div>
+
+						<div class="filter-group">
+							<Dropdown
+								options={degrees}
+								name="degree"
+								label="Degree"
+								selectedValue={degree || ""}
+								placeholder="All Degrees"
+								maxOptionsToShow={6}
+							/>
+						</div>
+
+						<div class="filter-group">
+							<Dropdown
+								options={fields}
+								name="field"
+								label="Field"
+								selectedValue={field || ""}
+								placeholder="All Fields"
+								maxOptionsToShow={8}
+							/>
+						</div>
+
+						<button type="submit" class="apply-filters-btn"
+							>Apply Filters</button
+						>
+						{
+							activeFiltersCount > 0 && (
+								<a href="/courses" class="clear-filters-inline">
+									Clear Filters
+								</a>
+							)
+						}
+					</form>
+
+					{
+						activeFiltersCount > 0 && (
+							<div class="active-filters">
+								<h3 class="active-filters-title">
+									Active Filters:
+								</h3>
+								<div class="filter-tags">
+									{countriesSelected.length > 0 &&
+										countriesSelected.map((c) => {
+											const params = new URLSearchParams(
+												Object.fromEntries(
+													url.searchParams.entries(),
+												),
+											);
+											const current =
+												params.get("country");
+											if (current) {
+												const rest = current
+													.split(",")
+													.map((v) => v.trim())
+													.filter(Boolean)
+													.filter((v) => v !== c);
+												if (rest.length) {
+													params.set(
+														"country",
+														rest.join(","),
+													);
+												} else {
+													params.delete("country");
+												}
+											}
+											const qs = params.toString();
+											const href = qs
+												? `/courses?${qs}`
+												: "/courses";
+											return (
+												<a
+													href={href}
+													class="filter-tag"
+												>
+													{c}
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="14"
+														height="14"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+													>
+														<path d="M18 6L6 18M6 6l12 12" />
+													</svg>
+												</a>
+											);
+										})}
+									{degree && (
+										<a
+											href={`/courses?${new URLSearchParams(
+												Object.fromEntries(
+													url.searchParams.entries(),
+												),
+											)
+												.toString()
+												.replace(/&?degree=[^&]*/, "")
+												.replace(/^&/, "")}`}
+											class="filter-tag"
+										>
+											{degree}
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="14"
+												height="14"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+											>
+												<path d="M18 6L6 18M6 6l12 12" />
+											</svg>
+										</a>
+									)}
+									{field && (
+										<a
+											href={`/courses?${new URLSearchParams(
+												Object.fromEntries(
+													url.searchParams.entries(),
+												),
+											)
+												.toString()
+												.replace(/&?field=[^&]*/, "")
+												.replace(/^&/, "")}`}
+											class="filter-tag"
+										>
+											{field}
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="14"
+												height="14"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+											>
+												<path d="M18 6L6 18M6 6l12 12" />
+											</svg>
+										</a>
+									)}
+								</div>
+							</div>
+						)
+					}
 				</aside>
 
 				<!-- Courses List -->
 				<main class="universities-main-content">
 					<div class="universities-list-container">
-						<CoursesList client:load />
+						{
+							filteredCourses.length > 0 ? (
+								filteredCourses.map((course) => (
+									<CourseCard course={course} />
+								))
+							) : (
+								<div class="no-results">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="64"
+										height="64"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="1.5"
+									>
+										<circle cx="11" cy="11" r="8" />
+										<path d="m21 21-4.35-4.35" />
+									</svg>
+									<h3>No courses found</h3>
+									<p>
+										Try adjusting your filters to see more
+										results
+									</p>
+									<a href="/courses" class="reset-btn">
+										Reset Filters
+									</a>
+								</div>
+							)
+						}
 					</div>
 				</main>
 			</div>
@@ -53,25 +287,45 @@ const pageDescription = "Explore thousands of courses and programs offered by to
 	<div class="filter-overlay" id="filterOverlay"></div>
 
 	<script>
-		// Mobile filter toggle functionality
-		document.addEventListener('DOMContentLoaded', function() {
-			const filterToggle = document.getElementById('filterToggle');
-			const filtersSidebar = document.getElementById('filtersSidebar');
-			const filterOverlay = document.getElementById('filterOverlay');
-			
-			// Toggle filters on mobile
-			filterToggle?.addEventListener('click', function() {
-				filtersSidebar?.classList.toggle('active');
-				filterOverlay?.classList.toggle('active');
-				document.body.classList.toggle('filter-open');
+		document.addEventListener("DOMContentLoaded", function () {
+			const filterToggle = document.getElementById("filterToggle");
+			const filtersSidebar = document.getElementById("filtersSidebar");
+			const filterOverlay = document.getElementById("filterOverlay");
+			const filtersForm = document.getElementById("filtersForm");
+
+			filterToggle?.addEventListener("click", function () {
+				filtersSidebar?.classList.toggle("active");
+				filterOverlay?.classList.toggle("active");
+				document.body.classList.toggle("filter-open");
 			});
 
-			// Close filters when clicking overlay
-			filterOverlay?.addEventListener('click', function() {
-				filtersSidebar?.classList.remove('active');
-				filterOverlay?.classList.remove('active');
-				document.body.classList.remove('filter-open');
+			filterOverlay?.addEventListener("click", function () {
+				filtersSidebar?.classList.remove("active");
+				filterOverlay?.classList.remove("active");
+				document.body.classList.remove("filter-open");
 			});
+
+			// Submit filters to URL
+			(filtersForm as HTMLFormElement)?.addEventListener(
+				"submit",
+				function (e) {
+					e.preventDefault();
+					const formData = new FormData(
+						filtersForm as HTMLFormElement,
+					);
+					const params = new URLSearchParams();
+
+					formData.forEach((value, key) => {
+						const v = value && value.toString().trim();
+						if (v) params.append(key, v);
+					});
+
+					const queryString = params.toString();
+					window.location.href = queryString
+						? `/courses?${queryString}`
+						: "/courses";
+				},
+			);
 		});
 	</script>
 </Layout>

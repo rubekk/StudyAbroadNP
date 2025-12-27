@@ -1,0 +1,54 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ListHero from "@/components/common/ListHero.astro";
+
+const pageTitle = "Privacy Policy | StudyAbroadNP";
+const pageDescription = "Read our privacy practices and how we handle your data.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <ListHero
+    title="Privacy Policy"
+    description="Your privacy matters. Learn how we collect, use, and safeguard your data."
+  />
+  <section class="page-content">
+    <div class="content-container">
+      <h2>Overview</h2>
+      <p>
+        We respect your privacy and are committed to protecting your personal information.
+        This page outlines the types of data we collect and how it is used.
+      </p>
+      <p>
+        Detailed policy content can be added here.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.page-content {
+  padding: 2rem 0 3rem;
+}
+
+.content-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.page-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-primary-color;
+  margin: 0 0 0.75rem;
+}
+
+.page-content p {
+  color: $text-gray;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+</style>

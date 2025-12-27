@@ -7,5 +7,7 @@ export const routes = {
     SCHOLARSHIPS: "/scholarships",
     ABOUT: "/about",
     CONTACT: "/contact",
-    PRIVACY_POLICY: "/privacy_policy"
+    PRIVACY_POLICY: "/privacy_policy",
+    TERMS: "/terms",
+    BLOGS: "/blogs"
 }

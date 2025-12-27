@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import ConsultancyCard from "../../components/Home/Consultancy/ConsultancyCard.astro";
 import Pagination from "../../components/Pagination.astro";
 import consultanciesData from "../../lib/data/consultancies.json";
+import ListHero from "@/components/common/ListHero.astro";
 
 const pageTitle = "Education Consultancies in Nepal | StudyAbroadNP";
 const pageDescription = "Find the best education consultancies in Nepal. Expert guidance for studying abroad in USA, UK, Canada, Australia, and more.";
@@ -17,13 +18,13 @@ const paginatedConsultancies = consultanciesData.slice(startIndex, endIndex);
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <!-- Page Header -->
+  <ListHero
+    title="Consultancies"
+    description="Find trusted education consultancies to guide your study abroad journey."
+  />
   <section class="consultancies-page">
     <div class="content-container">
-      <div class="page-header">
-        <h1>Education Consultancies</h1>
-        <p class="results-count">Showing {paginatedConsultancies.length} of {consultanciesData.length} consultancies</p>
-      </div>
+      
 
       <!-- Consultancies Grid -->
       <div class="consultancies-grid">
@@ -61,22 +62,6 @@ const paginatedConsultancies = consultanciesData.slice(startIndex, endIndex);
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 4vw, 3rem);
-}
-
-.page-header {
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: clamp(2rem, 5vw, 2.5rem);
-    color: $text-primary-color;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-  }
-
-  .results-count {
-    color: $text-gray;
-    font-size: 0.95rem;
-  }
 }
 
 .consultancies-grid {

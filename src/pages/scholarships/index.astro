@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Pagination from "../../components/Pagination.astro";
 import scholarshipsData from "../../lib/data/scholarships.json";
+import ListHero from "@/components/common/ListHero.astro";
 
 const pageTitle = "Study Abroad Scholarships for Nepali Students | StudyAbroadNP";
 const pageDescription = "Discover scholarships and financial aid opportunities for Nepali students. Find fully-funded and partial scholarships for studying abroad.";
@@ -16,13 +17,13 @@ const paginatedScholarships = scholarshipsData.slice(startIndex, endIndex);
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <!-- Scholarships Page -->
+  <ListHero
+    title="Scholarships"
+    description="Discover scholarships and financial aid opportunities for your studies."
+  />
   <section class="scholarships-page">
     <div class="content-container">
-      <div class="page-header">
-        <h1>Scholarships & Financial Aid</h1>
-        <p class="results-count">Showing {paginatedScholarships.length} of {scholarshipsData.length} scholarships</p>
-      </div>
+      
 
       <!-- Scholarships Grid -->
       <div class="scholarships-grid">
@@ -89,22 +90,6 @@ const paginatedScholarships = scholarshipsData.slice(startIndex, endIndex);
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 4vw, 3rem);
-}
-
-.page-header {
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: clamp(2rem, 5vw, 2.5rem);
-    color: $text-primary-color;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-  }
-
-  .results-count {
-    color: $text-gray;
-    font-size: 0.95rem;
-  }
 }
 
 .scholarships-grid {

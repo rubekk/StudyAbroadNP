@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ListHero from "@/components/common/ListHero.astro";
+
+const pageTitle = "Blogs | StudyAbroadNP";
+const pageDescription = "Read guides and news related to studying abroad.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <ListHero
+    title="Blogs"
+    description="Insights, guides, and updates on studying abroad."
+  />
+  <section class="page-content">
+    <div class="content-container">
+      <div class="no-results">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <h3>No blogs right now</h3>
+        <p>We're preparing helpful articles. Please check back soon.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.page-content {
+  padding: 2rem 0 3rem;
+}
+
+.content-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 0;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $text-primary-color;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    color: $text-gray;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+</style>

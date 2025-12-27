@@ -1,0 +1,56 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ListHero from "@/components/common/ListHero.astro";
+
+const pageTitle = "About Us | StudyAbroadNP";
+const pageDescription = "Learn about StudyAbroadNP, our mission, and how we help students find the best study abroad opportunities.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <ListHero
+    title="About Us"
+    description="We help students explore universities, courses, consultancies, and scholarships worldwide."
+  />
+  <section class="page-content">
+    <div class="content-container">
+      <h2>Our Mission</h2>
+      <p>
+        StudyAbroadNP exists to make studying abroad simpler and more transparent for Nepali students.
+        We curate programs, universities, scholarships, and consultancies so you can make confident decisions.
+      </p>
+      <h2>What We Do</h2>
+      <p>
+        We bring together reliable information and practical tools to search and filter opportunities, so you can
+        focus on your goals.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+@use '../../styles/variables' as *;
+
+.page-content {
+  padding: 2rem 0 3rem;
+}
+
+.content-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.page-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-primary-color;
+  margin: 0 0 0.75rem;
+}
+
+.page-content p {
+  color: $text-gray;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+</style>
