@@ -1,19 +1,25 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import path from "path";
-import icon from 'astro-icon';
-import svelte from '@astrojs/svelte';
+import icon from "astro-icon";
+import svelte from "@astrojs/svelte";
+import netlify from "@astrojs/netlify";
 
-// https://astro.build/config
 export default defineConfig({
+  output: "server", 
+
   vite: {
     plugins: [],
     resolve: {
       alias: {
-        '@': path.resolve('./src')
-      }
-    }
+        "@": path.resolve("./src"),
+      },
+    },
   },
 
-  integrations: [icon(), svelte()],
+  integrations: [
+    icon(),
+    svelte(),
+  ],
+
+  adapter: netlify(), 
 });
