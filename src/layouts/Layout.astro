@@ -35,17 +35,19 @@ const { title, description, mainClass } = Astro.props;
     <meta property="twitter:image" content="/social-image.jpg" />
 
     <!-- Google tag (gtag.js) -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZYEESWCH8"
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZYEESWCH8"
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+
+      function gtag(...args: any[]): void {
+        window.dataLayer.push(args);
       }
+
       gtag("js", new Date());
 
       gtag("config", "G-FZYEESWCH8");
-    </script> -->
+    </script>
   </head>
 
   <body class="bg-gray-50">
