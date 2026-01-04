@@ -3,7 +3,8 @@ import Layout from "../../layouts/Layout.astro";
 import ListHero from "@/components/common/ListHero.astro";
 
 const pageTitle = "Terms of Service | StudyAbroadNP";
-const pageDescription = "Read the terms that govern your use of our website and services.";
+const pageDescription =
+  "Read the terms and conditions that govern your use of StudyAbroadNP.";
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
@@ -11,44 +12,146 @@ const pageDescription = "Read the terms that govern your use of our website and 
     title="Terms of Service"
     description="Please review the terms and conditions for using StudyAbroadNP."
   />
+
   <section class="page-content">
     <div class="content-container">
       <h2>Introduction</h2>
       <p>
-        These terms and conditions govern your use of StudyAbroadNP.
-        By accessing the website, you agree to these terms.
+        Welcome to StudyAbroadNP ("we", "our", or "us"). These Terms of Service
+        govern your access to and use of the website studyabroadnp.com (the
+        "Website").
       </p>
       <p>
-        Detailed terms can be added here.
+        By accessing or using this Website, you agree to be bound by these
+        Terms. If you do not agree, please do not use the Website.
+      </p>
+
+      <h2>Purpose of the Website</h2>
+      <p>
+        StudyAbroadNP is an informational platform that provides details about
+        universities, consultancies, countries, courses, scholarships, and
+        study-abroad–related blogs.
+      </p>
+      <p>
+        All information provided on the Website is for general informational
+        purposes only.
+      </p>
+
+      <h2>No Professional Advice</h2>
+      <p>
+        The content on this Website does not constitute legal, academic,
+        immigration, financial, or professional advice.
+      </p>
+      <p>
+        Users are advised to verify information directly with universities,
+        consultancies, or official institutions before making decisions.
+      </p>
+
+      <h2>User Responsibilities</h2>
+      <p>
+        By using this Website, you agree to use it only for lawful purposes and
+        in a way that does not violate any applicable laws or regulations.
+      </p>
+      <p>
+        You must not attempt to disrupt the operation, security, or integrity of
+        the Website.
+      </p>
+
+      <h2>Data Collection and Analytics</h2>
+      <p>
+        StudyAbroadNP does not collect or store personal user data and does not
+        require user registration or accounts.
+      </p>
+      <p>
+        We use Google Analytics to understand website usage and traffic
+        patterns. Google Analytics may collect non-personally identifiable
+        information such as browser type, device type, pages visited, and time
+        spent on the Website.
+      </p>
+
+      <h2>Intellectual Property</h2>
+      <p>
+        All content on this Website, including text, graphics, logos, and
+        layout, is the property of StudyAbroadNP or its content providers and is
+        protected by applicable intellectual property laws.
+      </p>
+      <p>
+        You may view and share content for personal, non-commercial use only.
+        Reproduction or redistribution without prior written permission is
+        prohibited.
+      </p>
+
+      <h2>Third-Party Links</h2>
+      <p>
+        The Website may contain links to third-party websites such as
+        universities, consultancies, or external resources.
+      </p>
+      <p>
+        We do not control or endorse these websites and are not responsible for
+        their content, accuracy, or practices.
+      </p>
+
+      <h2>Disclaimer of Warranties</h2>
+      <p>
+        The Website and its content are provided on an "as is" and "as
+        available" basis without warranties of any kind, either express or
+        implied.
+      </p>
+      <p>
+        We do not guarantee the accuracy, completeness, or reliability of any
+        information provided.
+      </p>
+
+      <h2>Limitation of Liability</h2>
+      <p>
+        To the fullest extent permitted by law, StudyAbroadNP shall not be
+        liable for any direct, indirect, incidental, or consequential damages
+        arising from the use of or reliance on the Website or its content.
+      </p>
+
+      <h2>Changes to These Terms</h2>
+      <p>
+        We reserve the right to update or modify these Terms at any time without
+        prior notice.
+      </p>
+      <p>
+        Continued use of the Website after changes are posted constitutes
+        acceptance of the revised Terms.
+      </p>
+
+      <h2>Contact Information</h2>
+      <p>
+        If you have any questions regarding these Terms, you may contact us via
+        the StudyAbroadNP website.
       </p>
     </div>
   </section>
 </Layout>
 
 <style lang="scss">
-@use '../../styles/variables' as *;
+  @use "../../styles/variables" as *;
 
-.page-content {
-  padding: 2rem 0 3rem;
-}
+  .page-content {
+    padding: 2rem 0 3rem;
+  }
 
-.content-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 3rem);
-}
+  .content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+  }
 
-.page-content h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: $text-primary-color;
-  margin: 0 0 0.75rem;
-}
+  .page-content h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $text-primary-color;
+    margin: 2rem 0 0.75rem;
+  }
 
-.page-content p {
-  color: $text-gray;
-  font-size: 1rem;
-  line-height: 1.7;
-  margin: 0 0 1rem;
-}
+  .page-content p {
+    color: $text-gray;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
 </style>

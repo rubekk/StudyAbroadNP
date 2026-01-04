@@ -8,6 +8,7 @@ import type { UniversityCard as UniversityCardType } from "@/lib/types/universit
 import universitiesData from "../../lib/data/universities.json";
 import Dropdown from "@/components/common/Dropdown.astro";
 import ListHero from "@/components/common/ListHero.astro";
+import { COUNTRIES, DEGREES } from "@/lib/filters";
 
 // Render this page on the server so query params are available at runtime
 export const prerender = false;
@@ -28,8 +29,6 @@ const countriesSelected = country
   : [];
 
 // Extract unique filter options
-const countries = [...new Set(universitiesData.map((u) => u.country))].sort();
-const degrees = [...new Set(universitiesData.flatMap((u) => u.degrees))].sort();
 const specializations = [
   ...new Set(universitiesData.flatMap((u) => u.specializations)),
 ].sort();
@@ -141,7 +140,7 @@ const activeFiltersCount = [
             <!-- Country Filter -->
             <div class="filter-group">
               <Dropdown
-                options={countries}
+                options={COUNTRIES}
                 name="country"
                 label="Country"
                 selectedValue={country || ""}
@@ -153,7 +152,7 @@ const activeFiltersCount = [
             <!-- Degree Filter -->
             <div class="filter-group">
               <Dropdown
-                options={degrees}
+                options={DEGREES}
                 name="degree"
                 label="Degree"
                 selectedValue={degree || ""}

@@ -206,34 +206,5 @@
       "Cambridge English"
     ],
     "image_url": "/images/university-of-bristol.jpeg"
-  },
-  {
-    "name": "University of Texas at Arlington",
-    "slug": "university-of-texas-at-arlington",
-    "city": "Arlington",
-    "country": "United States",
-    "min_fee": 20000,
-    "max_fee": 26000,
-    "specializations": [
-      "Engineering",
-      "Computer Science",
-      "Business",
-      "Nursing",
-      "Mathematics",
-      "Biology",
-      "Health Sciences"
-    ],
-    "min_duration": 2,
-    "max_duration": 5,
-    "scholarships": [
-      "Maverick Academic Scholarship",
-      "International Student Scholarship",
-      "Graduate Assistantships",
-      "UTA Fellowships"
-    ],
-    "time": ["Full-time"],
-    "degrees": ["Bachelor", "Master", "PhD"],
-    "acceptedExams": ["GRE", "IELTS", "TOEFL", "SAT", "ACT", "GMAT"],
-    "image_url": "https://cdn.prod.web.uta.edu/-/media/project/website/about-us/uta-tower-facilities.jpg"
   }
 ]
